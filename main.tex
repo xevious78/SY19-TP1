@@ -16,6 +16,92 @@
 
 \part{Ex 1}
 
-\part{Ex 2}
+\part{Ex 2 - Breast Cancer Recurring Time}
+
+\section{Introduction}
+This part aims to build the best model to predict the recurring time of breast cancer based on about 30 features computed from a breast mass.  This regression problem will take advantage of a given dataset describing about 200 patient cases.
+
+\section{Dataset Description}
+We first take a look at the original dataset to get first hints on how each feature contributes to the recurring time.
+
+The dataset comprises 194 patient cases, each of which is described through 32 features and the cancer recurring time \texttt{Time}.
+
+\subsection{Time}
+
+\subsection{Features Description}
+
+\subsubsection{Feature Correlation}
+Based on the definition of the parameters, we already know that many features are correlated :
+\begin{itemize}
+	\item The mean of each parameters is bigger than the "worst" value;
+	\item The radius, the perimeter and the area are linked together;
+	\item The compactness can be computed with the perimeter and the area thanks to the given formula : $Compactness = \frac{perimeter^2}{area - 1}$
+	\item *MORE FEATURE CORRELATION*
+\end{itemize}
+
+\subsection{Data Relevance}
+We should first check that every point is relevant to our study, in other words, that there is no abnormal point in the dataset. Cook's Distance is an interesting measure to verify this important criteria, it can be computed after a simple Linear Regression.
+
+*TALK ABOUT COOK'S DISTANCE*
+
+According to this graph, no point is located beyond the critical Cook's boundary. This means that we can potentially use each and every patient case of our dataset to build our regression model. 
+
+\subsection{Relation between "feature" and "time"}
+*GRAPH : each Feature vs. Time*
+
+*QQ-PLOT : Non Linearities*
+
+*Heteroscedasticity*
+
+
+\section{Measures to Compare Models}
+Before building any model, we have to properly define the measures we will later use to compare them. 
+
+\subsection{Some Measures}
+*TALK ABOUT MSE, R2 AND OTHER STUFF*
+
+\subsection{Data Split}
+These measures should not be applied on a set whose data was also used to train the model. Indeed, this would include a biais that might distort our conclusions. To cope with this problem, we have to split the dataset into two disjointed sets : 
+\begin{itemize}
+	\item Training Set : About 75\% of the dataset dedicated to the building the model;
+	\item Test Set : The remaining 25\% only used at the end to provide some kind of objective measure of the model performance.
+\end{itemize} 
+
+Once it is done, we can finally dive in the model building.
+
+\section{$k$-NN}
+\subsection{Idea}
+
+\subsection{Best $k$}
+*CROSS VALIDATION*
+
+\section{Simple Linear Regression}
+\subsection{Idea}
+
+\subsection{Build the Model} 
+
+\subsection{Model Analysis}
+*HIGH P VALUES*
+
+\section{Linear Regression with Features Selection}
+\subsection{Idea}
+
+\subsection{Build the Model}
+*EXHAUSTIVE*
+\subsection{Model Analysis}
+
+\section{Linear Regression with Regularization}
+
+*RIDGE + LASSO*
+\subsection{Idea}
+
+\subsection{Build the Model}
+
+\subsection{Model Analysis}
+
+
+
+\section{Models Comparaison}
+*USE TEST SET TO COMPARE MODEL*
 
 \end{document}
