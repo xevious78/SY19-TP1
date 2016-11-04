@@ -1,12 +1,38 @@
 \documentclass[]{report}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{color}
 
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
 %opening
 \title{SY19}
 \author{}
 
 \begin{document}
+	
+\lstset{frame=tb,
+	language=R,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
 
 \maketitle
+
+\part{Abreviations}
+	
 
 \begin{abstract}
 
@@ -69,11 +95,103 @@ These measures should not be applied on a set whose data was also used to train 
 
 Once it is done, we can finally dive in the model building.
 
-\section{$k$-NN}
+\section{K-nearest neighbors (KNN)}
 \subsection{Idea}
+We start our analysis with a very simple model called the KNN.
+Given an positive integer k and a test observation x0. The KNN model first identifies the k closest points to x0 from the training data. Then estimates \\ 
 
-\subsection{Best $k$}
-*CROSS VALIDATION*
+The KNN model in R is done by calling the function reg of the package knn. As we will see in the following sections, For most prediction algorithms, we first have to build the prediction model on the training data, and then use the model to test our predictions. However, the KNN function does both in a single step.\\ 
+In order to find the best k we set a maximum number of neighbors to be considered (in our model it is 20), then we calculate the MSE for each k which is the mean of the squared difference between the real value of Time and the predicted one. All the steps are detailed in the code below.\\
+
+\begin{lstlisting}
+library(FNN)
+library(tikzDevice)
+k_max = 120;
+MSE = rep(0,k_max)
+
+for( k in 1:k_max)
+{
+reg = knn.reg(train=cancer.train.x, test=cancer.test.x, y=cancer.train.y, k=k)
+MSE[k] = mean((cancer.test.y - reg$pred)^2)
+}
+
+best_k_test = which.min(MSE)
+best_k_mse = MSE[best_k_test]
+sprintf("Best knn1 = %d and the best MSE1 = %f", best_k_test, best_k_mse)
+
+tikz('Figures/knn.tex',width=5, height=5)
+
+plot(1:k_max, MSE, xlab='k', ylab='MSE', main='MSE against k neighbours')
+points(x = best_k_test, y = best_k_mse, col = "red", pch = 16)
+abline(h = best_k_mse, col='red')
+abline(v = best_k_test, col='red')
+dev.off()
+\end{lstlisting}
+
+The graph below shows the MSE plotted against the values of k in a range from 1 to 20. We can notice that a minimum is reached between 10 and 20. We use the function which.min that returns the index of the minimum value.\\
+	
+\begin{figure}[!hb]
+	\centering
+	\input{Figures/knn.tex}
+	\caption{MSE against k neighbours}
+\end{figure}
+
+ The minimum MSE which yields to the best k is colored in red. Its coordinates correspond to (\textbf{12,967.386966}). The best k is therefore .
+Now that we have the k that minimizes the MSE we call KNN algorithm with this best k and plot the predicted values against the real values. The figure above shows the result. The red line is the function y=x; so further are the points from this line the further are the predicted values ($\hat{y}$) from the real one (y).
+
+\begin{lstlisting}
+best_reg_test = knn.reg(train= cancer.train.x, test = cancer.test.x, y=cancer.train.y, k = best_k_test)
+tikz('Figures/knn_predicted_test.tex',width=5, height=5)
+plot(cancer.test.y, best_reg_test$pred, xlab='y', ylab='y-hat', main='y-hat (Predicted) against y')
+abline(0,1, col='red')
+dev.off() 
+\end{lstlisting}
+
+\begin{figure}[!h]
+	\centering
+	\input{Figures/knn_predicted_test.tex}
+	\caption{$\hat{y}$ against y}
+\end{figure}
+
+When notice that the predicted {$\hat{y}$} diverge a lot the real values y. We actually expected those results since the MSE=967.386966 which is quite high. 
+
+
+\subsection{Best $k$: CROSS VALIDATION}
+In our previous reasoning was quite optimistic because we tried finding the best k with minimizing the MSE in the test data. Therefore the model is very specific to our test data which yield to a high bias. The solution here is to find the best k among the train data and then use the best k in the test data. \\ 
+To find the best k number of neighbors we use the method of cross validation  on the train data. There are two methods in cross validation: \textbf{cross validation leave one out} and  \textbf{K-fold cross validation}. As we do not have that much predictors we can afford the computation of cross validation leave one out.\\
+
+\begin{lstlisting}
+library("kknn")
+model_kknn = train.kknn(Time ~., data= cancer.train, kmax = 30, ks = NULL, distance = 2, kernel = "optimal")
+best_k_train = model_kknn$best.parameters$k
+\end{lstlisting}
+
+
+\begin{lstlisting}
+library("kknn")
+model_kknn = train.kknn(Time ~., data= cancer.train, kmax = 30, ks = NULL, distance = 2, kernel = "optimal")
+best_k_train = model_kknn$best.parameters$k
+\end{lstlisting}
+
+
+On the test data with the best training k form the LOOCV model	
+	
+\begin{lstlisting}
+best_reg_train = knn.reg(train= cancer.train.x, test = cancer.test.x, y=cancer.train.y, k = best_k_train)
+tikz('/Users/slam/Desktop/Git/SY19-TP1/Figures/knn_predicted_LOOCV.tex',width=5, height=5)
+plot(cancer.test.y, best_reg_train$pred, xlab='y', ylab='prediction')
+abline(0,1, col='red')
+dev.off() 
+\end{lstlisting}
+
+\begin{figure}[!h]
+	\centering
+	\input{Figures/knn_predicted_LOOCV.tex}
+	\caption{$\hat{y}$ against y}
+\end{figure}
+
+
+The prediction is not better but the model is not biased
 
 \section{Simple Linear Regression}
 \subsection{Idea}
