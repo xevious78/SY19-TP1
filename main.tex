@@ -48,43 +48,157 @@
 This part aims to build the best model to predict the recurring time of breast cancer based on about 30 features computed from a breast mass.  This regression problem will take advantage of a given dataset describing about 200 patient cases.
 
 \section{Dataset Description}
-We first take a look at the original dataset to get first hints on how each feature contributes to the recurring time.
+We take a look at the raw dataset to get first hints on how each feature contributes to the recurring time.
 
-The dataset comprises 194 patient cases, each of which is described through 32 features and the cancer recurring time \texttt{Time}.
+The dataset comprises 194 patient cases, each of which is described through 32 features and the cancer recurring time \texttt{Time} that we have to predict.
 
 \subsection{Time}
+Let's first describe the evolution of the variable \texttt{Time}. To do so, we can use the R functions \texttt{boxplot} and \texttt{hist}.
+
+\begin{figure}[!hb]
+	\centering
+	\input{Figures/time_boxplot.tex}
+	\caption{Box Plot}
+\end{figure}
+
+\begin{figure}[!hb]
+	\centering
+	\input{Figures/time_hist.tex}
+	\caption{Histogram}
+\end{figure}
 
 \subsection{Features Description}
+Each patient is represented with a set of 32 features extracted and computed from a digitized image of a breast mass. 
+
+The data description we were given does not specify the units, but we do not need them for the following analysis.
+
+Here are the 32 features we are provided with:  
+\begin{itemize}
+	\item Lymph Node Status
+	
+	\item Mean of 
+		\begin{itemize}
+			\item radius
+			\item texture
+			\item perimeter
+			\item area
+			\item smoothness
+			\item compactness
+			\item concavity
+			\item concave points
+			\item symmetry
+			\item fractal dimension
+		\end{itemize}
+	
+	\item Standard Error of 
+		\begin{itemize}
+		\item radius
+		\item texture
+		\item perimeter
+		\item area
+		\item smoothness
+		\item compactness
+		\item concavity
+		\item concave points
+		\item symmetry
+		\item fractal dimension
+	\end{itemize}
+
+	\item Mean of the three largest values (also called "Worst") of 
+		\begin{itemize}
+		\item radius
+		\item texture
+		\item perimeter
+		\item area
+		\item smoothness
+		\item compactness
+		\item concavity
+		\item concave points
+		\item symmetry
+		\item fractal dimension
+	\end{itemize}
+
+	\item Tumor Size
+\end{itemize}
 
 \subsubsection{Feature Correlation}
-Based on the definition of the parameters, we already know that many features are correlated :
+Based on the definition of the parameters described above, we already know that many features are correlated :
 \begin{itemize}
-	\item The mean of each parameters is bigger than the "worst" value;
-	\item The radius, the perimeter and the area are linked together;
+	\item The mean of each parameters is smaller than the "worst" value;
+	\item The radius, the perimeter and the area might be linked together;
 	\item The compactness can be computed with the perimeter and the area thanks to the given formula : $Compactness = \frac{perimeter^2}{area - 1}$
-	\item *MORE FEATURE CORRELATION*
 \end{itemize}
 
 \subsection{Data Relevance}
-We should first check that every point is relevant to our study, in other words, that there is no abnormal point in the dataset. Cook's Distance is an interesting measure to verify this important criteria, it can be computed after a simple Linear Regression.
+We should first check that every patient is relevant to our study, in other words, that there is no abnormal observation in the dataset. Cook's Distance is an interesting measure to verify this important criteria, it can be computed after a simple Linear Regression.
 
-*TALK ABOUT COOK'S DISTANCE*
+Cook's distance aims to study the influence of each observation on the regression coefficient estimates. To do so, this method uses a straight-forward approach that consists in computing the difference between the original coefficient estimates $\hat{\beta}$ and the coefficient estimates without taking into account the $i$th observation $\hat{\beta}_{-i}$. The difference is then normalized using the number of parameters and the standard deviation estimate. 
 
-According to this graph, no point is located beyond the critical Cook's boundary. This means that we can potentially use each and every patient case of our dataset to build our regression model. 
+A value higher than 1 often indicates an outlier that should be removed from the dataset.
+
+In R, we can use the following code to compute and plot the Cook's distance of each observation :
+
+\begin{lstlisting}
+linreg = lm(Time ~ ., data=data_set)
+cooks.distance(linreg)
+\end{lstlisting} 
+
+\begin{figure}[!hb]
+	\centering
+	\input{Figures/cooks_distance.tex}
+	\caption{Cook's Distance}
+	\label{fig:cook_distance}
+\end{figure}
+
+According to plot (figure \ref{fig:cook_distance}), no observation is located beyond the critical Cook's boundary of 1. This means that we can potentially use each and every patient case of our dataset to build our regression model. 
 
 \subsection{Relation between "feature" and "time"}
-*GRAPH : each Feature vs. Time*
+In this section, we will take a first look at the relationship between the variable \texttt{Time} and the features used to describe a patient case. 
 
-*QQ-PLOT : Non Linearities*
+A first way to do it is to separately plot each relationship. An example of such plot is shown in figure \ref{fig:time_feature_ex1}. 
 
-*Heteroscedasticity*
+\begin{figure}[!hb]
+	\centering
+	\input{Figures/time_feature_ex1.tex}
+	\caption{Plot of \texttt{Time} and \texttt{Texture Mean} }
+	\label{fig:time_feature_ex1}
+\end{figure}
 
+Unfortunately, most plots show very scattered points that do not seem to follow any specific model. The variance is so significant that we cannot even estimate the type of function that links a feature and the variable \texttt{Time} together. It could be a simple linear model with a high variance that we may be able to estimate, or more complex models with non-linearities and feature correlations.
+
+To have better clues on the type of model we should be dealing with, we can draw a QQ-Plot that plots the Studentized Residuals with the quantiles. 
+
+In R, we can use the library \texttt{car} to easily draw the QQ-Plot (figure \ref{fig:qq_plot}) :
+\begin{lstlisting}
+library(car)
+qqPlot(linreg, main="QQ Plot")
+\end{lstlisting}
+
+\begin{figure}[!hb]
+	\centering
+	\input{Figures/qq_plot.tex}
+	\caption{QQ-Plot}
+	\label{fig:qq_plot}
+\end{figure}
+
+The bottom tail of the QQ-Plot seems to deviate from the linear line, which is a sign of the error's non-normality. This may mean that the error does not follow a normal model, or that the model is actually non-linear.
+
+\begin{figure}[!hb]
+	\centering
+	\includegraphics{Figures/fitted_value_plots}
+	\caption{}
+	\label{fig:fitted_value_plots}
+\end{figure}
+
+We can also analyze the Residuals-Fitted plot and the Scale-Location plot to get a better understanding on the model. To do, we can simply apply the function \texttt{plot} on the linear model (figure \ref{fig:fitted_value_plots}).
+
+It turns out that both plots show non-normal scatters of the residuals. In particular, the points displayed in the Residuals-Fitted plot seem to follow a fan shape. This is a sign of a non-constant variance, also called heteroscedasticity.
 
 \section{Measures to Compare Models}
 Before building any model, we have to properly define the measures we will later use to compare them. 
 
 \subsection{Some Measures}
-*TALK ABOUT MSE, R2 AND OTHER STUFF*
+A first way to assess the performance of a model is to compute the Mean Squared Error (MSE). We can also use adjusted $R^2$ score.
 
 \subsection{Data Split}
 These measures should not be applied on a set whose data was also used to train the model. Indeed, this would include a biais that might distort our conclusions. To cope with this problem, we have to split the dataset into two disjointed sets : 
