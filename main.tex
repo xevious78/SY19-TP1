@@ -309,18 +309,104 @@ The prediction is not better but the model is not biased
 
 \section{Simple Linear Regression}
 \subsection{Idea}
+Our next attempt consists in using the same linear model we used in the feature analysis section. This model takes advantage of the simple assumption that \texttt{Time} linearily depends on the other features.
 
-\subsection{Build the Model} 
+To build the model, we can use the function \texttt{lm} :
+\begin{lstlisting}
+model.linreg = lm(Time ~ ., data=train_set)
+\end{lstlisting}
 
-\subsection{Model Analysis}
-*HIGH P VALUES*
+
+\subsection{Model Performance}
+The MSE of this model is approximatively equal to 1285. The raw residual distribution is shown on figure \ref{fig:linreg_hist}. 
+
+\begin{figure}[!h]
+	\centering
+	\input{Figures/linreg_hist.tex}
+	\caption{}
+	\label{fig:linreg_hist}
+\end{figure}
 
 \section{Linear Regression with Features Selection}
 \subsection{Idea}
+A simple method to improve the performance of a simple Linear Regression is to select a subset of features that better describes the distribution of \texttt{Time}.
 
-\subsection{Build the Model}
-*EXHAUSTIVE*
-\subsection{Model Analysis}
+Once the simple linear model is fitted, we can use the function \texttt{summary} to display the value of each coefficient.
+\begin{verbatim}
+Coefficients:
+Estimate Std. Error t value Pr(>|t|)  
+(Intercept)              5.722e+01  1.587e+02   0.361   0.7191  
+Lymph_node              -1.752e-01  7.034e-01  -0.249   0.8038  
+radius_mean              3.001e+01  4.445e+01   0.675   0.5012  
+texture_mean            -3.913e-01  2.043e+00  -0.192   0.8485  
+perimeter_mean          -3.794e+00  6.651e+00  -0.570   0.5697  
+area_mean               -1.328e-01  1.354e-01  -0.981   0.3291  
+smoothness_mean         -7.124e+02  9.050e+02  -0.787   0.4331  
+compactness_mean        -8.767e+01  3.554e+02  -0.247   0.8057  
+concavity_mean          -2.654e+02  2.728e+02  -0.973   0.3332  
+concave_points_mean      1.236e+03  5.911e+02   2.090   0.0392 *
+symmetry_mean           -3.199e+01  2.647e+02  -0.121   0.9041  
+fractal_dimension_mean   1.818e+03  1.666e+03   1.091   0.2781  
+radius_se               -2.897e+01  9.953e+01  -0.291   0.7716  
+texture_se              -1.784e+00  1.246e+01  -0.143   0.8865  
+perimeter_se             8.817e+00  1.289e+01   0.684   0.4955  
+area_se                 -3.871e-01  4.212e-01  -0.919   0.3604  
+smoothness_se            2.987e+03  2.535e+03   1.178   0.2415  
+compactness_se           7.135e+02  7.864e+02   0.907   0.3665  
+concavity_se             3.798e+02  7.170e+02   0.530   0.5975  
+concave_points_se       -7.782e+02  1.450e+03  -0.537   0.5926  
+symmetry_se             -1.239e+03  7.861e+02  -1.576   0.1182  
+fractal_dimension_se    -5.979e+03  6.280e+03  -0.952   0.3434  
+radius_worst             9.300e-01  1.367e+01   0.068   0.9459  
+texture_worst           -1.307e+00  1.964e+00  -0.666   0.5072  
+perimeter_worst         -1.026e+00  1.449e+00  -0.708   0.4805  
+area_worst               8.705e-02  7.021e-02   1.240   0.2181  
+smoothness_worst        -3.761e+02  4.088e+02  -0.920   0.3599  
+compactness_worst       -7.031e+01  9.964e+01  -0.706   0.4821  
+concavity_worst         -3.011e+01  7.311e+01  -0.412   0.6814  
+concave_points_worst    -2.181e+02  2.345e+02  -0.930   0.3546  
+symmetry_worst           1.586e+02  1.425e+02   1.113   0.2687  
+fractal_dimension_worst  1.028e+03  7.100e+02   1.448   0.1509  
+Tumor_size              -1.188e+00  1.915e+00  -0.620   0.5364  
+\end{verbatim}
+
+The last column contains the P-value of each coefficient, which is a measure to test the hypothesis that this particular coefficient is null. A P-value lower than 5\% allows us to conclude that the coefficient is not equal to zero. In our case, the feature \texttt{concavity\_points\_mean} is not null, but we cannot make such assumptions for the other parameters. Therefore, we are not able to select a subset of interesting features based on the P-values.
+
+Our dataset contains a small set of features to deal with, therefore we can use an exhaustive feature subset selection algorithm. Such method build a linear model based on each subsets and compute a performance score to compare them. 
+
+We use the following function to fit the linear models :
+\begin{lstlisting}
+model.linreg.regsubsets = regsubsets(Time ~ ., data=train_set, method = "exhaustive", nvmax = 32)
+\end{lstlisting}
+
+Then the function \texttt{plot} to compare the models according to a given scale (in this case, the BIC measure). The result is shown on figure \ref{fig:subset_bic}.
+\begin{lstlisting}
+plot(model.linreg.regsubsets, scale="bic")	
+\end{lstlisting}
+
+\begin{figure}[!h]
+	\centering
+	\input{Figures/subset_bic.tex}
+	\caption{}
+	\label{fig:subset_bic}
+\end{figure}
+
+According to this plot, the best BIC is reached with a model that only uses the following features : 
+\begin{itemize}
+	\item \texttt{texture\_mean}
+	\item \texttt{fractal\_dimension\_mean}
+	\item \texttt{concavity\_mean}
+\end{itemize}
+
+\subsection{Model Performance}
+The MSE of this model is approximatively equal to 1067. The raw residual distribution is shown on figure \ref{fig:subset_hist}. 
+
+\begin{figure}[!h]
+	\centering
+	\input{Figures/subset_hist.tex}
+	\caption{}
+	\label{fig:subset_hist}
+\end{figure}
 
 \section{Linear Regression with Regularization}
 
@@ -334,6 +420,7 @@ The prediction is not better but the model is not biased
 
 
 \section{Models Comparaison}
+
 *USE TEST SET TO COMPARE MODEL*
 
 \end{document}
