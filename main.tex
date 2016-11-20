@@ -2,7 +2,10 @@
 \usepackage{tikz}
 \usepackage{listings}
 \usepackage{color}
-
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{caption}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
@@ -17,9 +20,10 @@
 	aboveskip=3mm,
 	belowskip=3mm,
 	showstringspaces=false,
-	columns=flexible,
-	basicstyle={\small\ttfamily},
-	numbers=none,
+	framexleftmargin=5mm,
+	columns= fixed,
+	numbers = left,
+	basicstyle={\small\ttfamily},	
 	numberstyle=\tiny\color{gray},
 	keywordstyle=\color{blue},
 	commentstyle=\color{dkgreen},
@@ -32,8 +36,17 @@
 \maketitle
 
 \part{Abreviations}
+\begin{tabular}{l r}
+	MSE & Mean Squared Error \\
+	RSE & Resiual Standard Error\\ 
+	RSS & Residual \\
+	R & \\
+	BIC \\
+	LR & Linear Regression \\
+	CV & Cross Validation \\
+	LOOCV & Leave One Out Cross Validation \\
 	
-
+\end{tabular}
 \begin{abstract}
 
 \end{abstract}
@@ -210,102 +223,125 @@ These measures should not be applied on a set whose data was also used to train 
 Once it is done, we can finally dive in the model building.
 
 \section{K-nearest neighbors (KNN)}
-\subsection{Idea}
 We start our analysis with a very simple model called the KNN.
-Given an positive integer k and a test observation x0. The KNN model first identifies the k closest points to x0 from the training data. Then estimates \\ 
+Given a positive integer k and a test observation x0. The KNN model first identifies the k closest points to x0 from the training data. Then estimates \\ 
 
+\subsection{Knn Model}
 The KNN model in R is done by calling the function reg of the package knn. As we will see in the following sections, For most prediction algorithms, we first have to build the prediction model on the training data, and then use the model to test our predictions. However, the KNN function does both in a single step.\\ 
-In order to find the best k we set a maximum number of neighbors to be considered (in our model it is 20), then we calculate the MSE for each k which is the mean of the squared difference between the real value of Time and the predicted one. All the steps are detailed in the code below.\\
+In order to find the best k we set a maximum number of neighbors to be considered (in our model it is 20), then we calculate the MSE for each k which is the mean of the squared difference between the real value of Time and the predicted one. All the steps are detailed in the code below.
 
+\subsubsection{Model Implementation}
 \begin{lstlisting}
 library(FNN)
-library(tikzDevice)
 k_max = 120;
 MSE = rep(0,k_max)
 
 for( k in 1:k_max)
 {
-reg = knn.reg(train=cancer.train.x, test=cancer.test.x, y=cancer.train.y, k=k)
-MSE[k] = mean((cancer.test.y - reg$pred)^2)
+	reg = knn.reg(train=cancer.train.x, test=cancer.test.x, y=cancer.train.y, k=k)
+	MSE[k] = mean((cancer.test.y - reg$pred)^2)
 }
-
-best_k_test = which.min(MSE)
-best_k_mse = MSE[best_k_test]
-sprintf("Best knn1 = %d and the best MSE1 = %f", best_k_test, best_k_mse)
-
-tikz('Figures/knn.tex',width=5, height=5)
 
 plot(1:k_max, MSE, xlab='k', ylab='MSE', main='MSE against k neighbours')
 points(x = best_k_test, y = best_k_mse, col = "red", pch = 16)
 abline(h = best_k_mse, col='red')
 abline(v = best_k_test, col='red')
-dev.off()
+
+best_k_test = which.min(MSE)
+best_k_mse = MSE[best_k_test]
 \end{lstlisting}
 
-The graph below shows the MSE plotted against the values of k in a range from 1 to 20. We can notice that a minimum is reached between 10 and 20. We use the function which.min that returns the index of the minimum value.\\
-	
-\begin{figure}[!hb]
-	\centering
-	\input{Figures/knn.tex}
-	\caption{MSE against k neighbours}
-\end{figure}
+The graph below shows the MSE plotted against the values of k in a range from 0 to 120. Graphically we notice that a minimum is reached between 10 and 20.
 
- The minimum MSE which yields to the best k is colored in red. Its coordinates correspond to (\textbf{12,967.386966}). The best k is therefore .
-Now that we have the k that minimizes the MSE we call KNN algorithm with this best k and plot the predicted values against the real values. The figure above shows the result. The red line is the function y=x; so further are the points from this line the further are the predicted values ($\hat{y}$) from the real one (y).
+\begin{center}	
+		\includegraphics{Figures/knn_test.pdf}
+		\captionof{figure}{MSE against K neighbours}
+\end{center}
+
+ We use the function \textbf{which.min} that returns the index of the minimum MSE value.\\
+
+\begin{center} 
+	best\_k\_test= 11 \\
+	best\_k\_test\_MSE = 995.433185
+\end{center}
+
+Now that we have the k that minimizes the MSE we call KNN algorithm with this best k and plot the predicted values against the real values. The figure above shows the result.
 
 \begin{lstlisting}
 best_reg_test = knn.reg(train= cancer.train.x, test = cancer.test.x, y=cancer.train.y, k = best_k_test)
-tikz('Figures/knn_predicted_test.tex',width=5, height=5)
 plot(cancer.test.y, best_reg_test$pred, xlab='y', ylab='y-hat', main='y-hat (Predicted) against y')
 abline(0,1, col='red')
-dev.off() 
 \end{lstlisting}
 
-\begin{figure}[!h]
-	\centering
-	\input{Figures/knn_predicted_test.tex}
-	\caption{$\hat{y}$ against y}
-\end{figure}
-
-When notice that the predicted {$\hat{y}$} diverge a lot the real values y. We actually expected those results since the MSE=967.386966 which is quite high. 
-
-
-\subsection{Best $k$: CROSS VALIDATION}
-In our previous reasoning was quite optimistic because we tried finding the best k with minimizing the MSE in the test data. Therefore the model is very specific to our test data which yield to a high bias. The solution here is to find the best k among the train data and then use the best k in the test data. \\ 
-To find the best k number of neighbors we use the method of cross validation  on the train data. There are two methods in cross validation: \textbf{cross validation leave one out} and  \textbf{K-fold cross validation}. As we do not have that much predictors we can afford the computation of cross validation leave one out.\\
-
-\begin{lstlisting}
-library("kknn")
-model_kknn = train.kknn(Time ~., data= cancer.train, kmax = 30, ks = NULL, distance = 2, kernel = "optimal")
-best_k_train = model_kknn$best.parameters$k
-\end{lstlisting}
-
-
-\begin{lstlisting}
-library("kknn")
-model_kknn = train.kknn(Time ~., data= cancer.train, kmax = 30, ks = NULL, distance = 2, kernel = "optimal")
-best_k_train = model_kknn$best.parameters$k
-\end{lstlisting}
-
-
-On the test data with the best training k form the LOOCV model	
+The red line is the function y=x; so further are the points from this line the further are the predicted values ($\hat{y}$) from the real one (y).
 	
+\begin{center}
+	\includegraphics{Figures/knn_predicted_test.pdf}
+	\captionof{figure}{MSE against K neighbours}
+\end{center}
+
+\subsubsection{Model Analysis}
+
+WE notice that the predicted {$\hat{y}$} diverge a lot the real values y. We expected those results since the MSE=967.386966 which is quite high. 
+
+This approach of finding the best k was quite optimistic. Actually we tried finding the best k while minimizing the MSE in \textbf{the test data}. Therefore the model is very specific to our test data which yields to a high bias. The solution is to find the best k among the \textbf{training data} and then use the best k in the test data. \\ To find the best \textbf{unbiased} k number of neighbors we use the method of cross validation on the train data. 
+
+\subsection{The Validation Set Approach}
+There are two methods in cross validation: \textbf{cross validation leave one out} and  \textbf{K-fold cross validation}.In the following parts we will test with both validation methods. As we do not have that much predictors we can afford the computation of cross validation leave one out.\\
+
+\subsubsection{Cross Validation}
+The cross validation approach is based on dividing the provided data in 2 sets: a training set and a validation set. The model is fit on the training set, then the fitted model is used to predict responses of observations in the validation set. The resulting validation set error rate is assessed using MSE.
+
+\subsubsection{Leave-One-Out Cross-Validation}
+Like the cross validation the LOOCV involves splitting the set of observations in two parts. The test data has a single observation (x1, y1) and the n-1 remaining is used for the training data. The MSE in this case is $MSE_1 =(y_1 - \hat{y})^{2}$. This provides an unbiased estimate for the test error since it is training the model on approximately all the data of the observation. However it is highly variable as it is based in one observation. The LOOCV repeats the procedure n times fitting each time a different set of observations. The LOOCV test MSE is computed with calculating the average of the n test error estimates.
+  
+\begin{center}
+	$$CV_{(n)} = \frac{1}{n} \sum_{i=1}^{n} MSE_{i} $$
+\end{center}
+
+The LOOCV will always give the same results in contrast to the CV that depends on the randomness of how the data are split. Furthermore the CV runs the training approach on around the half of the size of the original data while the LOOCV repeats the validation set approach n times using n-1 observations. Hence the LOOCV yields to a not overestimated test error rate compared to the validation. Nevertheless the disadvantaged of the LOOCV is it can be very time consuming when n the number of observations is large.\\
+
+An alternative to LOOCV that has a smaller computation time is k-Fold Cross Validation. This approach based on dividing the training observations on k groups, each time one group will be considered as the test set and the k-1 left as the training set. Therefore the CV becomes:
+
+\begin{center}
+	$$CV_{(k)} = \frac{1}{k} \sum_{i=1}^{k} MSE_{i} $$
+\end{center}
+
+We can see that the k-Fold Cross-Validation fits the model k times instead of n, which reduces considerably the computation time. Our original data have 198 observations so we can afford the computation of the LOOCV. \\
+
+\subsubsection{Model implementation}
+
+\begin{lstlisting}
+library("kknn")
+model_kknn = train.kknn(Time ~., data= cancer.train, kmax = 30, ks = NULL, distance = 2, kernel = "optimal")
+best_k_train = model_kknn$best.parameters$k
+\end{lstlisting}
+
+After deducting the best k neighbors from the model we use it on the test observations to predict the values of Time. 
+We then compute the MSE and plot the predicted values $\hat{y}$ on the real ones \textit{y}.
+
 \begin{lstlisting}
 best_reg_train = knn.reg(train= cancer.train.x, test = cancer.test.x, y=cancer.train.y, k = best_k_train)
-tikz('/Users/slam/Desktop/Git/SY19-TP1/Figures/knn_predicted_LOOCV.tex',width=5, height=5)
 plot(cancer.test.y, best_reg_train$pred, xlab='y', ylab='prediction')
 abline(0,1, col='red')
-dev.off() 
+errors = (cancer.test.y - best_reg_train$pred)^2
+mse= mean(errors)
 \end{lstlisting}
 
-\begin{figure}[!h]
-	\centering
-	\input{Figures/knn_predicted_LOOCV.tex}
-	\caption{$\hat{y}$ against y}
-\end{figure}
+The results are shown below:
 
+\begin{center}
+	\includegraphics{Figures/knn_predicted_LOOCV.pdf}
+	\captionof{figure}{MSE against K neighbours}
+\end{center}
 
-The prediction is not better but the model is not biased
+\begin{center} 
+	best\_k\_train= 30 \\
+	best\_k\_test\_MSE = 1047.085675
+\end{center}
+
+\subsubsection{Model Analysis}
+One can argue that the prediction is not better since the test MSE obtained is higher that the one we had when we computed with the best test k. However the model with the validation approach is not biased, in other words, in general the k=30 will guarantee a smaller MSE than the k=11 on any test observation.
 
 \section{Simple Linear Regression}
 \subsection{Idea}
@@ -409,15 +445,195 @@ The MSE of this model is approximatively equal to 1067. The raw residual distrib
 \end{figure}
 
 \section{Linear Regression with Regularization}
+In this section we will discuss some methods that will help us shrink the model by reducing the number of parameters.
+We will use the \textbf{glmnet} package in order to build the ridge regression and the lasso in R.
 
-*RIDGE + LASSO*
-\subsection{Idea}
+\subsection{Ridge Regression}
+The Linear Regression with least squares estimates the parameters $\beta_{0},\beta_{1}...\beta_{p}$ that to minimize the term of the RSS.
+\begin{center}
+	$$ RSS = \sum_{i=1}^{n}(y_{i} - \beta_{0} - \sum_{j=1}^{p}\beta_{j}x_{ij})^{2} $$
+\end{center}
 
-\subsection{Build the Model}
+Ridge Regression works the same way as the least squares in the sense that it also tries to minimize the RSS but is also has another term $\lambda \sum{j}\beta_{j}^{2}$ called the \textbf{shrinkage penalty} where $\lambda\geq$ 0 is the \textbf{ tuning parameter}. The formula is:
+		\begin{equation} \label{eq1}
+		  RSS + \lambda \sum_{j}\beta_{j}^{2}
+		\end{equation}			
 
-\subsection{Model Analysis}
+If $$\lambda$$=0 we are in the same case of a least squares estimates. The higher $\lambda$ gets, the higher will be the penalty. Hence Ridge regression will try to minimize the parameters $\beta_{j}$ in order to minimize the term \ref{eq1}.\\
+\subsubsection{Model Implementation}
+The glmnet function takes for parameters the matrix x of predictors and vector y of responses. The model.matrix will help us transform out data sets into matrix. This function not only gives out a matrix but it also converts the qualitative variables into dummy variables.
+\begin{lstlisting}
+x.train = model.matrix(Time~.,cancer.train)[,-1] 
+y.train = cancer.train$Time
+
+x.test =model.matrix(Time~.,cancer.test)[,-1]
+y.test = cancer.test$Time
+\end{lstlisting}
+The glmnet function takes in parameter the train data, the pramater alpha that indicates whether it is a Ridge or Lasso regression that we want to perform (alpha=0 for Ridge). By default glmnet chooses an automatic range of $\kappa$, however here we chose a wide range $\lambda\in[10^{−2},10^{10}]$ to cover all possibilities.
+
+\begin{lstlisting}
+library(glmnet)
+grid = 10^seq(10, -2, length=100)
+ridge.mod = glmnet(x.train, y.train, alpha=0, lambda=grid)
+plot(ridge.mod)
+\end{lstlisting}
+
+\begin{center}
+	\includegraphics{Figures/ridge_model.pdf}
+	\captionof{figure}{Coefficients $\beta_{j}$ against L1 Norm}
+\end{center}
+
+The figure below shows that the higher the norm L1 is the smaller are the coefficients $\beta_{j}$.\\
+
+In order to find the best tuning parameter $\lambda$ we perform a cross validation on the training data. cv.glmnet function runs a 10 fold cross validation on the data.
+
+\begin{lstlisting}
+cv.out = cv.glmnet(x.train, y.train,alpha=0)
+plot(cv.out)
+best_lambda = cv.out$lambda.min
+\end{lstlisting}
+
+\begin{center}
+	\includegraphics{Figures/cv_glmnet.pdf}
+	\captionof{figure}{MSE against log($\lambda$)}
+\end{center}
+
+The value $\lambda$ that yields to the smallest MSE is shown in the graph near $log(\lambda)=4$ and $log(\lambda)=5 $
 
 
+\begin{lstlisting}
+fit.ridge = glmnet(x.train, y.train, lambda=best_lambda, alpha=0)
+ridge.pred = predict(fit.ridge, s=best_lambda, newx=x.test)
+MSE = mean((y.test - ridge.pred)^2)
+residuals = y.test - ridge.pred
+plot(x=y.test, y=ridge.pred)
+abline(0,1, col='red')
+plot(x=y.test,y=residuals)
+\end{lstlisting}
+
+\begin{center} 
+	best\_$\lambda$ = 3.522385 \\
+	best\_test\_MSE = 1017.18
+\end{center} 
+
+\begin{center}
+	\includegraphics{Figures/ridge_yhat.pdf}
+	\captionof{figure}{predicted Time $\hat{y}$ against real responses y }
+\end{center}
+
+\begin{center}
+	\includegraphics{Figures/ridge_resid.pdf}
+	\captionof{figure}{Residuals against Time(y)}
+\end{center}
+
+Performing a Ridge regression didn't really improve out MSE, we notice that we still have the same shape when we plot the predicted response against the real values. In fact we still have the extreme values scattered away from the line y=x while the values in the middle are grouped around it. The residuals shows most residuals are among -20 and 40, however we can't neglect the important number of observation that have residuals below -20.\\
+
+After predicting the responses with the best\_$\lambda$,  we can also to get the coefficients $\beta_{j}$ for this model.
+
+\begin{lstlisting}
+predict(ridge.mod, type="coefficients", s=best_lambda)[1:33,]
+\end{lstlisting}
+
+\begin{center}
+	\includegraphics{Figures/ridge_coeff}
+	\captionof{figure}{coefficients $\beta_{j}$ for ($\lambda$ = 64.48)}
+\end{center}
+
+\subsubsection{Model Analysis}
+So we notice that some coefficients are very close to 0 such as area\_se (-0.012), but none of them is null. In fact Ridge Regression only shrinks the coefficients and does not perform any variable selection;  that is why we are going to use Lasso in the following part.
+
+After comparing both MSE of the least squares and Ridge Regression we notice that Ridge did not really improve our prediction. The question is why do we still affirm that Ridge improves over the least squares? It all can be summarized in\textbf{ biais-variance trade-off}. Let's take the following example where we we fit the model for each $\lambda$ and predict the responses for $\lambda\in[10^{-1},10^{4}]$. For each value of $\lambda$ we compute the MSE, the squared bias and the cube root of the variance. We computed the cube root in order to be able to scale purposes.
+\begin{lstlisting}
+max = 100
+biais2<-rep(0,Kmax)
+variance<-rep(0,Kmax) 
+mse<-rep(0,Kmax)
+grid=10^seq(4,-1, length=max)
+for( i in 1:max)
+{     
+	fit.ridge = glmnet(x.train, y.train, lambda=grid[i], alpha=0)
+	ridge.pred = predict(fit.ridge, s=grid[i] ,newx=x.test)
+	mse[i] = mean((ridge.pred - y.test)^2) #MSE
+	biais2[i] = (mean(ridge.pred - y.test))^2 #squared bias
+	variance[i] = (var(ridge.pred))^(1/3) #variance
+}
+plot(grid, variance,type='l', xlab="lambda", main="Biais-Variance trade-off")
+lines(grid, biais2,col='red')
+plot(mse)
+\end{lstlisting}
+
+\begin{center}
+	\includegraphics{Figures/ridge_biais_var.pdf}
+	\captionof{figure}{Bias Variance trade-off, squared bias(red), root squared variance(black)}
+\end{center}
+
+\begin{center}
+	\includegraphics{Figures/ridge_mse.pdf}
+	\captionof{figure}{MSE against $\lambda$}
+\end{center}
+
+At $\lambda=0$ (least squares), the variance is high but there is no bias.
+As $\lambda$ increases the variance and bias decrease but at some point the variance continues to decrease while the bias starts increasing. Which means that the shrinkage of the coefficients by $\lambda$ reduces the variances on the expense of the bias, which can be explained by the fact that $\lambda$ in underestimating the coefficients by shrinking them. Let us compare now those results to the MSE curve. 
+$$MSE = (E[\varTheta]-\varTheta)^{2} + Var(\varTheta) = (Bias[\varTheta])^{2} + Var(\varTheta)$$
+Hence if the variance and the bias decrease significantly in the beginning the MSE will decrease too, and when the variance will decrease less and the bias will start increasing the MSE will increase too. We should also note that at at  $\lambda=0$ (least squares) the MSE is high.\\
+To sum up, in linear regression we can have a low bias but a high variance, this is where the ridge regression improves over the least squares because it shrinks the variance on the expense of the bias.
+  
+\subsection{Lasso Regression}
+As it was discussed on the previous section, Ridge regression disadvantage is that it does not perform a variable selection. Lasso Regression tries to minimize the term:
+
+\begin{equation} \label{eq2}
+	RSS + \lambda \sum_{j}{|\beta_{j}^{2}|}
+\end{equation}	
+
+The only difference with the term of Ridge is that now we have $|\beta_{j}^{2}|$ instead of $\beta_{j}^{2}$. This alternative will reduce the $\beta_{j}$ that are close to zero to null.
+Hoping we have a more interpretable model with reducing the number of variables. To call the lasso model we use the same function glmnet but with alpha=1.
+ 
+\subsubsection{Model Implementation}
+\begin{lstlisting}
+grid = 10^seq(10,-2, length=100)
+lasso.mod = glmnet(x.train, y.train, alpha=1,lambda=grid)
+plot(lasso.mod)
+\end{lstlisting}
+
+\begin{center}
+	\includegraphics{Figures/lasso_coeff.pdf}
+	\captionof{figure}{MSE against $\lambda$}
+\end{center}
+
+We notice that for some values of $\lambda$ the coefficients are null. We now perform the 10 fold cross validation on the training set to deduct the best tuning parameter.
+
+\begin{lstlisting}
+cv.out = cv.glmnet(x.train, y.train, alpha=1)
+plot(cv.out)
+best_lambda = cv.out$lambda.min 
+lasso.pred = predict(lasso.mod, s=best_lambda , newx=x.test)
+mean((lasso.pred-y.test)^2)
+plot(x=y.test, y=lasso.pred)
+abline(0,1, col='red')
+\end{lstlisting}
+
+\begin{center}
+	\includegraphics{Figures/lasso_mse.pdf}
+	\captionof{figure}{MSE against $\lambda$}
+\end{center}
+
+\begin{center}
+	\includegraphics{Figures/lasso_predicted.pdf}
+	\captionof{figure}{MSE against $\lambda$}
+\end{center}
+
+\begin{lstlisting}
+predict(lasso.mod, type="coefficients", s=best_lambda)[1:33,]
+\end{lstlisting}
+
+\begin{center}
+	\includegraphics{Figures/ridge_coeff}
+	\captionof{figure}{coefficients $\beta_{j}$ for ($\lambda$ = 64.48)}
+\end{center}
+
+We can clearly see that Lasso performed a variable selection by setting some coefficients to 0.
+
+\subsubsection{Model Analysis}
 
 \section{Models Comparaison}
 
