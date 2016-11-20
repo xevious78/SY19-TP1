@@ -459,7 +459,7 @@ Ridge Regression works the same way as the least squares in the sense that it al
 		  RSS + \lambda \sum_{j}\beta_{j}^{2}
 		\end{equation}			
 
-If $$\lambda$$=0 we are in the same case of a least squares estimates. The higher $\lambda$ gets, the higher will be the penalty. Hence Ridge regression will try to minimize the parameters $\beta_{j}$ in order to minimize the term \ref{eq1}.\\
+If $\lambda$=0 we are in the same case of a least squares estimates. The higher $\lambda$ gets, the higher will be the penalty. Hence Ridge regression will try to minimize the parameters $\beta_{j}$ in order to minimize the term \ref{eq1}.\\
 \subsubsection{Model Implementation}
 The glmnet function takes for parameters the matrix x of predictors and vector y of responses. The model.matrix will help us transform out data sets into matrix. This function not only gives out a matrix but it also converts the qualitative variables into dummy variables.
 \begin{lstlisting}
