@@ -1,5 +1,9 @@
 \documentclass[]{report}
 \usepackage{tikz}
+\newcommand{\inputtikz}[2]{%  
+	\scalebox{#1}{\input{#2}}  
+}
+
 \usepackage{listings}
 \usepackage{color}
 \usepackage{amsmath}
@@ -51,45 +55,43 @@
 
 \end{abstract}
 
-\part{Introduction}
+\chapter{Introduction}
 
-\part{Ex 1}
+\chapter{Ex 1}
 
-\part{Ex 2 - Breast Cancer Recurring Time}
+\chapter{Ex 2 - Breast Cancer Recurring Time}
 
 \section{Introduction}
 This part aims to build the best model to predict the recurring time of breast cancer based on about 30 features computed from a breast mass.  This regression problem will take advantage of a given dataset describing about 200 patient cases.
 
 \section{Dataset Description}
-We take a look at the raw dataset to get first hints on how each feature contributes to the recurring time.
-
-The dataset comprises 194 patient cases, each of which is described through 32 features and the cancer recurring time \texttt{Time} that we have to predict.
+The very first step of our method consists in taking a look at the raw dataset to get precious hints on how each feature contributes to the recurring time. The dataset comprises 194 patient cases, each of which is described through 32 features and the cancer recurring time \texttt{Time} that we have to predict.
 
 \subsection{Time}
-Let's first describe the evolution of the variable \texttt{Time}. To do so, we can use the R functions \texttt{boxplot} and \texttt{hist}.
+Let's first describe the distribution of the variable \texttt{Time}. To do so, we can use the R functions \texttt{boxplot} (figure \ref{fig:time_boxplot}) and \texttt{hist} (figure \ref{fig:time_hist}).
 
 \begin{figure}[!hb]
 	\centering
-	\input{Figures/time_boxplot.tex}
+	\inputtikz{0.5}{Figures/time_boxplot.tex}
 	\caption{Box Plot}
+	\label{fig:time_boxplot}
 \end{figure}
 
-\begin{figure}[!hb]
+\begin{figure}[!h]
 	\centering
-	\input{Figures/time_hist.tex}
+	\inputtikz{0.5}{Figures/time_hist.tex}
 	\caption{Histogram}
+	\label{fig:time_hist}
 \end{figure}
 
 \subsection{Features Description}
-Each patient is represented with a set of 32 features extracted and computed from a digitized image of a breast mass. 
-
-The data description we were given does not specify the units, but we do not need them for the following analysis.
+Each patient is represented with a set of 32 features extracted and computed from a digitized image of a breast mass. The data description we were given does not specify the units, but we do not need them for the following analysis.
 
 Here are the 32 features we are provided with:  
 \begin{itemize}
 	\item Lymph Node Status
 	
-	\item Mean of 
+	\item Mean, Standard Error and Mean of the three largest values (also called "Worst") of 
 		\begin{itemize}
 			\item radius
 			\item texture
@@ -103,34 +105,6 @@ Here are the 32 features we are provided with:
 			\item fractal dimension
 		\end{itemize}
 	
-	\item Standard Error of 
-		\begin{itemize}
-		\item radius
-		\item texture
-		\item perimeter
-		\item area
-		\item smoothness
-		\item compactness
-		\item concavity
-		\item concave points
-		\item symmetry
-		\item fractal dimension
-	\end{itemize}
-
-	\item Mean of the three largest values (also called "Worst") of 
-		\begin{itemize}
-		\item radius
-		\item texture
-		\item perimeter
-		\item area
-		\item smoothness
-		\item compactness
-		\item concavity
-		\item concave points
-		\item symmetry
-		\item fractal dimension
-	\end{itemize}
-
 	\item Tumor Size
 \end{itemize}
 
@@ -138,14 +112,14 @@ Here are the 32 features we are provided with:
 Based on the definition of the parameters described above, we already know that many features are correlated :
 \begin{itemize}
 	\item The mean of each parameters is smaller than the "worst" value;
-	\item The radius, the perimeter and the area might be linked together;
+	\item The radius, the perimeter and the area are most likely to be linked together;
 	\item The compactness can be computed with the perimeter and the area thanks to the given formula : $Compactness = \frac{perimeter^2}{area - 1}$
 \end{itemize}
 
 \subsection{Data Relevance}
-We should first check that every patient is relevant to our study, in other words, that there is no abnormal observation in the dataset. Cook's Distance is an interesting measure to verify this important criteria, it can be computed after a simple Linear Regression.
+We should first check that every patient is relevant to our study, in other words, that there is no abnormal observation in the dataset. Cook's Ddstance is an interesting measure to verify this important criteria, it can be computed after a simple Linear Regression.
 
-Cook's distance aims to study the influence of each observation on the regression coefficient estimates. To do so, this method uses a straight-forward approach that consists in computing the difference between the original coefficient estimates $\hat{\beta}$ and the coefficient estimates without taking into account the $i$th observation $\hat{\beta}_{-i}$. The difference is then normalized using the number of parameters and the standard deviation estimate. 
+Cook's distance aims to study the influence of each observation on the regression coefficient estimates. To do so, this method uses a straight-forward approach that consists in computing the difference between the original coefficient estimates $\hat{\beta}$ and the coefficient estimates without taking into account the $i$-th observation $\hat{\beta}_{(-i)}$. The difference is then normalized using the number of parameters and the standard deviation estimate. 
 
 A value higher than 1 often indicates an outlier that should be removed from the dataset.
 
@@ -156,9 +130,9 @@ linreg = lm(Time ~ ., data=data_set)
 cooks.distance(linreg)
 \end{lstlisting} 
 
-\begin{figure}[!hb]
+\begin{figure}[!h]
 	\centering
-	\input{Figures/cooks_distance.tex}
+	\inputtikz{0.5}{Figures/cooks_distance.tex}
 	\caption{Cook's Distance}
 	\label{fig:cook_distance}
 \end{figure}
@@ -170,9 +144,9 @@ In this section, we will take a first look at the relationship between the varia
 
 A first way to do it is to separately plot each relationship. An example of such plot is shown in figure \ref{fig:time_feature_ex1}. 
 
-\begin{figure}[!hb]
+\begin{figure}[!h]
 	\centering
-	\input{Figures/time_feature_ex1.tex}
+	\inputtikz{0.5}{Figures/time_feature_ex1.tex}
 	\caption{Plot of \texttt{Time} and \texttt{Texture Mean} }
 	\label{fig:time_feature_ex1}
 \end{figure}
@@ -189,7 +163,7 @@ qqPlot(linreg, main="QQ Plot")
 
 \begin{figure}[!hb]
 	\centering
-	\input{Figures/qq_plot.tex}
+	\inputtikz{0.5}{Figures/qq_plot.tex}
 	\caption{QQ-Plot}
 	\label{fig:qq_plot}
 \end{figure}
@@ -198,7 +172,7 @@ The bottom tail of the QQ-Plot seems to deviate from the linear line, which is a
 
 \begin{figure}[!hb]
 	\centering
-	\includegraphics{Figures/fitted_value_plots}
+	\includegraphics[width=0.5\linewidth]{Figures/fitted_value_plots}
 	\caption{}
 	\label{fig:fitted_value_plots}
 \end{figure}
@@ -216,19 +190,32 @@ A first way to assess the performance of a model is to compute the Mean Squared 
 \subsection{Data Split}
 These measures should not be applied on a set whose data was also used to train the model. Indeed, this would include a biais that might distort our conclusions. To cope with this problem, we have to split the dataset into two disjointed sets : 
 \begin{itemize}
-	\item Training Set : About 75\% of the dataset dedicated to the building the model;
-	\item Test Set : The remaining 25\% only used at the end to provide some kind of objective measure of the model performance.
+	\item Training Set : About 66\% of the dataset dedicated to the building the model;
+	\item Test Set : The remaining 34\% only used at the end to provide some kind of objective measure of the model performance.
 \end{itemize} 
 
-Once it is done, we can finally dive in the model building.
+\begin{lstlisting}
+n = dim(data_set)[1]
+train_id = sample(1:n, n * 2/3)
+
+train_set = data_set[train_id,]
+train_set.x = train_set[,-33]
+train_set.y = train_set[,33]
+
+test_set = data_set[-train_id,]
+test_set.x = test_set[,-33]
+test_set.y = test_set[,33]
+\end{lstlisting}
+
+Once it is done, we can finally dive into the model building.
 
 \section{K-nearest neighbors (KNN)}
 We start our analysis with a very simple model called the KNN.
-Given a positive integer k and a test observation x0. The KNN model first identifies the k closest points to x0 from the training data. Then estimates \\ 
+Given a positive integer $k$ and a test observation $x_0$. The KNN model first identifies the k closest points to $x_0$ from the training data. Then estimates \\ 
 
 \subsection{Knn Model}
-The KNN model in R is done by calling the function reg of the package knn. As we will see in the following sections, For most prediction algorithms, we first have to build the prediction model on the training data, and then use the model to test our predictions. However, the KNN function does both in a single step.\\ 
-In order to find the best k we set a maximum number of neighbors to be considered (in our model it is 20), then we calculate the MSE for each k which is the mean of the squared difference between the real value of Time and the predicted one. All the steps are detailed in the code below.
+The KNN model in R is done by calling the function \texttt{reg} of the package \texttt{knn}. As we will see in the following sections, For most prediction algorithms, we first have to build the prediction model on the training data, and then use the model to test our predictions. However, the KNN function does both in a single step.\\ 
+In order to find the best $k$ we set a maximum number of neighbors to be considered (in our model it is 20), then we calculate the MSE for each $k$ which is the mean of the squared difference between the real value of Time and the predicted one. All the steps are detailed in the code below.
 
 \subsubsection{Model Implementation}
 \begin{lstlisting}
@@ -251,14 +238,14 @@ best_k_test = which.min(MSE)
 best_k_mse = MSE[best_k_test]
 \end{lstlisting}
 
-The graph below shows the MSE plotted against the values of k in a range from 0 to 120. Graphically we notice that a minimum is reached between 10 and 20.
+The graph below shows the MSE plotted against the values of $k$ in a range from 0 to 120. Graphically we notice that a minimum is reached between 10 and 20.
 
 \begin{center}	
 		\includegraphics{Figures/knn_test.pdf}
 		\captionof{figure}{MSE against K neighbours}
 \end{center}
 
- We use the function \textbf{which.min} that returns the index of the minimum MSE value.\\
+ We use the function \texttt{which.min} that returns the index of the minimum MSE value.\\
 
 \begin{center} 
 	best\_k\_test= 11 \\
@@ -273,7 +260,7 @@ plot(cancer.test.y, best_reg_test$pred, xlab='y', ylab='y-hat', main='y-hat (Pre
 abline(0,1, col='red')
 \end{lstlisting}
 
-The red line is the function y=x; so further are the points from this line the further are the predicted values ($\hat{y}$) from the real one (y).
+The red line is the function $y=x$; so further are the points from this line the further are the predicted values ($\hat{y}$) from the real one ($y$).
 	
 \begin{center}
 	\includegraphics{Figures/knn_predicted_test.pdf}
@@ -282,18 +269,18 @@ The red line is the function y=x; so further are the points from this line the f
 
 \subsubsection{Model Analysis}
 
-WE notice that the predicted {$\hat{y}$} diverge a lot the real values y. We expected those results since the MSE=967.386966 which is quite high. 
+We notice that the predicted {$\hat{y}$} diverge a lot the real values $y$. We expected those results since the MSE=967.386966 which is quite high. 
 
-This approach of finding the best k was quite optimistic. Actually we tried finding the best k while minimizing the MSE in \textbf{the test data}. Therefore the model is very specific to our test data which yields to a high bias. The solution is to find the best k among the \textbf{training data} and then use the best k in the test data. \\ To find the best \textbf{unbiased} k number of neighbors we use the method of cross validation on the train data. 
+This approach of finding the best $k$ was quite optimistic. Actually we tried finding the best $k$ while minimizing the MSE in \textbf{the test data}. Therefore the model is very specific to our test data which yields to a high bias. The solution is to find the best $k$ among the \textbf{training data} and then use the best $k$ in the test data. \\ To find the best \textbf{unbiased} $k$ number of neighbors we use the method of cross validation on the train data. 
 
 \subsection{The Validation Set Approach}
-There are two methods in cross validation: \textbf{cross validation leave one out} and  \textbf{K-fold cross validation}.In the following parts we will test with both validation methods. As we do not have that much predictors we can afford the computation of cross validation leave one out.\\
+There are two methods in cross validation: \textbf{cross validation leave one out} and  \textbf{K-fold cross validation}. In the following parts we will test with both validation methods. As we do not have that much predictors we can afford the computation of cross validation leave one out.\\
 
 \subsubsection{Cross Validation}
 The cross validation approach is based on dividing the provided data in 2 sets: a training set and a validation set. The model is fit on the training set, then the fitted model is used to predict responses of observations in the validation set. The resulting validation set error rate is assessed using MSE.
 
 \subsubsection{Leave-One-Out Cross-Validation}
-Like the cross validation the LOOCV involves splitting the set of observations in two parts. The test data has a single observation (x1, y1) and the n-1 remaining is used for the training data. The MSE in this case is $MSE_1 =(y_1 - \hat{y})^{2}$. This provides an unbiased estimate for the test error since it is training the model on approximately all the data of the observation. However it is highly variable as it is based in one observation. The LOOCV repeats the procedure n times fitting each time a different set of observations. The LOOCV test MSE is computed with calculating the average of the n test error estimates.
+Like the cross validation the LOOCV involves splitting the set of observations in two parts. The test data has a single observation $(x_1, y_1)$ and the $n-1$ remaining is used for the training data. The MSE in this case is $MSE_1 =(y_1 - \hat{y})^{2}$. This provides an unbiased estimate for the test error since it is training the model on approximately all the data of the observation. However it is highly variable as it is based in one observation. The LOOCV repeats the procedure n times fitting each time a different set of observations. The LOOCV test MSE is computed with calculating the average of the n test error estimates.
   
 \begin{center}
 	$$CV_{(n)} = \frac{1}{n} \sum_{i=1}^{n} MSE_{i} $$
@@ -341,11 +328,11 @@ The results are shown below:
 \end{center}
 
 \subsubsection{Model Analysis}
-One can argue that the prediction is not better since the test MSE obtained is higher that the one we had when we computed with the best test k. However the model with the validation approach is not biased, in other words, in general the k=30 will guarantee a smaller MSE than the k=11 on any test observation.
+One can argue that the prediction is not better since the test MSE obtained is higher that the one we had when we computed with the best test $k$. However the model with the validation approach is not biased, in other words, in general the $k=30$ will guarantee a smaller MSE than the $k=11$ on any test observation.
 
 \section{Simple Linear Regression}
 \subsection{Idea}
-Our next attempt consists in using the same linear model we used in the feature analysis section. This model takes advantage of the simple assumption that \texttt{Time} linearily depends on the other features.
+Our next attempt consists in using the same linear model we used in the feature analysis section. This model takes advantage of the simple assumption that \texttt{Time} depends on the other features in a linear way.
 
 To build the model, we can use the function \texttt{lm} :
 \begin{lstlisting}
@@ -358,7 +345,7 @@ The MSE of this model is approximatively equal to 1285. The raw residual distrib
 
 \begin{figure}[!h]
 	\centering
-	\input{Figures/linreg_hist.tex}
+	\inputtikz{0.5}{Figures/linreg_hist.tex}
 	\caption{}
 	\label{fig:linreg_hist}
 \end{figure}
@@ -422,7 +409,7 @@ plot(model.linreg.regsubsets, scale="bic")
 
 \begin{figure}[!h]
 	\centering
-	\input{Figures/subset_bic.tex}
+	\includegraphics[width=0.8\linewidth]{Figures/subset_bic}
 	\caption{}
 	\label{fig:subset_bic}
 \end{figure}
@@ -439,7 +426,8 @@ The MSE of this model is approximatively equal to 1067. The raw residual distrib
 
 \begin{figure}[!h]
 	\centering
-	\input{Figures/subset_hist.tex}
+	\inputtikz{0.5}{Figures/subset_hist.tex}
+
 	\caption{}
 	\label{fig:subset_hist}
 \end{figure}
