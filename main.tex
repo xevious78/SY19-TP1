@@ -68,7 +68,7 @@ This part aims to build the best model to predict the recurring time of breast c
 The very first step of our method consists in taking a look at the raw dataset to get precious hints on how each feature contributes to the recurring time. The dataset comprises 194 patient cases, each of which is described through 32 features and the cancer recurring time \texttt{Time} that we have to predict.
 
 \subsection{Time}
-Let's first describe the distribution of the variable \texttt{Time}. To do so, we can use the R functions \texttt{boxplot} (figure \ref{fig:time_boxplot}) and \texttt{hist} (figure \ref{fig:time_hist}).
+Let's first describe the distribution of the variable \texttt{Time}. To do so, we can use the R functions \texttt{boxplot} (figure \ref{fig:time_boxplot}) and \texttt{hist} (figure \ref{fig:time_hist}). According to these figures, our dataset mostly represent short reapparing times.
 
 \begin{figure}[!hb]
 	\centering
@@ -83,6 +83,7 @@ Let's first describe the distribution of the variable \texttt{Time}. To do so, w
 	\caption{Histogram}
 	\label{fig:time_hist}
 \end{figure}
+
 
 \subsection{Features Description}
 Each patient is represented with a set of 32 features extracted and computed from a digitized image of a breast mass. The data description we were given does not specify the units, but we do not need them for the following analysis.
@@ -117,7 +118,7 @@ Based on the definition of the parameters described above, we already know that 
 \end{itemize}
 
 \subsection{Data Relevance}
-We should first check that every patient is relevant to our study, in other words, that there is no abnormal observation in the dataset. Cook's Ddstance is an interesting measure to verify this important criteria, it can be computed after a simple Linear Regression.
+We should first check that every patient is relevant to our study, in other words, that there is no abnormal observation in the dataset. Cook's Distance is an interesting measure to verify this important criteria, it can be computed after a simple Linear Regression.
 
 Cook's distance aims to study the influence of each observation on the regression coefficient estimates. To do so, this method uses a straight-forward approach that consists in computing the difference between the original coefficient estimates $\hat{\beta}$ and the coefficient estimates without taking into account the $i$-th observation $\hat{\beta}_{(-i)}$. The difference is then normalized using the number of parameters and the standard deviation estimate. 
 
@@ -215,7 +216,7 @@ Given a positive integer $k$ and a test observation $x_0$. The KNN model first i
 
 \subsection{Knn Model}
 The KNN model in R is done by calling the function \texttt{reg} of the package \texttt{knn}. As we will see in the following sections, For most prediction algorithms, we first have to build the prediction model on the training data, and then use the model to test our predictions. However, the KNN function does both in a single step.\\ 
-In order to find the best $k$ we set a maximum number of neighbors to be considered (in our model it is 20), then we calculate the MSE for each $k$ which is the mean of the squared difference between the real value of Time and the predicted one. All the steps are detailed in the code below.
+In order to find the best $k$ we set a maximum number of neighbors to be considered (in our model it is 120), then we calculate the MSE for each $k$ which is the mean of the squared difference between the real value of Time and the predicted one. All the steps are detailed in the code below.
 
 \subsubsection{Model Implementation}
 \begin{lstlisting}
@@ -334,14 +335,19 @@ One can argue that the prediction is not better since the test MSE obtained is h
 \subsection{Idea}
 Our next attempt consists in using the same linear model we used in the feature analysis section. This model takes advantage of the simple assumption that \texttt{Time} depends on the other features in a linear way.
 
-To build the model, we can use the function \texttt{lm} :
+The model has the following form :
+$$
+	Y = \beta_0 + \sum_{i = 1}^{p} \beta_i X_i
+$$
+The regression coefficient $\beta_i$ are choosen so that they minimize the MSE. 
+
+To build the model in R, we can use the function \texttt{lm} :
 \begin{lstlisting}
 model.linreg = lm(Time ~ ., data=train_set)
 \end{lstlisting}
 
-
 \subsection{Model Performance}
-The MSE of this model is approximatively equal to 1285. The raw residual distribution is shown on figure \ref{fig:linreg_hist}. 
+The MSE of this model is approximatively equal to 1285. The raw residuals distribution is pictured on figure \ref{fig:linreg_hist}, it shows a very spread out distribution that should be improved.
 
 \begin{figure}[!h]
 	\centering
@@ -395,7 +401,7 @@ Tumor_size              -1.188e+00  1.915e+00  -0.620   0.5364
 
 The last column contains the P-value of each coefficient, which is a measure to test the hypothesis that this particular coefficient is null. A P-value lower than 5\% allows us to conclude that the coefficient is not equal to zero. In our case, the feature \texttt{concavity\_points\_mean} is not null, but we cannot make such assumptions for the other parameters. Therefore, we are not able to select a subset of interesting features based on the P-values.
 
-Our dataset contains a small set of features to deal with, therefore we can use an exhaustive feature subset selection algorithm. Such method build a linear model based on each subsets and compute a performance score to compare them. 
+Our dataset contains a small set of features to deal with, therefore we can use an exhaustive feature subset selection algorithm. Such method build a linear model based on each subset and compute a performance score to compare them. 
 
 We use the following function to fit the linear models :
 \begin{lstlisting}
@@ -422,7 +428,7 @@ According to this plot, the best BIC is reached with a model that only uses the 
 \end{itemize}
 
 \subsection{Model Performance}
-The MSE of this model is approximatively equal to 1067. The raw residual distribution is shown on figure \ref{fig:subset_hist}. 
+The MSE of this model is approximatively equal to 1067. The raw residual distribution, shown on figure \ref{fig:subset_hist}, is way better than the simple linear regression model.
 
 \begin{figure}[!h]
 	\centering
@@ -449,7 +455,7 @@ Ridge Regression works the same way as the least squares in the sense that it al
 
 If $\lambda$=0 we are in the same case of a least squares estimates. The higher $\lambda$ gets, the higher will be the penalty. Hence Ridge regression will try to minimize the parameters $\beta_{j}$ in order to minimize the term \ref{eq1}.\\
 \subsubsection{Model Implementation}
-The glmnet function takes for parameters the matrix x of predictors and vector y of responses. The model.matrix will help us transform out data sets into matrix. This function not only gives out a matrix but it also converts the qualitative variables into dummy variables.
+The \texttt{glmnet} function takes for parameters the matrix $x$ of predictors and vector $y$ of responses. The \texttt{model.matrix} will help us transform out data sets into matrix. This function not only gives out a matrix but it also converts the qualitative variables into dummy variables.
 \begin{lstlisting}
 x.train = model.matrix(Time~.,cancer.train)[,-1] 
 y.train = cancer.train$Time
@@ -457,7 +463,7 @@ y.train = cancer.train$Time
 x.test =model.matrix(Time~.,cancer.test)[,-1]
 y.test = cancer.test$Time
 \end{lstlisting}
-The glmnet function takes in parameter the train data, the pramater alpha that indicates whether it is a Ridge or Lasso regression that we want to perform (alpha=0 for Ridge). By default glmnet chooses an automatic range of $\kappa$, however here we chose a wide range $\lambda\in[10^{−2},10^{10}]$ to cover all possibilities.
+The glmnet function takes in parameter the train data, the pramater alpha that indicates whether it is a Ridge or Lasso regression that we want to perform (alpha=0 for Ridge). By default \texttt{glmnet} chooses an automatic range of $\kappa$, however here we chose a wide range $\lambda\in[10^{−2},10^{10}]$ to cover all possibilities.
 
 \begin{lstlisting}
 library(glmnet)
@@ -528,7 +534,7 @@ predict(ridge.mod, type="coefficients", s=best_lambda)[1:33,]
 \end{center}
 
 \subsubsection{Model Analysis}
-So we notice that some coefficients are very close to 0 such as area\_se (-0.012), but none of them is null. In fact Ridge Regression only shrinks the coefficients and does not perform any variable selection;  that is why we are going to use Lasso in the following part.
+So we notice that some coefficients are very close to 0 such as \texttt{area\_se }(-0.012), but none of them is null. In fact Ridge Regression only shrinks the coefficients and does not perform any variable selection;  that is why we are going to use Lasso in the following part.
 
 After comparing both MSE of the least squares and Ridge Regression we notice that Ridge did not really improve our prediction. The question is why do we still affirm that Ridge improves over the least squares? It all can be summarized in\textbf{ biais-variance trade-off}. Let's take the following example where we we fit the model for each $\lambda$ and predict the responses for $\lambda\in[10^{-1},10^{4}]$. For each value of $\lambda$ we compute the MSE, the squared bias and the cube root of the variance. We computed the cube root in order to be able to scale purposes.
 \begin{lstlisting}
@@ -622,6 +628,36 @@ predict(lasso.mod, type="coefficients", s=best_lambda)[1:33,]
 We can clearly see that Lasso performed a variable selection by setting some coefficients to 0.
 
 \subsubsection{Model Analysis}
+
+\section{Linear Regression with Dimension Reduction}
+\subsection{Idea}
+In the Introduction, we mentionned the fact that some features are actually correlated. This means that they carry redundant information that make the model more complex, thus harder to fit. In this section, we will apply a Dimension Reduction method that decreases the number of features while keeping the information needed to predict \texttt{Time}.
+
+Principal Component Analysis (PCA) is one such method. It consists in transforming the set of $p$ features into a set of $M$ orthogonal vectors ($M$ < $p$) using linear transformations. The new set of vectors (called components) contains as much information as the initial set. "Information" is here defined in terms of variance, in other words, each new component should be able to explain as much variance as possible, while being orthogonal to the others.
+
+Once the set of principal components is found, it can be used as an input to a simple linear regression to build what is called a Principal Component Regression (PCR) model. The number of components $M$ should be taken so that the model built with PCR has a minimum error value; once again, a 10 fold cross validation method can be used to determine the best $M$.
+
+PCR is available in R with the package \texttt{pls} :
+\begin{lstlisting}
+library(pls)
+model.pcr = pcr(Time ~ ., data=train_set, scale=TRUE, validation="CV")
+\end{lstlisting}
+
+We can then plot the MSE for each set of components :
+\begin{lstlisting}
+validationplot(model.pcr, val.type = "MSEP")
+\end{lstlisting}
+
+According to figure \ref{fig:pcr_cv}, the model with only 4 components yields the best MSE. The function \texttt{summary} tells us that 4 components are enough to explain 75\% of the features' variance. 
+
+\begin{figure}[!h]
+	\centering
+	\inputtikz{0.5}{Figures/pcr_cv.tex}
+	\caption{PCR}
+	\label{fig:pcr_cv}
+\end{figure}
+
+
 
 \section{Models Comparaison}
 
