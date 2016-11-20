@@ -45,7 +45,7 @@
 	RSE & Resiual Standard Error\\ 
 	RSS & Residual \\
 	R & \\
-	BIC \\
+	BIC &\\
 	LR & Linear Regression \\
 	CV & Cross Validation \\
 	LOOCV & Leave One Out Cross Validation \\
@@ -57,11 +57,172 @@
 
 \chapter{Introduction}
 
-\chapter{Ex 1}
+\chapter{Ex 1- Phoneme Recognition}
+\section{Context}
+
+\section{Dataset Description}
+In the context of speech recognition the aim is to predict which of the phoneme is the subject pronouncing. We have five phonemes:\\ 
+\begin{center}
+	$g = \left\{
+	\begin{array}{l}
+	\textbf{"sh"} as in "she" \\
+	\textbf{"dcl"} as in "dark" \\
+	\textbf{"iy"} as the vowel in "she" \\ 
+	\textbf{"aa"} as the vowel in "dark"\\
+	\textbf{"ao"} as the first vowel in "water"
+	\end{array}
+	\right.$
+\end{center}
+The study was on 4509 speeches pronounced my 50 male speakers.the method used for speech recognition is the Log-periodogram. our data sets is composed of 4509 log-periodograms (observations) of length 256 (features).The column labelled "speaker" identifies the
+different speakers. We notice that some are labeled train and some test. Hence we have a training set composed of 3340 observations and 1169 of the test. The column g shows the responses. The frequencies of each phoneme for the 4509 speeches are shown in the table below.
+
+\begin{center}
+\begin{tabular}{l c c c c c}
+ Phonemes	 & aa &  ao & dcl & iy & sh \\
+Train & 519 & 759 & 562 & 852 & 648\\
+Test  & 176 & 263 & 195 & 311 & 224\\
+Total & 695 & 1022 & 757 & 1163 & 872
+\end{tabular}
+\captionof{table}{Frequencies of phonemes in the train and test data set}
+\end{center}
+
+\begin{lstlisting}
+data_set = read.csv("phoneme.data.txt")
+head(data_set)
+data_set.nb_features = 256
+
+}
+\end{lstlisting}
+
+Splitting data into train set and test set.
+\begin{lstlisting}
+train= data_set[1:3340,]
+train.x = train[,-258]
+train.y = train[,258]
+
+test = data_set[3341:4509,]
+test.x = test[,-258]
+test.y = test[,258]
+\end{lstlisting}
+
+\section{Classification}
+\subsection{Logistic Regression}
+\begin{lstlisting}
+library("nnet")
+model.lr = multinom(formula = g ~ . - g - speaker - row.names, data=train, MaxNWts=2000, maxit=1000)
+\end{lstlisting}
+
+\begin{lstlisting}
+model.lr.predicted = predict(model.lr,newdata=test_set)
+perf = table(test_set$g,model.lr.predicted)
+perf
+sum(diag(perf))/dim(test_set)[1]
+\end{lstlisting}
+\subsubsection{Model Implementation}
+\subsubsection{Model Analysis}
+
+
+\subsection{LDA- Linear Discriminant Analysis}
+
+\subsubsection{Model Implementation}
+The function lda works same was as lm for linear regression. It returns the group means that are the average of each predictor in each class. The coefficients of linear discriminants output are used to form the LDA decision rule. The prior probability is the percentage of the response for each class in the observation.
+
+\begin{lstlisting}
+library(MASS)
+model.lda = lda(g ~ . - g - speaker - row.names, data=train)
+summary(model.lda)
+\end{lstlisting}
+
+\begin{verbatim}
+Prior probabilities of groups:
+aa         ao         dcl        iy         sh 
+0.1553892  0.2272455  0.1682635  0.2550898  0.1940120 
+
+
+        Length Class  Mode     
+prior      5   -none- numeric  
+counts     5   -none- numeric  
+means   1280   -none- numeric  
+scaling 1024   -none- numeric  
+lev        5   -none- character
+svd        4   -none- numeric  
+N          1   -none- numeric  
+call       3   -none- call     
+terms      3   terms  call     
+xlevels    1   -none- list
+\end{verbatim}
+
+\begin{center}
+	\includegraphics{Figures/model_lda_plot.pdf}
+	\captionof{figure}{Phoneme LDA model}
+\end{center}
+
+The prior probabilities tell us that 15\% of phonemes are aa , 23\% ao, 17\% dcl, 25\% iy and 19\% sh.
+
+Now that we trained the model we can call the predict function to predict the responses for the test set of data. The predict() function returns an element "class", a list of the predicted phonemes. An element "posterior" witch the posterior probability of the response of the kth class.  Last the linear discriminants are found in "x".
+
+
+\begin{lstlisting}
+model.lda.predicted = predict(model.lda,newdata=test_set)
+perf = table(test_set$g,model.lda.predicted$class)
+perf
+sum(diag(perf))/dim(test_set)[1]
+\end{lstlisting}
+
+The table perf of the predicted responses is shown below:
+\begin{center}
+\begin{verbatim}
+	aa  ao dcl  iy  sh
+aa  129  47   0   0   0
+ao   39 223   0   1   0
+dcl   0   0 190   5   0
+iy    0   0   2 309   0
+sh    0   0   0   0 224
+
+0.919589392643285
+\end{verbatim}
+\end{center}
+
+Here is an example of how this table is read, for the second line
+when the phoneme pronounced is aa , the speech recognition detects that 129 is detected as aa and 47 as ao, in other words only 27\% is misclassified.
+In order to compute the total error rate we divide the sum of the diagonal terms (which are the true phonemes detected) and divide it by the number total of observations We find that in 92\% of the cases the speech recognition detected right the phoneme.
+
+The ROCR package can be used to produce ROC curves
+\begin{lstlisting}
+library(pROC)
+l   = length(model.lda.predicted$class)
+ld1 = model.lda.predicted$x[1:l]
+ld2 = model.lda.predicted$x[1+l:1+2*l]
+ld3 = model.lda.predicted$x[2*l:3*l]
+ld4 = model.lda.predicted$x[3*l:4*l]
+roc_curve<-roc(test_set$g, as.vector(ld1))
+plot(roc_curve)
+\end{lstlisting}
+
+
+\begin{center}
+	\includegraphics{Figures/lda_roc.pdf}
+	\captionof{figure}{LDA ROC: Area under the curve: 0.588}
+\end{center}
+
+(AUC) The area under the (ROC) curve is a criteria to judge the performance of the LDA. For this data the AUC is 0.92, which is considered very good as it is close to the maximum.
+
+\subsubsection{Model Analysis}
+
+
+\subsection{QDA- Quadratic Discriminant Analysis}
+\subsubsection{Model Implementation}
+\subsubsection{Model Analysis}
+
+
+\section{Models Comparison}
+
+
+
 
 \chapter{Ex 2 - Breast Cancer Recurring Time}
 
-\section{Introduction}
+\section{Context}
 This part aims to build the best model to predict the recurring time of breast cancer based on about 30 features computed from a breast mass.  This regression problem will take advantage of a given dataset describing about 200 patient cases.
 
 \section{Dataset Description}
@@ -413,12 +574,14 @@ Then the function \texttt{plot} to compare the models according to a given scale
 plot(model.linreg.regsubsets, scale="bic")	
 \end{lstlisting}
 
+\iffalse
 \begin{figure}[!h]
 	\centering
 	\includegraphics[width=0.8\linewidth]{Figures/subset_bic}
 	\caption{}
 	\label{fig:subset_bic}
 \end{figure}
+\fi
 
 According to this plot, the best BIC is reached with a model that only uses the following features : 
 \begin{itemize}
@@ -454,14 +617,18 @@ Ridge Regression works the same way as the least squares in the sense that it al
 		\end{equation}			
 
 If $\lambda$=0 we are in the same case of a least squares estimates. The higher $\lambda$ gets, the higher will be the penalty. Hence Ridge regression will try to minimize the parameters $\beta_{j}$ in order to minimize the term \ref{eq1}.\\
+When applying the penalty on the coefficients those with different scales (for instance a perimeter in m and the other one in Km) will be "treated" differently , because the penalized term is a sum of squares of all the coefficients. An alternative to get the penalty applied uniformly across the predictors is to standardize the independent predictors first with the function scale.
+
 \subsubsection{Model Implementation}
 The \texttt{glmnet} function takes for parameters the matrix $x$ of predictors and vector $y$ of responses. The \texttt{model.matrix} will help us transform out data sets into matrix. This function not only gives out a matrix but it also converts the qualitative variables into dummy variables.
 \begin{lstlisting}
 x.train = model.matrix(Time~.,cancer.train)[,-1] 
 y.train = cancer.train$Time
+scale(x.train, center = TRUE, scale = TRUE)
 
 x.test =model.matrix(Time~.,cancer.test)[,-1]
 y.test = cancer.test$Time
+scale(x.test, center = TRUE, scale = TRUE)
 \end{lstlisting}
 The glmnet function takes in parameter the train data, the pramater alpha that indicates whether it is a Ridge or Lasso regression that we want to perform (alpha=0 for Ridge). By default \texttt{glmnet} chooses an automatic range of $\kappa$, however here we chose a wide range $\lambda\in[10^{−2},10^{10}]$ to cover all possibilities.
 
@@ -506,8 +673,8 @@ plot(x=y.test,y=residuals)
 \end{lstlisting}
 
 \begin{center} 
-	best\_$\lambda$ = 3.522385 \\
-	best\_test\_MSE = 1017.18
+	best\_$\lambda$ = 58.75693 \\
+	best\_test\_MSE = 1015.485
 \end{center} 
 
 \begin{center}
@@ -539,9 +706,9 @@ So we notice that some coefficients are very close to 0 such as \texttt{area\_se
 After comparing both MSE of the least squares and Ridge Regression we notice that Ridge did not really improve our prediction. The question is why do we still affirm that Ridge improves over the least squares? It all can be summarized in\textbf{ biais-variance trade-off}. Let's take the following example where we we fit the model for each $\lambda$ and predict the responses for $\lambda\in[10^{-1},10^{4}]$. For each value of $\lambda$ we compute the MSE, the squared bias and the cube root of the variance. We computed the cube root in order to be able to scale purposes.
 \begin{lstlisting}
 max = 100
-biais2<-rep(0,Kmax)
-variance<-rep(0,Kmax) 
-mse<-rep(0,Kmax)
+biais2<-rep(0,max)
+variance<-rep(0,max) 
+mse<-rep(0,max)
 grid=10^seq(4,-1, length=max)
 for( i in 1:max)
 {     
