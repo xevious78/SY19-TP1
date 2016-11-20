@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.8.19)  20 NOV 2016 21:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.8.19)  20 NOV 2016 23:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -734,27 +734,23 @@ Overfull \hbox (160.89pt too wide) in paragraph at lines 84--603
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 622--623
-
- []
-
+[22]
 Missing character: There is no â in font cmr7!
 Missing character: There is no ˆ in font cmr7!
 Missing character: There is no ’ in font cmr7!
-[22] <Figures/ridge_model.pdf, id=140, 433.62pt x 433.62pt>
+ <Figures/ridge_model.pdf, id=140, 433.62pt x 433.62pt>
 File: Figures/ridge_model.pdf Graphic file (type pdf)
 
 <use Figures/ridge_model.pdf>
-Package pdftex.def Info: Figures/ridge_model.pdf used on input line 642.
+Package pdftex.def Info: Figures/ridge_model.pdf used on input line 646.
 (pdftex.def)             Requested size: 433.61894pt x 433.61894pt.
 
-Overfull \hbox (88.61894pt too wide) in paragraph at lines 642--643
+Overfull \hbox (88.61894pt too wide) in paragraph at lines 646--647
  [] 
  []
 
 [23]
-Underfull \hbox (badness 10000) in paragraph at lines 646--647
+Underfull \hbox (badness 10000) in paragraph at lines 650--651
 
  []
 
@@ -763,10 +759,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 646--647
 File: Figures/cv_glmnet.pdf Graphic file (type pdf)
 
 <use Figures/cv_glmnet.pdf>
-Package pdftex.def Info: Figures/cv_glmnet.pdf used on input line 657.
+Package pdftex.def Info: Figures/cv_glmnet.pdf used on input line 661.
 (pdftex.def)             Requested size: 361.34912pt x 361.34912pt.
 
-Overfull \hbox (16.34912pt too wide) in paragraph at lines 657--658
+Overfull \hbox (16.34912pt too wide) in paragraph at lines 661--662
  [] 
  []
 
@@ -775,10 +771,10 @@ Overfull \hbox (16.34912pt too wide) in paragraph at lines 657--658
 File: Figures/ridge_yhat.pdf Graphic file (type pdf)
 
 <use Figures/ridge_yhat.pdf>
-Package pdftex.def Info: Figures/ridge_yhat.pdf used on input line 680.
+Package pdftex.def Info: Figures/ridge_yhat.pdf used on input line 684.
 (pdftex.def)             Requested size: 361.34912pt x 361.34912pt.
 
-Overfull \hbox (16.34912pt too wide) in paragraph at lines 680--681
+Overfull \hbox (16.34912pt too wide) in paragraph at lines 684--685
  [] 
  []
 
@@ -786,15 +782,15 @@ Overfull \hbox (16.34912pt too wide) in paragraph at lines 680--681
 File: Figures/ridge_resid.pdf Graphic file (type pdf)
 
 <use Figures/ridge_resid.pdf>
-Package pdftex.def Info: Figures/ridge_resid.pdf used on input line 685.
+Package pdftex.def Info: Figures/ridge_resid.pdf used on input line 689.
 (pdftex.def)             Requested size: 361.34912pt x 361.34912pt.
 
-Overfull \hbox (16.34912pt too wide) in paragraph at lines 685--686
+Overfull \hbox (16.34912pt too wide) in paragraph at lines 689--690
  [] 
  []
 
 [26 <./Figures/ridge_yhat.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 689--690
+Underfull \hbox (badness 10000) in paragraph at lines 693--694
 
  []
 
@@ -802,17 +798,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 689--690
 File: Figures/ridge_coeff.png Graphic file (type png)
 
 <use Figures/ridge_coeff.png>
-Package pdftex.def Info: Figures/ridge_coeff.png used on input line 698.
+Package pdftex.def Info: Figures/ridge_coeff.png used on input line 702.
 (pdftex.def)             Requested size: 321.19922pt x 508.90001pt.
  [27 <./Figures/ridge_resid.pdf>] [28 <./Figures/ridge_coeff.png>] <Figures/rid
 ge_biais_var.pdf, id=189, 361.35pt x 361.35pt>
 File: Figures/ridge_biais_var.pdf Graphic file (type pdf)
 
 <use Figures/ridge_biais_var.pdf>
-Package pdftex.def Info: Figures/ridge_biais_var.pdf used on input line 726.
+Package pdftex.def Info: Figures/ridge_biais_var.pdf used on input line 730.
 (pdftex.def)             Requested size: 361.34912pt x 361.34912pt.
 
-Overfull \hbox (16.34912pt too wide) in paragraph at lines 726--727
+Overfull \hbox (16.34912pt too wide) in paragraph at lines 730--731
  [] 
  []
 
@@ -820,10 +816,10 @@ Overfull \hbox (16.34912pt too wide) in paragraph at lines 726--727
 File: Figures/ridge_mse.pdf Graphic file (type pdf)
 
 <use Figures/ridge_mse.pdf>
-Package pdftex.def Info: Figures/ridge_mse.pdf used on input line 731.
+Package pdftex.def Info: Figures/ridge_mse.pdf used on input line 735.
 (pdftex.def)             Requested size: 361.34912pt x 361.34912pt.
 
-Overfull \hbox (16.34912pt too wide) in paragraph at lines 731--732
+Overfull \hbox (16.34912pt too wide) in paragraph at lines 735--736
  [] 
  []
 
@@ -832,10 +828,10 @@ Overfull \hbox (16.34912pt too wide) in paragraph at lines 731--732
 File: Figures/lasso_coeff.pdf Graphic file (type pdf)
 
 <use Figures/lasso_coeff.pdf>
-Package pdftex.def Info: Figures/lasso_coeff.pdf used on input line 759.
+Package pdftex.def Info: Figures/lasso_coeff.pdf used on input line 763.
 (pdftex.def)             Requested size: 361.34912pt x 361.34912pt.
 
-Overfull \hbox (16.34912pt too wide) in paragraph at lines 759--760
+Overfull \hbox (16.34912pt too wide) in paragraph at lines 763--764
  [] 
  []
 
@@ -843,10 +839,10 @@ Overfull \hbox (16.34912pt too wide) in paragraph at lines 759--760
 File: Figures/lasso_mse.pdf Graphic file (type pdf)
 
 <use Figures/lasso_mse.pdf>
-Package pdftex.def Info: Figures/lasso_mse.pdf used on input line 776.
+Package pdftex.def Info: Figures/lasso_mse.pdf used on input line 780.
 (pdftex.def)             Requested size: 361.34912pt x 361.34912pt.
 
-Overfull \hbox (16.34912pt too wide) in paragraph at lines 776--777
+Overfull \hbox (16.34912pt too wide) in paragraph at lines 780--781
  [] 
  []
 
@@ -855,17 +851,17 @@ Overfull \hbox (16.34912pt too wide) in paragraph at lines 776--777
 File: Figures/lasso_predicted.pdf Graphic file (type pdf)
 
 <use Figures/lasso_predicted.pdf>
-Package pdftex.def Info: Figures/lasso_predicted.pdf used on input line 781.
+Package pdftex.def Info: Figures/lasso_predicted.pdf used on input line 785.
 (pdftex.def)             Requested size: 361.34912pt x 361.34912pt.
 
-Overfull \hbox (16.34912pt too wide) in paragraph at lines 781--782
+Overfull \hbox (16.34912pt too wide) in paragraph at lines 785--786
  [] 
  []
 
 [34 <./Figures/lasso_mse.pdf>]
 File: Figures/ridge_coeff.png Graphic file (type png)
  <use Figures/ridge_coeff.png>
-Package pdftex.def Info: Figures/ridge_coeff.png used on input line 790.
+Package pdftex.def Info: Figures/ridge_coeff.png used on input line 794.
 (pdftex.def)             Requested size: 321.19922pt x 508.90001pt.
  [35 <./Figures/lasso_predicted.pdf>] [36] [37] [38] [39] [40] [41] [42] [43 <.
 /Figures/fitted_value_plots.png>] [44] [45] (./main.aux)
@@ -874,10 +870,10 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 15797 strings out of 493014
- 299669 string characters out of 6133351
+ 15799 strings out of 493014
+ 299689 string characters out of 6133351
  627877 words of memory out of 5000000
- 19037 multiletter control sequences out of 15000+600000
+ 19039 multiletter control sequences out of 15000+600000
  11535 words of font info for 42 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,10n,54p,640b,1660s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -896,7 +892,7 @@ ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive
 /2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/
 2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2
 016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on main.pdf (49 pages, 720186 bytes).
+Output written on main.pdf (49 pages, 720873 bytes).
 PDF statistics:
  329 PDF objects out of 1000 (max. 8388607)
  228 compressed objects within 3 object streams

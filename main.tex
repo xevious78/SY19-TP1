@@ -620,14 +620,18 @@ Ridge Regression works the same way as the least squares in the sense that it al
 		\end{equation}			
 
 If $\lambda$=0 we are in the same case of a least squares estimates. The higher $\lambda$ gets, the higher will be the penalty. Hence Ridge regression will try to minimize the parameters $\beta_{j}$ in order to minimize the term \ref{eq1}.\\
+When applying the penalty on the coefficients those with different scales (for instance a perimeter in m and the other one in Km) will be "treated" differently , because the penalized term is a sum of squares of all the coefficients. An alternative to get the penalty applied uniformly across the predictors is to standardize the independent predictors first with the function scale.
+
 \subsubsection{Model Implementation}
 The glmnet function takes for parameters the matrix x of predictors and vector y of responses. The model.matrix will help us transform out data sets into matrix. This function not only gives out a matrix but it also converts the qualitative variables into dummy variables.
 \begin{lstlisting}
 x.train = model.matrix(Time~.,cancer.train)[,-1] 
 y.train = cancer.train$Time
+scale(x.train, center = TRUE, scale = TRUE)
 
 x.test =model.matrix(Time~.,cancer.test)[,-1]
 y.test = cancer.test$Time
+scale(x.test, center = TRUE, scale = TRUE)
 \end{lstlisting}
 The glmnet function takes in parameter the train data, the pramater alpha that indicates whether it is a Ridge or Lasso regression that we want to perform (alpha=0 for Ridge). By default glmnet chooses an automatic range of $\kappa$, however here we chose a wide range $\lambda\in[10^{−2},10^{10}]$ to cover all possibilities.
 
@@ -672,8 +676,8 @@ plot(x=y.test,y=residuals)
 \end{lstlisting}
 
 \begin{center} 
-	best\_$\lambda$ = 3.522385 \\
-	best\_test\_MSE = 1017.18
+	best\_$\lambda$ = 58.75693 \\
+	best\_test\_MSE = 1015.485
 \end{center} 
 
 \begin{center}
