@@ -1,0 +1,54 @@
+\contentsline {part}{I\hspace {1em}Abreviations}{1}
+\contentsline {chapter}{\numberline {1}Introduction}{1}
+\contentsline {chapter}{\numberline {2}Ex 1- Phoneme Recognition}{4}
+\contentsline {section}{\numberline {2.1}Context}{4}
+\contentsline {section}{\numberline {2.2}Dataset Description}{4}
+\contentsline {section}{\numberline {2.3}Classification}{5}
+\contentsline {subsection}{\numberline {2.3.1}LDA- Linear Discriminant Analysis}{5}
+\contentsline {subsubsection}{Model Implementation}{5}
+\contentsline {subsubsection}{Model Analysis}{8}
+\contentsline {subsection}{\numberline {2.3.2}QDA- Quadratic Discriminant Analysis}{8}
+\contentsline {subsubsection}{Model Implementation}{8}
+\contentsline {subsubsection}{Model Analysis}{8}
+\contentsline {subsection}{\numberline {2.3.3}Logistic Regression ROC??}{8}
+\contentsline {subsubsection}{Model Implementation}{9}
+\contentsline {subsubsection}{Model Analysis}{9}
+\contentsline {section}{\numberline {2.4}Models Comparison}{9}
+\contentsline {subsubsection}{LDA and QDA}{9}
+\contentsline {chapter}{\numberline {3}Ex 2 - Breast Cancer Recurring Time}{10}
+\contentsline {section}{\numberline {3.1}Context}{10}
+\contentsline {section}{\numberline {3.2}Dataset Description}{10}
+\contentsline {subsection}{\numberline {3.2.1}Time}{10}
+\contentsline {subsection}{\numberline {3.2.2}Features Description}{10}
+\contentsline {subsubsection}{Feature Correlation}{12}
+\contentsline {subsection}{\numberline {3.2.3}Data Relevance}{12}
+\contentsline {subsection}{\numberline {3.2.4}Relation between "feature" and "time"}{13}
+\contentsline {section}{\numberline {3.3}Measures to Compare Models}{15}
+\contentsline {subsection}{\numberline {3.3.1}Some Measures}{15}
+\contentsline {subsection}{\numberline {3.3.2}Data Split}{15}
+\contentsline {section}{\numberline {3.4}K-nearest neighbors (KNN)}{17}
+\contentsline {subsection}{\numberline {3.4.1}Knn Model}{17}
+\contentsline {subsubsection}{Model Implementation}{17}
+\contentsline {subsubsection}{Model Analysis}{20}
+\contentsline {subsection}{\numberline {3.4.2}The Validation Set Approach}{20}
+\contentsline {subsubsection}{Cross Validation}{21}
+\contentsline {subsubsection}{Leave-One-Out Cross-Validation}{21}
+\contentsline {subsubsection}{Model implementation}{22}
+\contentsline {subsubsection}{Model Analysis}{24}
+\contentsline {section}{\numberline {3.5}Simple Linear Regression}{24}
+\contentsline {subsection}{\numberline {3.5.1}Idea}{24}
+\contentsline {subsection}{\numberline {3.5.2}Model Performance}{25}
+\contentsline {section}{\numberline {3.6}Linear Regression with Features Selection}{26}
+\contentsline {subsection}{\numberline {3.6.1}Idea}{26}
+\contentsline {subsection}{\numberline {3.6.2}Model Performance}{27}
+\contentsline {section}{\numberline {3.7}Linear Regression with Regularization}{27}
+\contentsline {subsection}{\numberline {3.7.1}Ridge Regression}{27}
+\contentsline {subsubsection}{Model Implementation}{29}
+\contentsline {subsubsection}{Model Analysis}{34}
+\contentsline {subsection}{\numberline {3.7.2}Lasso Regression}{37}
+\contentsline {subsubsection}{Model Implementation}{38}
+\contentsline {subsubsection}{Model Analysis}{43}
+\contentsline {section}{\numberline {3.8}Linear Regression with Dimension Reduction}{43}
+\contentsline {subsection}{\numberline {3.8.1}Idea}{43}
+\contentsline {section}{\numberline {3.9}Models Comparaison}{44}
+\contentsline {subsection}{\numberline {3.9.1}KNN neighbors and Linear Regression}{44}

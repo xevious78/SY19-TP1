@@ -59,6 +59,8 @@
 \chapter{Introduction}
 This report
 
+\tableofcontents
+
 \chapter{Ex 1- Phoneme Recognition}
 \section{Context}
 In the context of speech recognition the aim is to predict which of the phonemes is pronounced my the subject. We have five phonemes to recognize :\\ 
@@ -161,7 +163,7 @@ sum(diag(perf))/dim(test_set)[1]
 The table perf of the predicted responses is shown below:
 \begin{center}
 \begin{verbatim}
- g	aa  ao dcl  iy  sh
+ g 	 aa  ao dcl  iy  sh
 aa  129  47   0   0   0
 ao   39 223   0   1   0
 dcl   0   0 190   5   0
@@ -202,10 +204,11 @@ For this data the AUC is 0.92, which is considered very good as it is close to t
 \subsection{QDA- Quadratic Discriminant Analysis}
 
 \subsubsection{Model Implementation}
+
 \subsubsection{Model Analysis}
 
 
-\subsection{Logistic Regression}
+\subsection{Logistic Regression  ROC??}
 
 Logistic Regression is a type of Linear Classification method that models the posterior probabilities with linear functions. When there are only two features to deal with, the model is definined by : 
 
@@ -229,11 +232,14 @@ perf
 sum(diag(perf))/dim(test_set)[1]
 \end{lstlisting}
 \subsubsection{Model Implementation}
+\begin{lstlisting}
+\end{lstlisting}
 \subsubsection{Model Analysis}
 
 
 \section{Models Comparison}
 
+\subsubsection{LDA and QDA}
 
 
 
@@ -401,42 +407,42 @@ MSE = rep(0,k_max)
 
 for( k in 1:k_max)
 {
-	reg = knn.reg(train=cancer.train.x, test=cancer.test.x, 
-	y = cancer.train.y, k=k)
-	MSE[k] = mean((cancer.test.y - reg$pred)^2)
+model.knn = knn.reg(train=train_set.x, test=test_set.x, y=train_set.y, k=k)
+MSE[k] = mean((test_set.y - model.knn$pred)^2)
 }
 
-plot(1:k_max, MSE, xlab='k', ylab='MSE', main='MSE against k neighbours')
-points(x = best_k_test, y = best_k_mse, col = "red", pch = 16)
-abline(h = best_k_mse, col='red')
-abline(v = best_k_test, col='red')
-
-best_k_train = which.min(MSE)
-best_k__train_mse = MSE[best_k_train]
+model.knn.best.k = which.min(MSE)
+model.knn.best.MSE = MSE[model.knn.best.k] 
 \end{lstlisting}
-
-As you will notice in the code, we labeled the best\_k and the MSE as train because we chose our best parameters based on the test directly and not the train.\\
-The graph below (figure \ref{fig:knn_train}) shows the \textbf{Train MSE} plotted against the values of $k$ in a range from 0 to 120. Graphically we notice that a minimum is reached between 10 and 20.
+ 
+The graph below (figure \ref{fig:knn_train}) shows the \textbf{ MSE} plotted against the values of $k$ in a range from 0 to 120. Graphically we notice that a minimum is reached between 10 and 20.
 
 \begin{center}	
 		\includegraphics[width=0.9\linewidth]{Figures/knn_test.pdf}
-		\captionof{figure}{Train MSE against K neighbours}
+		\captionof{figure}{MSE against K neighbours \textit{(minimum in red)}}
 		\label{fig:knn_train}
 \end{center}
 
- We use the function \texttt{which.min} that returns the index of the minimum value of MSE.\\
+ We are looking for the k neighbors that has the smallest MSE so we use the function \texttt{which.min} that returns the index of the minimum value of MSE.\\
 
 \begin{center} 
-	best\_k\_Train= 11 \\
-	best\_k\_Train\_MSE = 995.433185
+	model.knn.best.k   = 11 \\
+	model.knn.best.MSE = 1060.46
 \end{center}
 
-Now that we have the $k$ that minimizes the Train MSE we call KNN algorithm with this best $k$ and plot the predicted values against the real values. The figure \ref{fig:knn_predicted_test} shows the result.
+Now that we have the $k$ that minimizes the MSE we call KNN algorithm with this best $k$ and plot the predicted values against the real values as the residuals. The corresponding code is shown below:
 
 \begin{lstlisting}
-best_reg_test = knn.reg(train= cancer.train.x, test = cancer.test.x, y=cancer.train.y, k = best_k_train)
-plot(cancer.test.y, best_reg_test$pred, xlab='y', ylab='y-hat', main='y-hat (Predicted) against y')
+model.knn.best = knn.reg(train=train_set.x, test=test_set.x, y=train_set.y, k=model.knn.best.k)
+plot(test_set.y,model.knn.best$pred, xlab='y', ylab='y-hat', main='y-hat (Predicted) against y')
 abline(0,1, col='red')
+
+model.knn.best.residuals = test_set.y - model.knn.best$pred
+
+hist(model.knn.best.residuals, freq=FALSE, main="Distribution of Residuals in Knn best case")
+residuals.mean = mean(model.knn.best.residuals)
+residuals.stdev = sqrt(var(model.knn.best.residuals))
+curve(dnorm(x, mean=residuals.mean, sd=residuals.stdev), col="darkblue", lwd=2, add=TRUE, yaxt="n")
 \end{lstlisting}
 
 The red line is the function $y=x$; so further are the points from this line the further are the predicted values ($\hat{y}$) from the real one ($y$).
@@ -446,6 +452,13 @@ The red line is the function $y=x$; so further are the points from this line the
 	\captionof{figure}{Predicted values against the real values}
 	\label{fig:knn_predicted_test}
 \end{center}
+
+\begin{center}
+	\includegraphics[width=0.9\linewidth]{Figures/knn_predicted_test_residuals.pdf}
+	\captionof{figure}{Distribution of Residuals in Knn best case}
+	\label{fig:knn_predicted_test_residuals}
+\end{center}
+
 
 \subsubsection{Model Analysis}
 
@@ -480,36 +493,56 @@ We can see that the k-Fold Cross-Validation fits the model k times instead of n,
 
 \begin{lstlisting}
 library("kknn")
-model_kknn = train.kknn(Time ~., data= cancer.train, kmax = 30, ks = NULL, distance = 2, kernel = "optimal")
-best_k = model_kknn$best.parameters$k
+model.kknn = train.kknn(Time ~., data= train_set, kmax = 30, ks = NULL, distance = 2, kernel = "optimal")
+model.kknn.best.k = model.kknn$best.parameters$k
 \end{lstlisting}
 
 After deducting the best k neighbors from the model we use it on the test observations to predict the values of Time. 
 We then compute the MSE and plot the predicted values $\hat{y}$ against the real ones \textit{y}.
 
 \begin{lstlisting}
-best_reg_train = knn.reg(train= cancer.train.x, test = cancer.test.x, y=cancer.train.y, k = best_k)
-plot(cancer.test.y, best_reg_train$pred, xlab='y', ylab='prediction')
+library("kknn")
+model.kknn = train.kknn(Time ~., data= train_set, kmax = 30, ks = NULL, distance = 2, kernel = "optimal")
+model.kknn.best.k = model.kknn$best.parameters$k
+
+model.kknn.best = knn.reg(train=train_set.x, test=test_set.x, y=train_set.y, k=model.kknn.best.k)
+plot(test_set.y, model.kknn.best$pred, xlab='y', ylab='prediction')
 abline(0,1, col='red')
-errors = (cancer.test.y - best_reg_train$pred)^2
-test_mse= mean(errors)
+
+residuals = test_set.y - model.kknn.best$pred
+errors = residuals^2
+model.kknn.best.MSE = mean(errors)
+
+hist(residuals, freq=FALSE, main="Distribution of Residuals in Knn LOOCV best case")
+residuals.mean = mean(residuals)
+residuals.stdev = sqrt(var(residuals))
+curve(dnorm(x, mean=residuals.mean, sd=residuals.stdev), col="darkblue", lwd=2, add=TRUE, yaxt="n")
 \end{lstlisting}
 
-The results are shown in figure \ref{fig:knn_predicted_LOOCV}
+\begin{center} 
+	model.kknn.best.k  = 30 \\
+	model.kknn.best.MSE = 1146.05
+\end{center}
+
+We run a the same plot again with the predicted reponses against the real ones \ref{fig:knn_predicted_LOOCV} and the histogram of the residuals \ref{fig:knn_predicted_residuals_LOOCV}.
 .
 \begin{center}
 	\includegraphics[width=0.8\linewidth]{Figures/knn_predicted_LOOCV.pdf}
-	\captionof{figure}{Predicted values against Real values}
+	\captionof{figure}{Predicted values against Real values with LOOCV}
 	\label{fig:knn_predicted_LOOCV}
 \end{center}
 
-\begin{center} 
-	best\_k= 30 \\
-	best\_k\_test\_MSE = 1047.085675
+\begin{center}
+	\includegraphics[width=0.8\linewidth]{Figures/knn_predicted_LOOCV_residuals.pdf}
+	\captionof{figure}{Distribution of Residuals in Knn with LOOCV}
+	\label{fig:knn_predicted_residuals_LOOCV}
 \end{center}
 
+
+
 \subsubsection{Model Analysis}
-One can argue that the prediction is not better since the test MSE obtained is higher that the MSE we obtained when we computed with the best train $k$. However this result is normal since in the first approach we run our knn directly on the test so we underestimated the MSE, while the model with the cross validation is not biased. In other words, in general the $k=30$ will guarantee a smaller MSE than the $k=11$ on any test observation.
+One might argue that the prediction was not improved with the LOOCV since the test MSE obtained is higher that the MSE we obtained when we computed using the test set directly. However this result was expected since in the first approach we run our knn directly on the test so we underestimated the MSE, in other words the first MSE is specific to that test set of data (biased), in contrast to our the LOOCV model. In other words, in general the $k=30$ will guarantee a smaller MSE than the $k=11$ on any test observation.
+The LOOCV has also an advantage over the first approach because it will always give the same result of best k.
 
 \section{Simple Linear Regression}
 \subsection{Idea}
@@ -651,21 +684,21 @@ When applying the penalty on the coefficients those with different scales (for i
 \subsubsection{Model Implementation}
 The \texttt{glmnet} function takes for parameters the matrix $x$ of predictors and vector $y$ of responses. The \texttt{model.matrix} will help us transform out data sets into matrix. This function not only gives out a matrix but it also converts the qualitative variables into dummy variables.
 \begin{lstlisting}
-x.train = model.matrix(Time~.,cancer.train)[,-1] 
-y.train = cancer.train$Time
-scale(x.train, center = TRUE, scale = TRUE)
+train_set.x = model.matrix(Time~.,train_set)[,-1] 
+train_set.y = train_set$Time
+scale(train_set.x, center = TRUE, scale = TRUE)
 
-x.test =model.matrix(Time~.,cancer.test)[,-1]
-y.test = cancer.test$Time
-scale(x.test, center = TRUE, scale = TRUE)
+test_set.x =model.matrix(Time~., test_set)[,-1]
+test_set.y = test_set$Time
+scale(test_set.x, center = TRUE, scale = TRUE)
 \end{lstlisting}
 The glmnet function takes in parameter the train data, the pramater alpha that indicates whether it is a Ridge or Lasso regression that we want to perform (alpha=0 for Ridge). By default \texttt{glmnet} chooses an automatic range of $\kappa$, however here we chose a wide range $\lambda\in[10^{−2},10^{10}]$ to cover all possibilities.
 
 \begin{lstlisting}
 library(glmnet)
-grid = 10^seq(10, -2, length=100)
-ridge.mod = glmnet(x.train, y.train, alpha=0, lambda=grid)
-plot(ridge.mod)
+grid=10^seq(10,-2, length=100)
+model.ridge = glmnet(train_set.x, train_set.y, alpha=0, lambda=grid)
+plot(model.ridge)
 \end{lstlisting}
 
 \begin{center}
@@ -679,9 +712,9 @@ The figure \ref{fig:ridge_model} shows that the higher the norm L1 is, the small
 In order to find the best tuning parameter $\lambda$ we perform a cross validation on the training data. \texttt{cv.glmnet} function runs a 10 fold cross validation on the data.
 
 \begin{lstlisting}
-cv.out = cv.glmnet(x.train, y.train,alpha=0)
-plot(cv.out)
-best_lambda = cv.out$lambda.min
+model.ridge.cv.out = cv.glmnet(train_set.x, train_set.y,alpha=0)
+plot(model.ridge.cv.out)
+model.ridge.best.lambda = model.ridge.cv.out$lambda.min
 \end{lstlisting}
 
 \begin{center}
@@ -694,18 +727,25 @@ The value $\lambda$ that yields to the smallest MSE is shown in the graph \ref{f
 
 
 \begin{lstlisting}
-fit.ridge = glmnet(x.train, y.train, lambda=best_lambda, alpha=0)
-ridge.pred = predict(fit.ridge, s=best_lambda, newx=x.test)
-MSE = mean((y.test - ridge.pred)^2)
-residuals = y.test - ridge.pred
-plot(x=y.test, y=ridge.pred)
+model.ridge.best = glmnet(train_set.x, train_set.y, lambda=model.ridge.best.lambda, alpha=0)
+model.ridge.best.pred = predict(model.ridge.best, s=model.ridge.best.lambda, newx=test_set.x)
+
+residuals = test_set.y - model.ridge.best.pred
+errors = residuals^2
+model.ridge.best.MSE = mean(errors)
+
+plot(x=test_set.y, y=model.ridge.best.pred)
 abline(0,1, col='red')
-plot(x=y.test,y=residuals)
+
+hist(residuals, freq=FALSE, main="Distribution of Residuals in Ridge")
+residuals.mean = mean(residuals)
+residuals.stdev = sqrt(var(residuals))
+curve(dnorm(x, mean=residuals.mean, sd=residuals.stdev), col="darkblue", lwd=2, add=TRUE, yaxt="n")
 \end{lstlisting}
 
 \begin{center} 
-	best\_$\lambda$ = 58.75693 \\
-	best\_test\_MSE = 1015.485
+	model.ridge.best.lambda = 45.07 \\
+	model.ridge.best.MSE = 1063.3
 \end{center} 
 
 \begin{center}
@@ -725,18 +765,19 @@ Performing a Ridge regression didn't really improve out MSE, we notice that we s
 After predicting the responses with the best\_$\lambda$,  we can also to get the coefficients $\beta_{j}$ for this model.
 
 \begin{lstlisting}
-predict(ridge.mod, type="coefficients", s=best_lambda)[1:33,]
+predict(model.ridge, type="coefficients", s=model.ridge.best.lambda)[1:33,]
 \end{lstlisting}
 
 \begin{center}
 	\includegraphics[width=0.8\linewidth]{Figures/ridge_coeff}
-	\captionof{figure}{Ridge coefficients $\beta_{j}$ for ($\lambda$ = 58.75)}
+	\captionof{figure}{Ridge coefficients $\beta_{j}$ for ($\lambda$ = 45.07)}
 \end{center}
 
 \subsubsection{Model Analysis}
 So we notice that some coefficients are very close to 0 such as \texttt{area\_se }(-0.012), but none of them is null. In fact Ridge Regression only shrinks the coefficients and does not perform any variable selection;  that is why we are going to use Lasso in the following part.
 
-After comparing both MSE of the least squares and Ridge Regression we notice that Ridge did not really improve our prediction. The question is why do we still affirm that Ridge improves over the least squares? It all can be summarized in\textbf{ biais-variance trade-off}. Let's take the following example where we we fit the model for each $\lambda$ and predict the responses for $\lambda\in[10^{-1},10^{4}]$. For each value of $\lambda$ we compute the MSE, the squared bias and the cube root of the variance. We computed the cube root in order to be able to scale purposes.
+After comparing both MSE of the least squares (1285) and the Ridge Regression's one (1063) we notice that Ridge improves over Linear Regression. 
+The question is how does Ridge improve over the least squares? It all can be summarized in\textbf{ biais-variance trade-off}. Let's take the following example where we we fit the model for each $\lambda$ and predict the responses for $\lambda\in[10^{-1},10^{4}]$. For each value of $\lambda$ we compute the MSE, the squared bias and the cube root of the variance. \textit{We computed the cube root in order to plot it with the bias in the same plot}.
 \begin{lstlisting}
 max = 100
 biais2<-rep(0,max)
@@ -753,11 +794,11 @@ for( i in 1:max)
 }
 plot(grid, variance,type='l', xlab="lambda", main="Biais-Variance trade-off")
 lines(grid, biais2,col='red')
-plot(mse)
+plot(MSE)
 \end{lstlisting}
 
 \begin{center}
-	\includegraphics[width=0.8\linewidth]{Figures/ridge_biais_var.pdf}
+	\includegraphics[width=0.8\linewidth]{Figures/ridge_bias_var.pdf}
 	\captionof{figure}{Bias Variance trade-off, squared bias(red), root squared variance(black)}
 \end{center}
 
@@ -773,68 +814,86 @@ Hence if the variance and the bias decrease significantly in the beginning the M
 To sum up, in linear regression we can have a low bias but a high variance, this is where the ridge regression improves over the least squares because it shrinks the variance on the expense of the bias.
   
 \subsection{Lasso Regression}
-As it was discussed on the previous section, Ridge regression disadvantage is that it does not perform a variable selection. Lasso Regression tries to minimize the term:
+As it was discussed on the previous section, Ridge regression's disadvantage is that it does not perform a variable selection. Lasso Regression however enables variable selection by minimizing the term:
 
 \begin{equation} \label{eq2}
 	RSS + \lambda \sum_{j}{|\beta_{j}^{2}|}
 \end{equation}	
 
-The only difference with the term of Ridge is that now we have $|\beta_{j}^{2}|$ instead of $\beta_{j}^{2}$. This alternative will reduce the $\beta_{j}$ that are close to zero to null.
-Hoping we have a more interpretable model with reducing the number of variables. To call the lasso model we use the same function glmnet but with alpha=1.
+The only difference with the term of Ridge is that we now have $|\beta_{j}^{2}|$ instead of $\beta_{j}^{2}$. This alternative will reduce the $\beta_{j}$ that are close to zero to null, hoping we have a more interpretable model with reducing the number of variables. To call the lasso model we use the same function \textbf{glmnet} but with the parameter \textbf{alpha=1}.
  
 \subsubsection{Model Implementation}
 \begin{lstlisting}
+#Grid of 100 values of Lamba from 10^-2 to 10^10
 grid = 10^seq(10,-2, length=100)
-lasso.mod = glmnet(x.train, y.train, alpha=1,lambda=grid)
-plot(lasso.mod)
+model.lasso = glmnet(train_set.x, train_set.y, alpha=1, lambda=grid)
+plot(model.lasso)
 \end{lstlisting}
 
 \begin{center}
 	\includegraphics[width=0.8\linewidth]{Figures/lasso_model.pdf}
-	\captionof{figure}{MSE against $\lambda$}
+	\captionof{figure}{Coefficients against L1 Norm}
 \end{center}
 
 We notice that for some values of $\lambda$ the coefficients are null. We now perform the 10 fold cross validation on the training set to deduct the best tuning parameter.
 
 \begin{lstlisting}
-cv.out = cv.glmnet(x.train, y.train, alpha=1)
-plot(cv.out)
-best_lambda = cv.out$lambda.min 
-lasso.pred = predict(lasso.mod, s=best_lambda , newx=x.test)
-mean((lasso.pred-y.test)^2)
-plot(x=y.test, y=lasso.pred)
-abline(0,1, col='red')
+model.lasso.cv.out = cv.glmnet(train_set.x, train_set.y, alpha=1)
+plot(model.lasso.cv.out)
+model.lasso.best.lambda = model.lasso.cv.out$lambda.min
+model.lasso.pred = predict(model.lasso, s=model.lasso.best.lambda , newx=test_set.x)
+residuals = model.lasso.pred-test_set.y
+errors = residuals^2
+model.lasso.MSE = mean(errors)
+
 \end{lstlisting}
-
-
-\begin{center} 
-	best\_$\lambda$ = 3.20946 \\
-	best\_test\_MSE = 1020.8685
-\end{center} 
-
 
 \begin{center}
 	\includegraphics[width=0.8\linewidth]{Figures/lasso_mse.pdf}
-	\captionof{figure}{MSE against $\lambda$}
+	\captionof{figure}{MSE against $log(\lambda)$}
 \end{center}
+
+\begin{center} 
+	model.lasso.best.lambda = 3.25 \\
+	model.lasso.best.MSE    = 1048.33
+\end{center} 
+
+\begin{lstlisting}
+# predicted values against real values
+plot(x=test_set.y, y=model.lasso.pred)
+#y = x
+abline(0,1, col='red')
+
+# histogram of residuals and the normal distribution
+hist(residuals, freq=FALSE, main="Distribution of Residuals in Lasso")
+residuals.mean = mean(residuals)
+residuals.stdev = sqrt(var(residuals))
+curve(dnorm(x, mean=residuals.mean, sd=residuals.stdev), col="darkblue", lwd=2, add=TRUE, yaxt="n")
+dev.off()
+\end{lstlisting}
 
 \begin{center}
 	\includegraphics[width=0.8\linewidth]{Figures/lasso_predicted.pdf}
-	\captionof{figure}{MSE against $\lambda$}
+	\captionof{figure}{Predicted responses $\hat{y}$ against real values y}
+\end{center}
+
+\begin{center}
+	\includegraphics[width=0.8\linewidth]{Figures/lasso_residuals.pdf}
+	\captionof{figure}{Distribution of Residuals in Lasso}
 \end{center}
 
 \begin{lstlisting}
-predict(lasso.mod, type="coefficients", s=best_lambda)[1:33,]
+predict(model.lasso, type="coefficients", s=model.lasso.best.lambda)[1:33,]
 \end{lstlisting}
 
 \begin{center}
 	\includegraphics[width=0.8\linewidth]{Figures/lasso_coeff}
-	\captionof{figure}{Lasso coefficients $\beta_{j}$ for ($\lambda$ = 3.20)}
+	\captionof{figure}{Lasso coefficients $\beta_{j}$ for ($\lambda$ = 3.25)}
 \end{center}
-
-We can clearly see that Lasso performed a variable selection by setting the unselected predictors' coefficients to 0. Therefore only 10 predictors were selected out of 33.
+We can clearly see that Lasso performed a variable selection by setting the unselected predictors' coefficients to 0
 
 \subsubsection{Model Analysis}
+ Lasso selected only 10 predictors out of 33 with an slightly improved MSE compared to Ridge that uses all the 33 predictors.
 
 \section{Linear Regression with Dimension Reduction}
 \subsection{Idea}
