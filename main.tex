@@ -229,7 +229,7 @@ This part aims to build the best model to predict the recurring time of breast c
 The very first step of our method consists in taking a look at the raw dataset to get precious hints on how each feature contributes to the recurring time. The dataset comprises 194 patient cases, each of which is described through 32 features and the cancer recurring time \texttt{Time} that we have to predict.
 
 \subsection{Time}
-Let's first describe the distribution of the variable \texttt{Time}. To do so, we can use the R functions \texttt{boxplot} (figure \ref{fig:time_boxplot}) and \texttt{hist} (figure \ref{fig:time_hist}). According to these figures, our dataset mostly represent short reapparing times.
+Let's first describe the distribution of the variable \texttt{Time}. To do so, we can use the R functions \texttt{boxplot} (figure \ref{fig:time_boxplot}) and \texttt{hist} (figure \ref{fig:time_hist}). According to these figures, our dataset mostly represents short reappearing times (lower than 40), and there are very few patients whose variable \texttt{Time} is higher than 80. However, we do not know if this distribution is also representative of the whole population. If this is is the case, our model should be able to work on other datasets, if not, our model will be biaised.
 
 \begin{figure}[!hb]
 	\centering
@@ -247,43 +247,41 @@ Let's first describe the distribution of the variable \texttt{Time}. To do so, w
 
 
 \subsection{Features Description}
-Each patient is represented with a set of 32 features extracted and computed from a digitized image of a breast mass. The data description we were given does not specify the units, but we do not need them for the following analysis.
-
-Here are the 32 features we are provided with:  
+Each patient is represented with a set of 32 features extracted and computed from a digitized image of a breast mass. The data description we were given does not specify the units, but we do not need them for the following analysis. Here are the 32 features we are provided with:  
 \begin{itemize}
 	\item Lymph Node Status
 	
 	\item Mean, Standard Error and Mean of the three largest values (also called "Worst") of 
 		\begin{itemize}
-			\item radius
-			\item texture
-			\item perimeter
-			\item area
-			\item smoothness
-			\item compactness
-			\item concavity
-			\item concave points
-			\item symmetry
-			\item fractal dimension
+			\item Radius
+			\item Texture
+			\item Perimeter
+			\item Area
+			\item Smoothness
+			\item Compactness
+			\item Concavity
+			\item Concave points
+			\item Symmetry
+			\item Fractal dimension
 		\end{itemize}
 	
 	\item Tumor Size
 \end{itemize}
 
 \subsubsection{Feature Correlation}
-Based on the definition of the parameters described above, we already know that many features are correlated :
+Based on the definition of the parameters described above, we already know that many features are correlated. For instance : 
 \begin{itemize}
 	\item The mean of each parameters is smaller than the "worst" value;
 	\item The radius, the perimeter and the area are most likely to be linked together;
 	\item The compactness can be computed with the perimeter and the area thanks to the given formula : $Compactness = \frac{perimeter^2}{area - 1}$
 \end{itemize}
 
+These dependent features might be a cause of model low performance.
+
 \subsection{Data Relevance}
 We should first check that every patient is relevant to our study, in other words, that there is no abnormal observation in the dataset. Cook's Distance is an interesting measure to verify this important criteria, it can be computed after a simple Linear Regression.
 
-Cook's distance aims to study the influence of each observation on the regression coefficient estimates. To do so, this method uses a straight-forward approach that consists in computing the difference between the original coefficient estimates $\hat{\beta}$ and the coefficient estimates without taking into account the $i$-th observation $\hat{\beta}_{(-i)}$. The difference is then normalized using the number of parameters and the standard deviation estimate. 
-
-A value higher than 1 often indicates an outlier that should be removed from the dataset.
+Cook's distance aims to study the influence of each observation on the regression coefficient estimates. To do so, this method uses a straight-forward approach that consists in computing the difference between the original coefficient estimates $\hat{\beta}$ and the coefficient estimates without taking into account the $i$-th observation $\hat{\beta}_{(-i)}$. The difference is then normalized using the number of parameters and the standard deviation estimate. A value higher than 1 often indicates an outlier that should be removed from the dataset.
 
 In R, we can use the following code to compute and plot the Cook's distance of each observation :
 
@@ -299,23 +297,21 @@ cooks.distance(linreg)
 	\label{fig:cook_distance}
 \end{figure}
 
-According to plot (figure \ref{fig:cook_distance}), no observation is located beyond the critical Cook's boundary of 1. This means that we can potentially use each and every patient case of our dataset to build our regression model. 
+According to this plot (figure \ref{fig:cook_distance}), no observation is located beyond the critical Cook's boundary of 1. This means that we can potentially use each and every patient case of our dataset to build our regression model. 
 
 \subsection{Relation between "feature" and "time"}
 In this section, we will take a first look at the relationship between the variable \texttt{Time} and the features used to describe a patient case. 
 
-A first way to do it is to separately plot each relationship. An example of such plot is shown in figure \ref{fig:time_feature_ex1}. 
+A first way to do it is to separately plot \texttt{Time} against each feature. An example of such plot is shown in figure \ref{fig:time_feature_ex1}. Unfortunately, most plots picture very scattered points that do not seem to follow any specific model. The variance is so significant that we cannot even estimate the type of function that links a feature and the variable \texttt{Time} together. It could be a simple linear model with a high variance that we may be able to estimate, or more complex models with non-linearities and feature correlations.
 
 \begin{figure}[!h]
 	\centering
 	\inputtikz{0.5}{Figures/time_feature_ex1.tex}
-	\caption{Plot of \texttt{Time} and \texttt{Texture Mean} }
+	\caption{Plot of \texttt{Time} against \texttt{Texture Mean} }
 	\label{fig:time_feature_ex1}
 \end{figure}
 
-Unfortunately, most plots show very scattered points that do not seem to follow any specific model. The variance is so significant that we cannot even estimate the type of function that links a feature and the variable \texttt{Time} together. It could be a simple linear model with a high variance that we may be able to estimate, or more complex models with non-linearities and feature correlations.
-
-To have better clues on the type of model we should be dealing with, we can draw a QQ-Plot that plots the Studentized Residuals with the quantiles. 
+To have better clues on the type of model we should be dealing with, we can draw a QQ-Plot that plots the Studentized Residuals against the quantiles. 
 
 In R, we can use the library \texttt{car} to easily draw the QQ-Plot (figure \ref{fig:qq_plot}) :
 \begin{lstlisting}
@@ -339,20 +335,21 @@ The bottom tail of the QQ-Plot seems to deviate from the linear line, which is a
 	\label{fig:fitted_value_plots}
 \end{figure}
 
-We can also analyze the Residuals-Fitted plot and the Scale-Location plot to get a better understanding on the model. To do, we can simply apply the function \texttt{plot} on the linear model (figure \ref{fig:fitted_value_plots}).
-
-It turns out that both plots show non-normal scatters of the residuals. In particular, the points displayed in the Residuals-Fitted plot seem to follow a fan shape. This is a sign of a non-constant variance, also called heteroscedasticity.
+We can also analyze the Residuals-Fitted plot and the Scale-Location plot to get a better understanding on the model. To do, we can simply apply the function \texttt{plot} on the linear model (figure \ref{fig:fitted_value_plots}). It turns out that both plots show non-normal scatters of the residuals. In particular, the points displayed in the Residuals-Fitted plot seem to follow a fan shape. This is a sign of a non-constant variance, also called heteroscedasticity.
 
 \section{Measures to Compare Models}
-Before building any model, we have to properly define the measures we will later use to compare them. 
+Before building any model, we have to properly define the measures we will use later to compare their performance. 
 
 \subsection{Some Measures}
-A first way to assess the performance of a model is to compute the Mean Squared Error (MSE). We can also use adjusted $R^2$ score.
+A first way to assess the performance of a model $F$ is to compute the Mean Squared Error (MSE). Let $\hat{Time}$ be the estimate of the variable $Time$ using the model $F$. MSE is defined as :
+$$MSE(F) =  mean_i(Time_i - \hat{Time}_i)^2$$
+
+We can also use adjusted $R^2$ score.
 
 \subsection{Data Split}
 These measures should not be applied on a set whose data was also used to train the model. Indeed, this would include a biais that might distort our conclusions. To cope with this problem, we have to split the dataset into two disjointed sets : 
 \begin{itemize}
-	\item Training Set : About 66\% of the dataset dedicated to the building the model;
+	\item Training Set : About 66\% of the dataset dedicated to the model fitting;
 	\item Test Set : The remaining 34\% only used at the end to provide some kind of objective measure of the model performance.
 \end{itemize} 
 
@@ -369,7 +366,7 @@ test_set.x = test_set[,-33]
 test_set.y = test_set[,33]
 \end{lstlisting}
 
-Once it is done, we can finally dive into the model building.
+Once this data split is done, we can finally dive into the model building.
 
 \section{K-nearest neighbors (KNN)}
 We start our analysis with a very simple model called the KNN.
@@ -377,7 +374,7 @@ Given a positive integer $k$ and a test observation $x_0$. The KNN model first i
 
 \subsection{Knn Model}
 The KNN model in R is done by calling the function \texttt{reg} of the package \texttt{knn}. As we will see in the following sections, For most prediction algorithms, we first have to build the prediction model on the training data, and then use the model to test our predictions. However, the KNN function does both in a single step.\\ 
-In order to find the best $k$ we set a maximum number of neighbors to be considered (in our model it is 120), then we calculate the MSE for each $k$ which is the mean of the squared difference between the real value of Time and the predicted one. All the steps are detailed in the code below.
+In order to find the best $k$ we set a maximum number of neighbors to be considered (in our model it is 120), then we calculate the MSE for each $k$ which is the mean of the squared difference between the real value of \texttt{Time} and the predicted one. All the steps are detailed in the code below.
 
 \subsubsection{Model Implementation}
 \begin{lstlisting}
@@ -400,11 +397,12 @@ best_k_test = which.min(MSE)
 best_k_mse = MSE[best_k_test]
 \end{lstlisting}
 
-The graph below shows the MSE plotted against the values of $k$ in a range from 0 to 120. Graphically we notice that a minimum is reached between 10 and 20.
+The graph below (figure \ref{fig:knn_test}) shows the MSE plotted against the values of $k$ in a range from 0 to 120. Graphically we notice that a minimum is reached between 10 and 20.
 
 \begin{center}	
-		\includegraphics{Figures/knn_test.pdf}
+		\includegraphics[width=0.9\linewidth]{Figures/knn_test.pdf}
 		\captionof{figure}{MSE against K neighbours}
+		\label{fig:knn_test}
 \end{center}
 
  We use the function \texttt{which.min} that returns the index of the minimum MSE value.\\
@@ -414,7 +412,7 @@ The graph below shows the MSE plotted against the values of $k$ in a range from 
 	best\_k\_test\_MSE = 995.433185
 \end{center}
 
-Now that we have the k that minimizes the MSE we call KNN algorithm with this best k and plot the predicted values against the real values. The figure above shows the result.
+Now that we have the $k$ that minimizes the MSE we call KNN algorithm with this best $k$ and plot the predicted values against the real values. The figure \ref{fig:knn_predicted_test} shows the result.
 
 \begin{lstlisting}
 best_reg_test = knn.reg(train= cancer.train.x, test = cancer.test.x, y=cancer.train.y, k = best_k_test)
@@ -425,13 +423,14 @@ abline(0,1, col='red')
 The red line is the function $y=x$; so further are the points from this line the further are the predicted values ($\hat{y}$) from the real one ($y$).
 	
 \begin{center}
-	\includegraphics{Figures/knn_predicted_test.pdf}
-	\captionof{figure}{MSE against K neighbours}
+	\includegraphics[width=0.9\linewidth]{Figures/knn_predicted_test.pdf}
+	\captionof{figure}{Predicted values against the real values}
+	\label{fig:knn_predicted_test}
 \end{center}
 
 \subsubsection{Model Analysis}
 
-We notice that the predicted {$\hat{y}$} diverge a lot the real values $y$. We expected those results since the MSE=967.386966 which is quite high. 
+We notice that the predicted {$\hat{y}$} diverge a lot from the real values $y$. We expected those results since the MSE=967.386966 which is quite high. 
 
 This approach of finding the best $k$ was quite optimistic. Actually we tried finding the best $k$ while minimizing the MSE in \textbf{the test data}. Therefore the model is very specific to our test data which yields to a high bias. The solution is to find the best $k$ among the \textbf{training data} and then use the best $k$ in the test data. \\ To find the best \textbf{unbiased} $k$ number of neighbors we use the method of cross validation on the train data. 
 
@@ -477,11 +476,12 @@ errors = (cancer.test.y - best_reg_train$pred)^2
 mse= mean(errors)
 \end{lstlisting}
 
-The results are shown below:
-
+The results are shown in figure \ref{fig:knn_predicted_LOOCV}
+.
 \begin{center}
-	\includegraphics{Figures/knn_predicted_LOOCV.pdf}
-	\captionof{figure}{MSE against K neighbours}
+	\includegraphics[width=0.8\linewidth]{Figures/knn_predicted_LOOCV.pdf}
+	\captionof{figure}{Predicted values against Real values}
+	\label{fig:knn_predicted_LOOCV}
 \end{center}
 
 \begin{center} 
@@ -494,13 +494,11 @@ One can argue that the prediction is not better since the test MSE obtained is h
 
 \section{Simple Linear Regression}
 \subsection{Idea}
-Our next attempt consists in using the same linear model we used in the feature analysis section. This model takes advantage of the simple assumption that \texttt{Time} depends on the other features in a linear way.
-
-The model has the following form :
+Our next attempt consists in using the same linear model we used in the feature analysis section. This model takes advantage of the simple assumption that \texttt{Time} depends on the other features in a linear way. A linear regression model has the following form :
 $$
 	Y = \beta_0 + \sum_{i = 1}^{p} \beta_i X_i
 $$
-The regression coefficient $\beta_i$ are choosen so that they minimize the MSE. 
+The regression coefficients $\beta_i$ are choosen so that they minimize the MSE. Both analytical and optimization methods (Gradient Descent, Stochastical Gradient Descent, ...) can be used to find the best coefficient estimates.
 
 To build the model in R, we can use the function \texttt{lm} :
 \begin{lstlisting}
@@ -508,7 +506,7 @@ model.linreg = lm(Time ~ ., data=train_set)
 \end{lstlisting}
 
 \subsection{Model Performance}
-The MSE of this model is approximatively equal to 1285. The raw residuals distribution is pictured on figure \ref{fig:linreg_hist}, it shows a very spread out distribution that should be improved.
+This model has a MSE approximatively equal to 1285. The raw residuals distribution is pictured on figure \ref{fig:linreg_hist}, it shows a very spread out distribution that should be improved.
 
 \begin{figure}[!h]
 	\centering
@@ -519,7 +517,7 @@ The MSE of this model is approximatively equal to 1285. The raw residuals distri
 
 \section{Linear Regression with Features Selection}
 \subsection{Idea}
-A simple method to improve the performance of a simple Linear Regression is to select a subset of features that better describes the distribution of \texttt{Time}.
+A simple method to improve the performance of the previous Linear Regression is to select a subset of features that better describes the distribution of \texttt{Time}.
 
 Once the simple linear model is fitted, we can use the function \texttt{summary} to display the value of each coefficient.
 \begin{verbatim}
@@ -560,28 +558,26 @@ fractal_dimension_worst  1.028e+03  7.100e+02   1.448   0.1509
 Tumor_size              -1.188e+00  1.915e+00  -0.620   0.5364  
 \end{verbatim}
 
-The last column contains the P-value of each coefficient, which is a measure to test the hypothesis that this particular coefficient is null. A P-value lower than 5\% allows us to conclude that the coefficient is not equal to zero. In our case, the feature \texttt{concavity\_points\_mean} is not null, but we cannot make such assumptions for the other parameters. Therefore, we are not able to select a subset of interesting features based on the P-values.
+The last column contains the P-value of each coefficient, which is a measure to test the hypothesis that this particular coefficient is null. A P-value lower than 5\% allows us to conclude that the coefficient is not equal to zero. In our case, the feature \texttt{concavity\_points\_mean} is not null, but we cannot make such assumptions for the other parameters. Therefore, we are not able to select a subset of interesting features based on the P-values. \\
 
-Our dataset contains a small set of features to deal with, therefore we can use an exhaustive feature subset selection algorithm. Such method build a linear model based on each subset and compute a performance score to compare them. 
+Feature subset selection algorithms exist to extract the best subset of features from the dataset. Such method builds a linear model based on multiple subsets of features and compute a performance score to compare them. Our dataset contains a quite small set of features to deal with, therefore we can use an exhaustive feature subset selection algorithm which will apply a linear regression on each and every subset available.
 
-We use the following function to fit the linear models :
+In R, the following function is available to fit the linear models :
 \begin{lstlisting}
 model.linreg.regsubsets = regsubsets(Time ~ ., data=train_set, method = "exhaustive", nvmax = 32)
 \end{lstlisting}
 
-Then the function \texttt{plot} to compare the models according to a given scale (in this case, the BIC measure). The result is shown on figure \ref{fig:subset_bic}.
+We can then use the function \texttt{plot} to compare the models according to a given scale (in this case, the BIC measure). The result is shown on figure \ref{fig:subset_bic}.
 \begin{lstlisting}
 plot(model.linreg.regsubsets, scale="bic")	
 \end{lstlisting}
 
-\iffalse
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=0.8\linewidth]{Figures/subset_bic}
-	\caption{}
+	\includegraphics[width=0.8\linewidth]{Figures/subset_bic.png}
+	\caption{BIC-score of each feature subset}
 	\label{fig:subset_bic}
 \end{figure}
-\fi
 
 According to this plot, the best BIC is reached with a model that only uses the following features : 
 \begin{itemize}
@@ -591,12 +587,11 @@ According to this plot, the best BIC is reached with a model that only uses the 
 \end{itemize}
 
 \subsection{Model Performance}
-The MSE of this model is approximatively equal to 1067. The raw residual distribution, shown on figure \ref{fig:subset_hist}, is way better than the simple linear regression model.
+The MSE of this model is approximatively equal to 1067, which is better than the full-featured model. The raw residual distribution, shown on figure \ref{fig:subset_hist}, is not as spread out as the previous linear regression model.
 
 \begin{figure}[!h]
 	\centering
 	\inputtikz{0.5}{Figures/subset_hist.tex}
-
 	\caption{}
 	\label{fig:subset_hist}
 \end{figure}
@@ -640,13 +635,14 @@ plot(ridge.mod)
 \end{lstlisting}
 
 \begin{center}
-	\includegraphics{Figures/ridge_model.pdf}
+	\includegraphics[width=0.8\linewidth]{Figures/ridge_model.pdf}
 	\captionof{figure}{Coefficients $\beta_{j}$ against L1 Norm}
+	\label{fig:ridge_model}
 \end{center}
 
-The figure below shows that the higher the norm L1 is the smaller are the coefficients $\beta_{j}$.\\
+The figure \ref{fig:ridge_model} shows that the higher the norm L1 is, the smaller are the coefficients $\beta_{j}$.\\
 
-In order to find the best tuning parameter $\lambda$ we perform a cross validation on the training data. cv.glmnet function runs a 10 fold cross validation on the data.
+In order to find the best tuning parameter $\lambda$ we perform a cross validation on the training data. \texttt{cv.glmnet} function runs a 10 fold cross validation on the data.
 
 \begin{lstlisting}
 cv.out = cv.glmnet(x.train, y.train,alpha=0)
@@ -655,11 +651,12 @@ best_lambda = cv.out$lambda.min
 \end{lstlisting}
 
 \begin{center}
-	\includegraphics{Figures/cv_glmnet.pdf}
+	\includegraphics[width=0.8\linewidth]{Figures/cv_glmnet.pdf}
 	\captionof{figure}{MSE against log($\lambda$)}
+	\label{fig:cv_glmnet}
 \end{center}
 
-The value $\lambda$ that yields to the smallest MSE is shown in the graph near $log(\lambda)=4$ and $log(\lambda)=5 $
+The value $\lambda$ that yields to the smallest MSE is shown in the graph \ref{fig:cv_glmnet} near $log(\lambda)=4$ and $log(\lambda)=5 $
 
 
 \begin{lstlisting}
@@ -678,13 +675,15 @@ plot(x=y.test,y=residuals)
 \end{center} 
 
 \begin{center}
-	\includegraphics{Figures/ridge_yhat.pdf}
+	\includegraphics[width=0.8\linewidth]{Figures/ridge_yhat.pdf}
 	\captionof{figure}{predicted Time $\hat{y}$ against real responses y }
+	\label{fig:ridhe_yhat}
 \end{center}
 
 \begin{center}
-	\includegraphics{Figures/ridge_resid.pdf}
+	\includegraphics[width=0.8\linewidth]{Figures/ridge_resid.pdf}
 	\captionof{figure}{Residuals against Time(y)}
+	\label{fig:ridge_resid}
 \end{center}
 
 Performing a Ridge regression didn't really improve out MSE, we notice that we still have the same shape when we plot the predicted response against the real values. In fact we still have the extreme values scattered away from the line y=x while the values in the middle are grouped around it. The residuals shows most residuals are among -20 and 40, however we can't neglect the important number of observation that have residuals below -20.\\
@@ -696,7 +695,7 @@ predict(ridge.mod, type="coefficients", s=best_lambda)[1:33,]
 \end{lstlisting}
 
 \begin{center}
-	\includegraphics{Figures/ridge_coeff}
+	\includegraphics[width=0.8\linewidth]{Figures/ridge_coeff}
 	\captionof{figure}{coefficients $\beta_{j}$ for ($\lambda$ = 64.48)}
 \end{center}
 
@@ -724,12 +723,12 @@ plot(mse)
 \end{lstlisting}
 
 \begin{center}
-	\includegraphics{Figures/ridge_biais_var.pdf}
+	\includegraphics[width=0.8\linewidth]{Figures/ridge_biais_var.pdf}
 	\captionof{figure}{Bias Variance trade-off, squared bias(red), root squared variance(black)}
 \end{center}
 
 \begin{center}
-	\includegraphics{Figures/ridge_mse.pdf}
+	\includegraphics[width=0.8\linewidth]{Figures/ridge_mse.pdf}
 	\captionof{figure}{MSE against $\lambda$}
 \end{center}
 
@@ -757,7 +756,7 @@ plot(lasso.mod)
 \end{lstlisting}
 
 \begin{center}
-	\includegraphics{Figures/lasso_coeff.pdf}
+	\includegraphics[width=0.8\linewidth]{Figures/lasso_coeff.pdf}
 	\captionof{figure}{MSE against $\lambda$}
 \end{center}
 
@@ -774,12 +773,12 @@ abline(0,1, col='red')
 \end{lstlisting}
 
 \begin{center}
-	\includegraphics{Figures/lasso_mse.pdf}
+	\includegraphics[width=0.8\linewidth]{Figures/lasso_mse.pdf}
 	\captionof{figure}{MSE against $\lambda$}
 \end{center}
 
 \begin{center}
-	\includegraphics{Figures/lasso_predicted.pdf}
+	\includegraphics[width=0.8\linewidth]{Figures/lasso_predicted.pdf}
 	\captionof{figure}{MSE against $\lambda$}
 \end{center}
 
@@ -788,7 +787,7 @@ predict(lasso.mod, type="coefficients", s=best_lambda)[1:33,]
 \end{lstlisting}
 
 \begin{center}
-	\includegraphics{Figures/ridge_coeff}
+	\includegraphics[width=0.8\linewidth]{Figures/ridge_coeff}
 	\captionof{figure}{coefficients $\beta_{j}$ for ($\lambda$ = 64.48)}
 \end{center}
 
@@ -800,7 +799,7 @@ We can clearly see that Lasso performed a variable selection by setting some coe
 \subsection{Idea}
 In the Introduction, we mentionned the fact that some features are actually correlated. This means that they carry redundant information that make the model more complex, thus harder to fit. In this section, we will apply a Dimension Reduction method that decreases the number of features while keeping the information needed to predict \texttt{Time}.
 
-Principal Component Analysis (PCA) is one such method. It consists in transforming the set of $p$ features into a set of $M$ orthogonal vectors ($M$ < $p$) using linear transformations. The new set of vectors (called components) contains as much information as the initial set. "Information" is here defined in terms of variance, in other words, each new component should be able to explain as much variance as possible, while being orthogonal to the others.
+Principal Component Analysis (PCA) is one such method. It consists in transforming the set of $p$ features into a set of $M$ orthogonal vectors ($M < p$) using linear transformations. The new set of vectors (called components) contains as much information as the initial set. "Information" is here defined in terms of variance, in other words, each new component should be able to explain as much variance as possible, while being orthogonal to the others.
 
 Once the set of principal components is found, it can be used as an input to a simple linear regression to build what is called a Principal Component Regression (PCR) model. The number of components $M$ should be taken so that the model built with PCR has a minimum error value; once again, a 10 fold cross validation method can be used to determine the best $M$.
 
@@ -815,7 +814,7 @@ We can then plot the MSE for each set of components :
 validationplot(model.pcr, val.type = "MSEP")
 \end{lstlisting}
 
-According to figure \ref{fig:pcr_cv}, the model with only 4 components yields the best MSE. The function \texttt{summary} tells us that 4 components are enough to explain 75\% of the features' variance. 
+According to figure \ref{fig:pcr_cv}, the model with only 4 components yields to the lowest MSE. The function \texttt{summary} tells us that 4 components are enough to explain 75\% of the features' variance. 
 
 \begin{figure}[!h]
 	\centering
