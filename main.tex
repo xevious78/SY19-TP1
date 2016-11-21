@@ -534,6 +534,13 @@ This model has a MSE approximatively equal to 1285. The raw residuals distributi
 	\label{fig:linreg_hist}
 \end{figure}
 
+\begin{figure}[!h]
+	\centering
+	\inputtikz{0.5}{Figures/linreg_predicted.tex}
+	\caption{}
+	\label{fig:linreg_predicted}
+\end{figure}
+
 \section{Linear Regression with Features Selection}
 \subsection{Idea}
 A simple method to improve the performance of the previous Linear Regression is to select a subset of features that better describes the distribution of \texttt{Time}.
@@ -614,6 +621,14 @@ The MSE of this model is approximatively equal to 1067, which is better than the
 	\caption{}
 	\label{fig:subset_hist}
 \end{figure}
+
+\begin{figure}[!h]
+	\centering
+	\inputtikz{0.5}{Figures/subset_predicted.tex}
+	\caption{}
+	\label{fig:subset_predicted}
+\end{figure}
+
 
 \section{Linear Regression with Regularization}
 In this section we will discuss some methods that will help us shrink the model by reducing the number of parameters.
@@ -849,7 +864,21 @@ According to figure \ref{fig:pcr_cv}, the model with only 4 components yields to
 	\label{fig:pcr_cv}
 \end{figure}
 
+\begin{figure}[!h]
+	\centering
+	\inputtikz{0.5}{Figures/pcr_hist.tex}
+	\caption{PCR}
+	\label{fig:pcr_hist}
+\end{figure}
 
+\begin{figure}[!h]
+	\centering
+	\inputtikz{0.5}{Figures/pcr_predicted.tex}
+	\caption{PCR}
+	\label{fig:pcr_predicted}
+\end{figure}
+
+MSE = 967
 
 \section{Models Comparaison}
 \subsection{KNN neighbors and Linear Regression}
