@@ -61,7 +61,7 @@ This report
 
 \chapter{Ex 1- Phoneme Recognition}
 \section{Context}
-In the context of speech recognition the aim is to predict which of the phoneme is the subject pronouncing. We have five phonemes to recognize :\\ 
+In the context of speech recognition the aim is to predict which of the phonemes is pronounced my the subject. We have five phonemes to recognize :\\ 
 \begin{center}
 	$g = \left\{
 	\begin{array}{l}
@@ -76,7 +76,7 @@ In the context of speech recognition the aim is to predict which of the phoneme 
 
 \section{Dataset Description}
 
-The study was on 4509 speeches pronounced by 50 male speakers. The method used for speech recognition is the Log-periodogram, an estimate of the spectral density of the sound signal.
+The study involved 4509 speeches pronounced by 50 male speakers. The method used for speech recognition is the Log-periodogram, an estimate of the spectral density of the sound signal.
 
 Our dataset is composed of 4509 log-periodograms (observations) of length 256 (features). The column labelled \texttt{speakers} identifies the different speakers. We notice that some are labeled train and some test. Hence we have a training set composed of 3340 observations (74\%) and a test set that comprises 1169 observations (26\%). The column \texttt{g} shows the responses. The frequencies of each phoneme for the 4509 speeches are shown in the table below.
 
@@ -147,9 +147,9 @@ xlevels    1   -none- list
 	\captionof{figure}{Phoneme LDA model}
 \end{center}
 
-The prior probabilities tell us that 15\% of phonemes are \texttt{aa} , 23\% \texttt{ao}, 17\% \texttt{dcl}, 25\% \texttt{iy} and 19\% \texttt{sh}.
+The prior probabilities tell us that in the train observation 15\% of phonemes are \texttt{aa} , 23\% \texttt{ao}, 17\% \texttt{dcl}, 25\% \texttt{iy} and 19\% \texttt{sh}.
 
-Now that we trained the model we can call the \texttt{predict} function to predict the responses for the test set of data. This function returns an element \texttt{class}, a list of the predicted phonemes. An element \texttt{posterior} with the posterior probability of the response of the $k$-th class.  Last the linear discriminants are found in \texttt{x}.
+Now that we trained the model we can call the \texttt{predict} function to predict the responses of the test set of data. This function returns an element \texttt{class}, a list of the predicted phonemes. An element \texttt{posterior} with the posterior probability of the response of the $k$-th class.  Last the linear discriminants are found in \texttt{x}.
 
 \begin{lstlisting}
 model.lda.predicted = predict(model.lda,newdata=test_set)
@@ -161,7 +161,7 @@ sum(diag(perf))/dim(test_set)[1]
 The table perf of the predicted responses is shown below:
 \begin{center}
 \begin{verbatim}
-	aa  ao dcl  iy  sh
+ g	aa  ao dcl  iy  sh
 aa  129  47   0   0   0
 ao   39 223   0   1   0
 dcl   0   0 190   5   0
@@ -176,7 +176,7 @@ Here is an example of how this table is read, for the second line
 when the phoneme pronounced is aa , the speech recognition detects that 129 is detected as aa and 47 as ao, in other words only 27\% is misclassified.
 In order to compute the total error rate we divide the sum of the diagonal terms (which are the true phonemes detected) and divide it by the number total of observations We find that in 92\% of the cases the speech recognition detected right the phoneme. This classifier performs quite well, but it does work well with the phonemes \texttt{aa} and \texttt{ao} which sound very similar.
 
-The \texttt{ROCR} package can be used to produce ROC curves
+The \texttt{ROCR} package can be used to produce ROC curves. The area under the ROC curve(AUC) is a criteria to judge the performance of the LDA. The larger the AUC the better the classifier.
 \begin{lstlisting}
 library(pROC)
 l   = length(model.lda.predicted$class)
@@ -194,7 +194,7 @@ plot(roc_curve)
 	\captionof{figure}{LDA ROC: Area under the curve: 0.588}
 \end{center}
 
-(AUC) The area under the ROC curve is a criteria to judge the performance of the LDA. For this data the AUC is 0.92, which is considered very good as it is close to the maximum.
+For this data the AUC is 0.92, which is considered very good as it is close to the maximum.
 
 \subsubsection{Model Analysis}
 
@@ -387,7 +387,7 @@ Once this data split is done, we can finally dive into the model building.
 
 \section{K-nearest neighbors (KNN)}
 We start our analysis with a very simple model called the KNN.
-Given a positive integer $k$ and a test observation $x_0$. The KNN model first identifies the k closest points to $x_0$ from the training data. Then estimates \\ 
+Given a positive integer $k$ and a test observation. The KNN model first identifies the k closest points to each point of the test observation then it estimates the response using the average of the k closest training responses.\\ 
 
 \subsection{Knn Model}
 The KNN model in R is done by calling the function \texttt{reg} of the package \texttt{knn}. As we will see in the following sections, For most prediction algorithms, we first have to build the prediction model on the training data, and then use the model to test our predictions. However, the KNN function does both in a single step.\\ 
@@ -401,7 +401,8 @@ MSE = rep(0,k_max)
 
 for( k in 1:k_max)
 {
-	reg = knn.reg(train=cancer.train.x, test=cancer.test.x, y=cancer.train.y, k=k)
+	reg = knn.reg(train=cancer.train.x, test=cancer.test.x, 
+	y = cancer.train.y, k=k)
 	MSE[k] = mean((cancer.test.y - reg$pred)^2)
 }
 
@@ -410,29 +411,30 @@ points(x = best_k_test, y = best_k_mse, col = "red", pch = 16)
 abline(h = best_k_mse, col='red')
 abline(v = best_k_test, col='red')
 
-best_k_test = which.min(MSE)
-best_k_mse = MSE[best_k_test]
+best_k_train = which.min(MSE)
+best_k__train_mse = MSE[best_k_train]
 \end{lstlisting}
 
-The graph below (figure \ref{fig:knn_test}) shows the MSE plotted against the values of $k$ in a range from 0 to 120. Graphically we notice that a minimum is reached between 10 and 20.
+As you will notice in the code, we labeled the best\_k and the MSE as train because we chose our best parameters based on the test directly and not the train.\\
+The graph below (figure \ref{fig:knn_train}) shows the \textbf{Train MSE} plotted against the values of $k$ in a range from 0 to 120. Graphically we notice that a minimum is reached between 10 and 20.
 
 \begin{center}	
 		\includegraphics[width=0.9\linewidth]{Figures/knn_test.pdf}
-		\captionof{figure}{MSE against K neighbours}
-		\label{fig:knn_test}
+		\captionof{figure}{Train MSE against K neighbours}
+		\label{fig:knn_train}
 \end{center}
 
- We use the function \texttt{which.min} that returns the index of the minimum MSE value.\\
+ We use the function \texttt{which.min} that returns the index of the minimum value of MSE.\\
 
 \begin{center} 
-	best\_k\_test= 11 \\
-	best\_k\_test\_MSE = 995.433185
+	best\_k\_Train= 11 \\
+	best\_k\_Train\_MSE = 995.433185
 \end{center}
 
-Now that we have the $k$ that minimizes the MSE we call KNN algorithm with this best $k$ and plot the predicted values against the real values. The figure \ref{fig:knn_predicted_test} shows the result.
+Now that we have the $k$ that minimizes the Train MSE we call KNN algorithm with this best $k$ and plot the predicted values against the real values. The figure \ref{fig:knn_predicted_test} shows the result.
 
 \begin{lstlisting}
-best_reg_test = knn.reg(train= cancer.train.x, test = cancer.test.x, y=cancer.train.y, k = best_k_test)
+best_reg_test = knn.reg(train= cancer.train.x, test = cancer.test.x, y=cancer.train.y, k = best_k_train)
 plot(cancer.test.y, best_reg_test$pred, xlab='y', ylab='y-hat', main='y-hat (Predicted) against y')
 abline(0,1, col='red')
 \end{lstlisting}
@@ -447,50 +449,50 @@ The red line is the function $y=x$; so further are the points from this line the
 
 \subsubsection{Model Analysis}
 
-We notice that the predicted {$\hat{y}$} diverge a lot from the real values $y$. We expected those results since the MSE=967.386966 which is quite high. 
+We notice that the predicted {$\hat{y}$} diverge a lot from the real values $y$. We expected those results since the MSE is around 967 which is quite high. 
 
-This approach of finding the best $k$ was quite optimistic. Actually we tried finding the best $k$ while minimizing the MSE in \textbf{the test data}. Therefore the model is very specific to our test data which yields to a high bias. The solution is to find the best $k$ among the \textbf{training data} and then use the best $k$ in the test data. \\ To find the best \textbf{unbiased} $k$ number of neighbors we use the method of cross validation on the train data. 
+This approach of finding the best $k$ was quite optimistic. Actually we tried finding the best $k$ while minimizing the MSE in \textbf{the test data}. Therefore the model is very specific to our test data which yields to a high bias. The solution is to find the best $k$ among the \textbf{training data} and then use the best $k$ in the test data. \\ To find the best \textbf{unbiased} $k$ number of neighbors k we use the method of cross validation on the train data then we predict the response on the test. 
 
 \subsection{The Validation Set Approach}
-There are two methods in cross validation: \textbf{cross validation leave one out} and  \textbf{K-fold cross validation}. In the following parts we will test with both validation methods. As we do not have that much predictors we can afford the computation of cross validation leave one out.\\
+There are two main methods in cross validation: \textbf{the validation set approc}h and the \textbf{cross validation leave one out (LOOCV)} which is a particular case of the  \textbf{K-fold cross validation}. As we do not have that much observations (n=198) we can afford the computation of cross validation leave one out, but before we will argument our choice.\\
 
 \subsubsection{Cross Validation}
-The cross validation approach is based on dividing the provided data in 2 sets: a training set and a validation set. The model is fit on the training set, then the fitted model is used to predict responses of observations in the validation set. The resulting validation set error rate is assessed using MSE.
+The cross validation approach is based on dividing the provided data in 2 sets: a training set and a validation set. The model is fit on the training set, then the fitted model is used to predict responses of observations in the validation set. We validate our model using the best MSE.
 
 \subsubsection{Leave-One-Out Cross-Validation}
-Like the cross validation the LOOCV involves splitting the set of observations in two parts. The test data has a single observation $(x_1, y_1)$ and the $n-1$ remaining is used for the training data. The MSE in this case is $MSE_1 =(y_1 - \hat{y})^{2}$. This provides an unbiased estimate for the test error since it is training the model on approximately all the data of the observation. However it is highly variable as it is based in one observation. The LOOCV repeats the procedure n times fitting each time a different set of observations. The LOOCV test MSE is computed with calculating the average of the n test error estimates.
+Like the cross validation the LOOCV involves splitting the set of observations in two parts. The main difference is that we have a single observation $(x_1, y_1)$ in the test data and the $n-1$ remaining is used for the train data. The MSE in this case is $MSE_1 =(y_1 - \hat{y})^{2}$. This provides an unbiased estimate for the test error since the size of the train model is approximately the one of all the data of the observation. However it is highly variable as it is based in one observation. The LOOCV repeats the procedure n times fitting each time a different set of observations. The LOOCV test MSE is computed with calculating the average of the n test error estimates.
   
 \begin{center}
 	$$CV_{(n)} = \frac{1}{n} \sum_{i=1}^{n} MSE_{i} $$
 \end{center}
 
-The LOOCV will always give the same results in contrast to the CV that depends on the randomness of how the data are split. Furthermore the CV runs the training approach on around the half of the size of the original data while the LOOCV repeats the validation set approach n times using n-1 observations. Hence the LOOCV yields to a not overestimated test error rate compared to the validation. Nevertheless the disadvantaged of the LOOCV is it can be very time consuming when n the number of observations is large.\\
+The LOOCV will always give the same results in contrast to the CV that depends on the randomness of how the data are split. Furthermore as it was stated before the CV runs the train approach on around the half of the size of the original data while the LOOCV repeats the validation set approach n times using n-1 observations. Hence the LOOCV yields to a not overestimated test error rate compared to the validation set approach. The only disadvantage of the LOOCV is it is computation time which can be very time consuming n is large.\\
 
-An alternative to LOOCV that has a smaller computation time is k-Fold Cross Validation. This approach based on dividing the training observations on k groups, each time one group will be considered as the test set and the k-1 left as the training set. Therefore the CV becomes:
+An alternative to LOOCV that has a smaller computation time is k-Fold Cross Validation. This approach is based on dividing the training observations on k groups, each time one group will be considered as the test set and the k-1 left as the training set. Therefore the CV becomes:
 
 \begin{center}
 	$$CV_{(k)} = \frac{1}{k} \sum_{i=1}^{k} MSE_{i} $$
 \end{center}
 
-We can see that the k-Fold Cross-Validation fits the model k times instead of n, which reduces considerably the computation time. Our original data have 198 observations so we can afford the computation of the LOOCV. \\
+We can see that the k-Fold Cross-Validation fits the model k times instead of n, which reduces considerably the computation time. Our original data has only 198 observations, we can then afford the computation of the LOOCV. \\
 
 \subsubsection{Model implementation}
 
 \begin{lstlisting}
 library("kknn")
 model_kknn = train.kknn(Time ~., data= cancer.train, kmax = 30, ks = NULL, distance = 2, kernel = "optimal")
-best_k_train = model_kknn$best.parameters$k
+best_k = model_kknn$best.parameters$k
 \end{lstlisting}
 
 After deducting the best k neighbors from the model we use it on the test observations to predict the values of Time. 
-We then compute the MSE and plot the predicted values $\hat{y}$ on the real ones \textit{y}.
+We then compute the MSE and plot the predicted values $\hat{y}$ against the real ones \textit{y}.
 
 \begin{lstlisting}
-best_reg_train = knn.reg(train= cancer.train.x, test = cancer.test.x, y=cancer.train.y, k = best_k_train)
+best_reg_train = knn.reg(train= cancer.train.x, test = cancer.test.x, y=cancer.train.y, k = best_k)
 plot(cancer.test.y, best_reg_train$pred, xlab='y', ylab='prediction')
 abline(0,1, col='red')
 errors = (cancer.test.y - best_reg_train$pred)^2
-mse= mean(errors)
+test_mse= mean(errors)
 \end{lstlisting}
 
 The results are shown in figure \ref{fig:knn_predicted_LOOCV}
@@ -502,12 +504,12 @@ The results are shown in figure \ref{fig:knn_predicted_LOOCV}
 \end{center}
 
 \begin{center} 
-	best\_k\_train= 30 \\
+	best\_k= 30 \\
 	best\_k\_test\_MSE = 1047.085675
 \end{center}
 
 \subsubsection{Model Analysis}
-One can argue that the prediction is not better since the test MSE obtained is higher that the one we had when we computed with the best test $k$. However the model with the validation approach is not biased, in other words, in general the $k=30$ will guarantee a smaller MSE than the $k=11$ on any test observation.
+One can argue that the prediction is not better since the test MSE obtained is higher that the MSE we obtained when we computed with the best train $k$. However this result is normal since in the first approach we run our knn directly on the test so we underestimated the MSE, while the model with the cross validation is not biased. In other words, in general the $k=30$ will guarantee a smaller MSE than the $k=11$ on any test observation.
 
 \section{Simple Linear Regression}
 \subsection{Idea}
@@ -713,7 +715,7 @@ predict(ridge.mod, type="coefficients", s=best_lambda)[1:33,]
 
 \begin{center}
 	\includegraphics[width=0.8\linewidth]{Figures/ridge_coeff}
-	\captionof{figure}{coefficients $\beta_{j}$ for ($\lambda$ = 64.48)}
+	\captionof{figure}{Ridge coefficients $\beta_{j}$ for ($\lambda$ = 58.75)}
 \end{center}
 
 \subsubsection{Model Analysis}
@@ -773,7 +775,7 @@ plot(lasso.mod)
 \end{lstlisting}
 
 \begin{center}
-	\includegraphics[width=0.8\linewidth]{Figures/lasso_coeff.pdf}
+	\includegraphics[width=0.8\linewidth]{Figures/lasso_model.pdf}
 	\captionof{figure}{MSE against $\lambda$}
 \end{center}
 
@@ -788,6 +790,13 @@ mean((lasso.pred-y.test)^2)
 plot(x=y.test, y=lasso.pred)
 abline(0,1, col='red')
 \end{lstlisting}
+
+
+\begin{center} 
+	best\_$\lambda$ = 3.20946 \\
+	best\_test\_MSE = 1020.8685
+\end{center} 
+
 
 \begin{center}
 	\includegraphics[width=0.8\linewidth]{Figures/lasso_mse.pdf}
@@ -804,17 +813,17 @@ predict(lasso.mod, type="coefficients", s=best_lambda)[1:33,]
 \end{lstlisting}
 
 \begin{center}
-	\includegraphics[width=0.8\linewidth]{Figures/ridge_coeff}
-	\captionof{figure}{coefficients $\beta_{j}$ for ($\lambda$ = 64.48)}
+	\includegraphics[width=0.8\linewidth]{Figures/lasso_coeff}
+	\captionof{figure}{Lasso coefficients $\beta_{j}$ for ($\lambda$ = 3.20)}
 \end{center}
 
-We can clearly see that Lasso performed a variable selection by setting some coefficients to 0.
+We can clearly see that Lasso performed a variable selection by setting the unselected predictors' coefficients to 0. Therefore only 10 predictors were selected out of 33.
 
 \subsubsection{Model Analysis}
 
 \section{Linear Regression with Dimension Reduction}
 \subsection{Idea}
-In the Introduction, we mentionned the fact that some features are actually correlated. This means that they carry redundant information that make the model more complex, thus harder to fit. In this section, we will apply a Dimension Reduction method that decreases the number of features while keeping the information needed to predict \texttt{Time}.
+In the Introduction, we mentioned the fact that some features are actually correlated. This means that they carry redundant information that make the model more complex, thus harder to fit. In this section, we will apply a Dimension Reduction method that decreases the number of features while keeping the information needed to predict \texttt{Time}.
 
 Principal Component Analysis (PCA) is one such method. It consists in transforming the set of $p$ features into a set of $M$ orthogonal vectors ($M < p$) using linear transformations. The new set of vectors (called components) contains as much information as the initial set. "Information" is here defined in terms of variance, in other words, each new component should be able to explain as much variance as possible, while being orthogonal to the others.
 
@@ -843,7 +852,7 @@ According to figure \ref{fig:pcr_cv}, the model with only 4 components yields to
 
 
 \section{Models Comparaison}
-
+\subsection{KNN neighbors and Linear Regression}
 *USE TEST SET TO COMPARE MODEL*
 
 \end{document}
