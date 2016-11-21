@@ -7,6 +7,7 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{amsmath}
+\usepackage{amsfonts}
 \usepackage{mathtools}
 \usepackage{graphicx}
 \usepackage{caption}
@@ -146,10 +147,9 @@ xlevels    1   -none- list
 	\captionof{figure}{Phoneme LDA model}
 \end{center}
 
-The prior probabilities tell us that 15\% of phonemes are aa , 23\% ao, 17\% dcl, 25\% iy and 19\% sh.
+The prior probabilities tell us that 15\% of phonemes are \texttt{aa} , 23\% \texttt{ao}, 17\% \texttt{dcl}, 25\% \texttt{iy} and 19\% \texttt{sh}.
 
-Now that we trained the model we can call the predict function to predict the responses for the test set of data. The predict() function returns an element "class", a list of the predicted phonemes. An element "posterior" witch the posterior probability of the response of the kth class.  Last the linear discriminants are found in "x".
-
+Now that we trained the model we can call the \texttt{predict} function to predict the responses for the test set of data. This function returns an element \texttt{class}, a list of the predicted phonemes. An element \texttt{posterior} with the posterior probability of the response of the $k$-th class.  Last the linear discriminants are found in \texttt{x}.
 
 \begin{lstlisting}
 model.lda.predicted = predict(model.lda,newdata=test_set)
@@ -174,9 +174,9 @@ sh    0   0   0   0 224
 
 Here is an example of how this table is read, for the second line
 when the phoneme pronounced is aa , the speech recognition detects that 129 is detected as aa and 47 as ao, in other words only 27\% is misclassified.
-In order to compute the total error rate we divide the sum of the diagonal terms (which are the true phonemes detected) and divide it by the number total of observations We find that in 92\% of the cases the speech recognition detected right the phoneme.
+In order to compute the total error rate we divide the sum of the diagonal terms (which are the true phonemes detected) and divide it by the number total of observations We find that in 92\% of the cases the speech recognition detected right the phoneme. This classifier performs quite well, but it does work well with the phonemes \texttt{aa} and \texttt{ao} which sound very similar.
 
-The ROCR package can be used to produce ROC curves
+The \texttt{ROCR} package can be used to produce ROC curves
 \begin{lstlisting}
 library(pROC)
 l   = length(model.lda.predicted$class)
@@ -194,7 +194,7 @@ plot(roc_curve)
 	\captionof{figure}{LDA ROC: Area under the curve: 0.588}
 \end{center}
 
-(AUC) The area under the (ROC) curve is a criteria to judge the performance of the LDA. For this data the AUC is 0.92, which is considered very good as it is close to the maximum.
+(AUC) The area under the ROC curve is a criteria to judge the performance of the LDA. For this data the AUC is 0.92, which is considered very good as it is close to the maximum.
 
 \subsubsection{Model Analysis}
 
@@ -207,6 +207,15 @@ plot(roc_curve)
 
 \subsection{Logistic Regression}
 
+Logistic Regression is a type of Linear Classification method that models the posterior probabilities with linear functions. When there are only two features to deal with, the model is definined by : 
+
+$$
+\log \frac{\mathbb{P}(Y = 0 | X = x)}{\mathbb{P}(Y = 1 | X = x)} = \beta_0 + \beta x
+$$
+
+If $\beta_0 + \beta x$ is positive, $Y$ is most likely to be equal to 0; otherwise, $Y$ is most likely to be equal to 1.  \\
+
+In a multinomial scenario, like our case, more complex methods have to be applied. In particular, the library \texttt{nnet} provides us with a function called \texttt{multinom} that uses a feedforward Neural Network with a single hidden layer to fit a multinomial logistic regression model. This kind of Neural Networks often runs a backpropagation method along with an iterative optimization algorithm to estimate the weights of each neuron. That is why we have to specify the number of maximum iterations.
 
 \begin{lstlisting}
 library("nnet")
