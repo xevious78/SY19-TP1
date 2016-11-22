@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.8.19)  22 NOV 2016 22:03
+=======
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.8.19)  22 NOV 2016 13:00
+>>>>>>> origin/master
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -830,12 +834,21 @@ File: Figures/ridge_resid.pdf Graphic file (type pdf)
 Package pdftex.def Info: Figures/ridge_resid.pdf used on input line 606.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [27 <./Figures/ridge_yhat.pdf>]
+<<<<<<< HEAD
 <Figures/ridge_coeff.png, id=184, 323.2075pt x 520.94624pt>
+=======
+Underfull \hbox (badness 10000) in paragraph at lines 629--630
+
+ []
+
+<Figures/ridge_coeff.png, id=176, 323.2075pt x 520.94624pt>
+>>>>>>> origin/master
 File: Figures/ridge_coeff.png Graphic file (type png)
 
 <use Figures/ridge_coeff.png>
 Package pdftex.def Info: Figures/ridge_coeff.png used on input line 620.
 (pdftex.def)             Requested size: 276.00105pt x 444.88109pt.
+<<<<<<< HEAD
  [28 <./Figures/ridge_resid.pdf>]
 Underfull \hbox (badness 10000) in paragraph at lines 625--626
 
@@ -851,48 +864,80 @@ File: Figures/ridge_bias_var.pdf Graphic file (type pdf)
 
 <use Figures/ridge_bias_var.pdf>
 Package pdftex.def Info: Figures/ridge_bias_var.pdf used on input line 655.
+=======
+ [28 <./Figures/ridge_resid.pdf>] [29 <./Figures/ridge_coeff.png>] <Figures/rid
+ge_bias_var.pdf, id=192, 361.35pt x 361.35pt>
+File: Figures/ridge_bias_var.pdf Graphic file (type pdf)
+
+<use Figures/ridge_bias_var.pdf>
+Package pdftex.def Info: Figures/ridge_bias_var.pdf used on input line 667.
+>>>>>>> origin/master
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [30]
 <Figures/ridge_mse.pdf, id=204, 361.35pt x 361.35pt>
 File: Figures/ridge_mse.pdf Graphic file (type pdf)
 
 <use Figures/ridge_mse.pdf>
+<<<<<<< HEAD
 Package pdftex.def Info: Figures/ridge_mse.pdf used on input line 660.
+=======
+Package pdftex.def Info: Figures/ridge_mse.pdf used on input line 672.
+>>>>>>> origin/master
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [31 <./Figures/ridge_bias_var.pdf>] [32 <./Figures/ridge_mse.pdf>] <Figures/la
 sso_model.pdf, id=223, 361.35pt x 361.35pt>
 File: Figures/lasso_model.pdf Graphic file (type pdf)
 
 <use Figures/lasso_model.pdf>
+<<<<<<< HEAD
 Package pdftex.def Info: Figures/lasso_model.pdf used on input line 688.
+=======
+Package pdftex.def Info: Figures/lasso_model.pdf used on input line 700.
+>>>>>>> origin/master
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [33 <./Figures/lasso_model.pdf>]
 <Figures/lasso_mse.pdf, id=232, 361.35pt x 361.35pt>
 File: Figures/lasso_mse.pdf Graphic file (type pdf)
 
 <use Figures/lasso_mse.pdf>
+<<<<<<< HEAD
 Package pdftex.def Info: Figures/lasso_mse.pdf used on input line 713.
+=======
+Package pdftex.def Info: Figures/lasso_mse.pdf used on input line 725.
+>>>>>>> origin/master
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [34 <./Figures/lasso_mse.pdf>]
 <Figures/lasso_predicted.pdf, id=242, 361.35pt x 361.35pt>
 File: Figures/lasso_predicted.pdf Graphic file (type pdf)
 
 <use Figures/lasso_predicted.pdf>
+<<<<<<< HEAD
 Package pdftex.def Info: Figures/lasso_predicted.pdf used on input line 737.
+=======
+Package pdftex.def Info: Figures/lasso_predicted.pdf used on input line 749.
+>>>>>>> origin/master
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
 
 <Figures/lasso_residuals.pdf, id=243, 361.35pt x 361.35pt>
 File: Figures/lasso_residuals.pdf Graphic file (type pdf)
 
 <use Figures/lasso_residuals.pdf>
+<<<<<<< HEAD
 Package pdftex.def Info: Figures/lasso_residuals.pdf used on input line 742.
+=======
+Package pdftex.def Info: Figures/lasso_residuals.pdf used on input line 754.
+>>>>>>> origin/master
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [35 <./Figures/lasso_predicted.pdf>]
 <Figures/lasso_coeff.png, id=254, 290.08376pt x 529.98pt>
 File: Figures/lasso_coeff.png Graphic file (type png)
 
 <use Figures/lasso_coeff.png>
+<<<<<<< HEAD
 Package pdftex.def Info: Figures/lasso_coeff.png used on input line 753.
+=======
+Package pdftex.def Info: Figures/lasso_coeff.png used on input line 763.
+>>>>>>> origin/master
 (pdftex.def)             Requested size: 276.00105pt x 504.27872pt.
  [36 <./Figures/lasso_residuals.pdf>] [37 <./Figures/lasso_coeff.png>] [38] (./
 Figures/pcr_cv.tex) (./Figures/pcr_hist.tex)
@@ -909,6 +954,7 @@ Package pdftex.def Info: Figures/pcr_predicted.png used on input line 811.
 Overfull \vbox (9.19878pt too high) has occurred while \output is active []
 
 
+<<<<<<< HEAD
 [40 <./Figures/pcr_predicted.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 818--819
 
@@ -927,27 +973,46 @@ Package pdftex.def Info: Figures/all_resid.pdf used on input line 838.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [41] [42 <./Figures/all_resid.pdf>] [43]
 <Figures/var_biais_ridge_lasso.pdf, id=296, 505.89pt x 505.89pt>
+=======
+[39] [40] [41] [42]
+<Figures/var_biais_ridge_lasso.pdf, id=276, 505.89pt x 505.89pt>
+>>>>>>> origin/master
 File: Figures/var_biais_ridge_lasso.pdf Graphic file (type pdf)
 
 <use Figures/var_biais_ridge_lasso.pdf>
 Package pdftex.def Info: Figures/var_biais_ridge_lasso.pdf used on input line 9
+<<<<<<< HEAD
 01.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [44] [45 <./Figures/var_biais_ridge_lasso.pdf>] [46]
 Chapter 2.
 
 Underfull \hbox (badness 10000) in paragraph at lines 917--918
+=======
+19.
+(pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
+ [43] [44 <./Figures/var_biais_ridge_lasso.pdf>] [45]
+Chapter 2.
+
+Underfull \hbox (badness 10000) in paragraph at lines 935--936
+>>>>>>> origin/master
 
  []
 
-[47
+[46
 
+<<<<<<< HEAD
 ] [48] [49] (./Figures/lda_pca.tex) [50] [51]
 Overfull \hbox (77.56879pt too wide) in paragraph at lines 1102--1103
+=======
+] [47] [48] (./Figures/lda_pca.tex) [49] [50]
+Overfull \hbox (77.56879pt too wide) in paragraph at lines 1120--1121
+>>>>>>> origin/master
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][]  
  []
 
+<<<<<<< HEAD
 (./Figures/lda_pca_cv.tex) [52] (./Figures/qda_pca_cv.tex) [53]
 Underfull \hbox (badness 10000) in paragraph at lines 1177--1178
 
@@ -993,4 +1058,43 @@ PDF statistics:
  269 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
  153 words of extra memory for PDF output out of 10000 (max. 10000000)
+=======
+(./Figures/lda_pca_cv.tex) [51] (./Figures/qda_pca_cv.tex) [52]
+Underfull \hbox (badness 10000) in paragraph at lines 1195--1196
+
+ []
+
+[53] (./Figures/lr_pca_cv.tex) [54] [55] (./main.aux) ) 
+Here is how much of TeX's memory you used:
+ 18685 strings out of 493014
+ 338705 string characters out of 6133351
+ 580249 words of memory out of 5000000
+ 21826 multiletter control sequences out of 15000+600000
+ 10872 words of font info for 41 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 55i,10n,92p,874b,1782s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2016
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2016/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2016/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2016/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2016/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2016/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2016/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2016/texmf-dist/font
+s/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2016/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2016/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
+/public/amsfonts/symbols/msbm10.pfb>
+Output written on main.pdf (57 pages, 786414 bytes).
+PDF statistics:
+ 379 PDF objects out of 1000 (max. 8388607)
+ 260 compressed objects within 3 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 118 words of extra memory for PDF output out of 10000 (max. 10000000)
+>>>>>>> origin/master
 

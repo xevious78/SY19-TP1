@@ -23,17 +23,26 @@
 \contentsline {subsection}{\numberline {1.5.1}Idea}{18}
 \contentsline {subsection}{\numberline {1.5.2}Model Performance}{19}
 \contentsline {section}{\numberline {1.6}Linear Regression with Features Selection}{20}
+<<<<<<< HEAD
 \contentsline {subsection}{\numberline {1.6.1}Model Performance}{20}
 \contentsline {subsection}{\numberline {1.6.2}Model Analysis}{22}
 \contentsline {section}{\numberline {1.7}Linear Regression with Regularization}{24}
 \contentsline {subsection}{\numberline {1.7.1}Ridge Regression}{24}
 \contentsline {subsubsection}{Model Performance}{24}
+=======
+\contentsline {subsection}{\numberline {1.6.1}Idea}{20}
+\contentsline {subsection}{\numberline {1.6.2}Model Performance}{22}
+\contentsline {section}{\numberline {1.7}Linear Regression with Regularization}{23}
+\contentsline {subsection}{\numberline {1.7.1}Ridge Regression}{23}
+\contentsline {subsubsection}{Model Implementation}{24}
+>>>>>>> origin/master
 \contentsline {subsubsection}{Model Analysis}{29}
 \contentsline {subsection}{\numberline {1.7.2}Lasso Regression}{32}
-\contentsline {subsubsection}{Model Performance}{33}
+\contentsline {subsubsection}{Model Implementation}{33}
 \contentsline {subsubsection}{Model Analysis}{38}
 \contentsline {section}{\numberline {1.8}Linear Regression with Dimension Reduction}{38}
 \contentsline {subsection}{\numberline {1.8.1}Idea}{38}
+<<<<<<< HEAD
 \contentsline {section}{\numberline {1.9}Models Comparison}{41}
 \contentsline {subsection}{\numberline {1.9.1}MSE and Residuals}{41}
 \contentsline {subsection}{\numberline {1.9.2}KNN neighbors and Linear Regression}{42}
@@ -55,3 +64,25 @@
 \contentsline {subsection}{\numberline {2.4.3}Logistic Regression}{54}
 \contentsline {subsubsection}{Improvements with PCA}{55}
 \contentsline {section}{\numberline {2.5}Models Comparison}{56}
+=======
+\contentsline {section}{\numberline {1.9}Models Comparaison}{40}
+\contentsline {subsection}{\numberline {1.9.1}KNN neighbors and Linear Regression}{40}
+\contentsline {subsection}{\numberline {1.9.2}Best subset Selection and Linear Regression Regularizations}{41}
+\contentsline {subsubsection}{Ridge \& Lasso }{41}
+\contentsline {subsubsection}{Regularization \& Best subset}{44}
+\contentsline {subsection}{\numberline {1.9.3}Dimension Reduction}{45}
+\contentsline {chapter}{\numberline {2}Phoneme Recognition}{46}
+\contentsline {section}{\numberline {2.1}Context}{46}
+\contentsline {section}{\numberline {2.2}Dataset Description}{46}
+\contentsline {section}{\numberline {2.3}Measure to Compare Models}{47}
+\contentsline {section}{\numberline {2.4}Classification}{47}
+\contentsline {subsection}{\numberline {2.4.1}LDA - Linear Discriminant Analysis}{47}
+\contentsline {subsubsection}{Model Implementation}{48}
+\contentsline {subsubsection}{Improvements with PCA}{49}
+\contentsline {subsection}{\numberline {2.4.2}QDA - Quadratic Discriminant Analysis}{51}
+\contentsline {subsubsection}{Model Implementation}{51}
+\contentsline {subsubsection}{Improvements with PCA}{52}
+\contentsline {subsection}{\numberline {2.4.3}Logistic Regression}{53}
+\contentsline {subsubsection}{Improvements with PCA}{54}
+\contentsline {section}{\numberline {2.5}Models Comparison}{54}
+>>>>>>> origin/master
