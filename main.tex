@@ -209,8 +209,8 @@ It turns out that both plots show non-normal scatters of the residuals. In parti
 Before building any model, we have to properly define the measures we will use later to compare their performance. 
 
 \subsection{Some Measures}
-A first way to assess the performance of a model $F$ is to compute the Mean Squared Error (MSE). Let $\hat{Time}$ be the estimate of the variable $Time$ using the model $F$. MSE is defined as :
-$$MSE(F) =  mean_i(Time_i - \hat{Time}_i)^2$$
+A first way to assess the performance of a model $F$ is to compute the Mean Squared Error (MSE). Let $\overline{Time}$ be the estimate of the variable $Time$ using the model $F$. MSE is defined as :
+$$MSE(F) =  mean_i(Time_i - \overline{Time}_i)^2$$
 
 We can also use adjusted $R^2$ score.
 
@@ -238,10 +238,10 @@ Once this data split is done, we can finally dive into the model building.
 
 \section{K-nearest neighbors (KNN)}
 We start our analysis with a very simple model called the KNN.
-Given a positive integer $k$ and a test observation. The KNN model first identifies the k closest points to each point of the test observation then it estimates the response using the average of the k closest train responses.\\ 
+Given a positive integer $k$ and a test observation. The KNN model first identifies the $k$ closest points to each point of the test observation then it estimates the response using the average of the $k$ closest train responses.\\ 
 
 \subsection{Knn Model}
-The KNN model in R is done by calling the function \texttt{reg} of the package \texttt{knn}. As we will see in the following sections, For most prediction algorithms, we first have to build the prediction model on the training data, and then use the model to test our predictions. However, the KNN function does both in a single step.\\ 
+The KNN model in R is done by calling the function \texttt{reg} of the package \texttt{knn}. As we will see in the following sections, for most prediction algorithms, we first have to build the prediction model on the training data, and then use the model to test our predictions. However, the KNN function does both in a single step.\\ 
 In order to find the best $k$ we set a maximum number of neighbors to be considered (in our model it is 120), then we calculate the MSE for each $k$ which is the mean of the squared difference between the real value of \texttt{Time} and the predicted one. All the steps are detailed in the code below.
 
 \subsubsection{Model Performance}
@@ -268,14 +268,14 @@ The graph below (figure \ref{fig:knn_train}) shows the \textbf{ MSE} plotted aga
 	\label{fig:knn_train}
 \end{center}
 
-We are looking for the number k of neighbors that has the smallest MSE so we use the function \texttt{which.min} that returns the index of the minimum value of MSE.\\
+We are looking for the number $k$ of neighbors that has the smallest MSE so we use the function \texttt{which.min} that returns the index of the minimum value of MSE.\\
 
 \begin{center} 
 	model.knn.best.k   = 11 \\
 	model.knn.best.MSE = 1060.46
 \end{center}
 
-Now that we have the $k$ that minimizes the MSE we call KNN algorithm with this best $k$ and plot the predicted values against the real values as the residuals. The corresponding code is shown below:
+Now that we have the $k$ that minimizes the MSE, we call KNN algorithm with this best $k$ and plot the predicted values against the real values as the residuals. The corresponding code is shown below:
 
 \begin{lstlisting}
 model.knn.best = knn.reg(train=train_set.x, test=test_set.x, y=train_set.y, k=model.knn.best.k)
@@ -309,7 +309,7 @@ The red line is the function $y=x$; so further are the points from this line the
 
 We notice that the predicted responses {$\hat{y}$} diverge a lot from the real values $y$. We expected those results since the MSE is quite high. 
 
-This approach of finding the best $k$ was quite \textbf{optimistic}. Actually we tried finding the best $k$ while minimizing the MSE in \textbf{the test data}. Therefore the model is very specific to our test data which yields to a high bias. The solution is to find the best $k$ among the \textbf{training data} and then use the best $k$ in the test data. \\ To find the best \textbf{unbiased} $k$ number of neighbors k we use the method of cross validation on the train data then we predict the response on the test. 
+This approach of finding the best $k$ was quite \textbf{optimistic}. Actually we tried finding the best $k$ while minimizing the MSE in \textbf{the test data}. Therefore, the model is very specific to our test data which yields to a high bias. The solution is to find the best $k$ among the \textbf{training data} and then use the best $k$ in the test data. \\ To find the best \textbf{unbiased} $k$ number of neighbors, we use the method of cross validation on the train data then we predict the response on the test. 
 
 \subsection{The Validation Set Approach}
 There are two main methods in cross validation: \textbf{the validation set approc}h and the \textbf{cross validation leave one out (LOOCV)} which is a particular case of the  \textbf{K-fold cross validation}. As we do not have that much observations (n=198) we can afford the computation of cross validation leave one out, but before we will argument our choice.\\
@@ -318,15 +318,15 @@ There are two main methods in cross validation: \textbf{the validation set appro
 The cross validation approach is based on dividing the provided data in 2 sets: a training set and a validation set. The model is fit on the training set, then the fitted model is used to predict responses of observations in the validation set. We validate our model using the best MSE.
 
 \subsubsection{Leave-One-Out Cross-Validation}
-Like the cross validation the LOOCV involves splitting the set of observations in two parts. The main difference is that we have a single observation $(x_1, y_1)$ in the test data and the $n-1$ remaining is used for the train data. The MSE in this case is $MSE_1 =(y_1 - \hat{y}_{1})^{2}$. This provides an unbiased estimate for the test error since the size of the train model is approximately the one of all the data of the observation. However it is highly variable as it is based in one observation. The LOOCV repeats the procedure n times fitting each time a different set of observations. The LOOCV test MSE is computed by calculating the average of the n test error estimates.
+Like the cross validation the LOOCV involves splitting the set of observations in two parts. The main difference is that we have a single observation $(x_1, y_1)$ in the test data and the $n-1$ remaining is used for the train data. The MSE in this case is $MSE_1 =(y_1 - \hat{y}_{1})^{2}$. This provides an unbiased estimate for the test error since the size of the train model is approximately the one of all the data of the observation. However it is highly variable as it is based in one observation. The LOOCV repeats the procedure $n$ times fitting each time a different set of observations. The LOOCV test MSE is computed by calculating the average of the $n$ test error estimates.
 
 \begin{center}
 	$$CV_{(n)} = \frac{1}{n} \sum_{i=1}^{n} MSE_{i} $$
 \end{center}
 
-The LOOCV will always give the same results in contrast to the CV that depends on the randomness of how the data are split. Furthermore as it was stated before the CV runs the train approach on around half of the size of the original data while the LOOCV repeats the validation set approach n times using n-1 observations. Hence the LOOCV yields to a not overestimated test error rate compared to the validation set approach. The only disadvantage of the LOOCV is it is computation time which can be very time consuming when n the number of observations is large.\\
+The LOOCV will always give the same results in contrast to the CV that depends on the randomness of how the data are split. Furthermore as it was stated before, the CV runs the train approach on around half of the size of the original data while the LOOCV repeats the validation set approach $n$ times using $n-1$ observations. Hence the LOOCV doest not yield to an overestimated test error rate compared to the validation set approach. The only disadvantage of the LOOCV is it is computation time which can be very time consuming when the number of observations is large.\\
 
-An alternative to LOOCV that has a smaller computation time is k-Fold Cross Validation. This approach is based on dividing the training observations on $k$ groups, each time one group will be considered as the test set and the $k-1$ left as the training set. Therefore the CV becomes:
+An alternative to LOOCV that has a smaller computation time is k-Fold Cross Validation. This approach is based on dividing the training observations in $k$ groups, each time one group will be considered as the test set and the $k-1$ left as the training set. Therefore the CV becomes:
 
 \begin{center}
 	$$CV_{(k)} = \frac{1}{k} \sum_{i=1}^{k} MSE_{i} $$
@@ -342,7 +342,7 @@ model.kknn = train.kknn(Time ~., data= train_set, kmax = 30)
 model.kknn.best.k = model.kknn$best.parameters$k
 \end{lstlisting}
 
-After deducting the best k neighbors from the model we use it on the test observations to predict the values of Time. 
+After deducting the best $k$ neighbors from the model we use it on the test observations to predict the values of Time. 
 We then compute the MSE and plot the predicted values $\hat{y}$ against the real ones \textit{y}.
 
 \begin{lstlisting}
@@ -369,7 +369,7 @@ curve(dnorm(x, mean=residuals.mean, sd=residuals.stdev), col="darkblue", lwd=2, 
 	model.kknn.best.MSE = 1146.05
 \end{center}
 
-We run a the same plot again with the predicted reponses against the real ones \ref{fig:knn_predicted_LOOCV} and the histogram of the residuals \ref{fig:knn_predicted_residuals_LOOCV}.
+We run the same plot again with the predicted reponses against the real ones \ref{fig:knn_predicted_LOOCV} and the histogram of the residuals \ref{fig:knn_predicted_residuals_LOOCV}.
 .
 \begin{center}
 	\includegraphics[width=0.8\linewidth]{Figures/knn_predicted_LOOCV.pdf}
@@ -387,7 +387,7 @@ We run a the same plot again with the predicted reponses against the real ones \
 
 \subsubsection{Model Analysis}
 One might argue that the prediction was not improved with the LOOCV since the test MSE obtained is higher that the MSE we obtained when we computed using the test set directly. However this result was expected since in the first approach we run our knn directly on the test so we underestimated the MSE, in other words the first MSE is very specific to that test set of data (biased), in contrast to our the LOOCV model. Which means that, in general, $k=30$ will guarantee a smaller MSE than the $k=11$ on any test observation.
-The LOOCV has also an advantage over the first approach because it will always give the same result of best k.
+The LOOCV has also an advantage over the first approach because it will always give the same result of best $k$.
 
 \section{Simple Linear Regression}
 \subsection{Idea}
@@ -395,7 +395,7 @@ Our next attempt consists on using the same linear model we used in the feature 
 $$
 Y = \beta_0 + \sum_{i = 1}^{p} \beta_i X_i
 $$
-The regression coefficients $\beta_i$ are choosen so that they minimize the MSE. Both analytical and optimization methods (Gradient Descent, Stochastical Gradient Descent, ...) can be used to find the best coefficient estimates.
+The regression coefficients $\beta_i$ are choosen so that they minimize the MSE. Both analytical and optimization methods (Newton-Raphson Method, Gradient Descent, Stochastical Gradient Descent, ...) can be used to find the best coefficient estimates.
 
 To build the model in R, we can use the function \texttt{lm} :
 \begin{lstlisting}
@@ -471,7 +471,7 @@ In R, the following function is available to fit the linear models :
 model.linreg.regsubsets = regsubsets(Time ~ ., data=train_set, method = "exhaustive", nvmax = 32)
 \end{lstlisting}
 
-We can then use the function \texttt{plot} to compare the models according to a given scale. In our case we use the BIC measurements. $$BIC = \frac{1}{n} (RSS + log(n)d\hat{\sigma}^{2}) $$
+We can then use the function \texttt{plot} to compare the models according to a given scale. In our case we use the BIC measurements. $$BIC = \frac{1}{n} (RSS + \log(n)d\hat{\sigma}^{2}) $$
 The BIC will be smaller when the RSS is small, so we select the model with the smallest BIC. The result is shown on figure \ref{fig:subset_bic}.
 
 \begin{lstlisting}
@@ -520,13 +520,13 @@ The Linear Regression with least squares estimates the parameters $\beta_{0},\be
 	$$ RSS = \sum_{i=1}^{n}(y_{i} - \beta_{0} - \sum_{j=1}^{p}\beta_{j}x_{ij})^{2} $$
 \end{center}
 
-Ridge Regression works the same way as the least squares in the sense that it also tries to minimize the RSS but is also has another term $\lambda \sum{j}\beta_{j}^{2}$ called the \textbf{shrinkage penalty} where $\lambda\geq$ 0 is the \textbf{ tuning parameter}. The formula is:
+Ridge Regression works the same way as the least squares in the sense that it also tries to minimize the RSS but is also has another term $\lambda \sum_{j}\beta_{j}^{2}$ called the \textbf{shrinkage penalty} where $\lambda\geq$ 0 is the \textbf{ tuning parameter}. The formula is:
 \begin{equation} \label{eq1}
 RSS + \lambda \sum_{j}\beta_{j}^{2}
 \end{equation}			
 
-If $\lambda$=0 we are in the same case of a least squares estimates. The higher $\lambda$ gets, the higher will be the penalty. Hence Ridge regression will try to minimize the parameters $\beta_{j}$ in order to minimize the term \ref{eq1}.\\
-When applying the penalty on the coefficients those with different scales (for instance a perimeter in m and the other one in Km) will be "treated" differently , because the penalized term is a sum of squares of all the coefficients. An alternative to get the penalty applied uniformly across the predictors is to standardize the independent predictors first with the function scale.
+If $\lambda$=0, we are in the same case of a least squares estimates. The higher $\lambda$ gets, the higher will be the penalty. Hence Ridge regression will try to minimize the parameters $\beta_{j}$ in order to minimize the term \ref{eq1}.\\
+When applying the penalty on the coefficients those with different scales (for instance a perimeter in $m$ and the other one in $Km$) will be "treated" differently , because the penalized term is a sum of squares of all the coefficients. An alternative to get the penalty applied uniformly across the predictors is to standardize the independent predictors first with the function scale.
 
 \subsubsection{Model Performance}
 The \texttt{glmnet} function takes for parameters the matrix $x$ of predictors and vector $y$ of responses. The \texttt{model.matrix} will help us transform out data sets into matrix. This function not only gives out a matrix but it also converts the qualitative variables into dummy variables.
@@ -539,7 +539,7 @@ test_set.x =model.matrix(Time~., test_set)[,-1]
 test_set.y = test_set$Time
 scale(test_set.x, center = TRUE, scale = TRUE)
 \end{lstlisting}
-The glmnet function takes in parameter the train data, the parameter \textbf{alpha} indicates whether it is a Ridge or Lasso regression (alpha=0 for Ridge). By default \texttt{glmnet} chooses an automatic range of $\lambda$, however we chose a wide range with the function \textbf{grid} that takes the minimum value the maximum and the length and returns a grid. We chose $\lambda\in[10^{−2},10^{10}]$ to cover all possibilities.
+The \texttt{glmnet} function takes in parameter the train data, the parameter \textbf{alpha} indicates whether it is a Ridge or Lasso regression (\texttt{alpha=0} for Ridge). By default \texttt{glmnet} chooses an automatic range of $\lambda$, however we chose a wide range with the function \textbf{grid} that takes the minimum value the maximum and the length and returns a grid. We chose $\lambda\in[10^{−2},10^{10}]$ to cover all possibilities.
 
 \begin{lstlisting}
 library(glmnet)
@@ -622,7 +622,7 @@ predict(model.ridge, type="coefficients", s=model.ridge.best.lambda)[1:33,]
 \end{center}
 
 \subsubsection{Model Analysis} \label{Ridge Model Analysis}
-We notice that some coefficients are very close to 0 such as \texttt{area\_mean}(-0.004), but none of them is null. In fact Ridge Regression only shrinks the coefficients and does not perform any variable selection;  that is why we are going to use Lasso in the following part.\\
+We notice that some coefficients are very close to 0 such as \texttt{area\_mean} (-0.004), but none of them is null. In fact Ridge Regression only shrinks the coefficients and does not perform any variable selection;  that is why we are going to use Lasso in the following part.\\
 
 We stated in the previous part that the test MSE of Ridge regression improved compared to the Linear Regression one.
 However this didn't  come with no expenses, in fact Ridge regression will have a larger bias. It all can be summarized in\textbf{ biais-variance trade-off}.\\ 
@@ -661,10 +661,10 @@ plot(grid,MSE)
 	\captionof{figure}{MSE against $\lambda$}
 \end{center}
 
-At $\lambda=0$ the variance is high but there is no bias,which corresponds to the least squared approach.
+At $\lambda=0$ the variance is high but there is no bias, which corresponds to the least squared approach.
 As $\lambda$ increases the variance and bias decrease but at some point the variance continues to decrease while the bias starts increasing. Which means that the shrinkage of the coefficients by $\lambda$ reduces the variances on the expense of the bias. In fact $\lambda$ is underestimating the coefficients by shrinking them. Let us compare now those results to the MSE curve. 
 $$MSE = (E[\varTheta]-\varTheta)^{2} + Var(\varTheta) = (Bias[\varTheta])^{2} + Var(\varTheta)$$
-Hence if the variance and the bias decrease significantly in the beginning the MSE will decrease too, and when the variance will decrease less and the bias will start increasing the MSE will increase too. We should also note that at at  $\lambda=0$ (least squares) the MSE is high.\\
+Hence if the variance and the bias decrease significantly in the beginning the MSE will decrease too, and when the variance will decrease less and the bias will start increasing the MSE will increase too. We should also note that at  $\lambda=0$ (least squares) the MSE is high.\\
 To sum up, in linear regression we can have a low bias but a high variance, this is where the ridge regression improves over the least squares because it shrinks the variance on the expense of the bias.
 
 \subsection{Lasso Regression}
@@ -674,7 +674,7 @@ As it was discussed on the previous section, Ridge regression's disadvantage is 
 RSS + \lambda \sum_{j}{|\beta_{j}^{2}|}
 \end{equation}	
 
-The only difference with the term of Ridge is that we now have $|\beta_{j}^{2}|$ instead of $\beta_{j}^{2}$. This alternative will reduce the $\beta_{j}$ that are close to zero to null, hoping we have a more interpretable model by reducing the number of variables. To call the lasso model we use the same function \textbf{glmnet} but with the parameter \textbf{alpha=1}.
+The only difference with the term of Ridge is that we now have $|\beta_{j}^{2}|$ instead of $\beta_{j}^{2}$. This alternative will reduce the $\beta_{j}$ that are close to zero to null, hoping we have a more interpretable model by reducing the number of variables. To call the lasso model we use the same function \textbf{glmnet} but with the parameter \texttt{alpha=1}.
 
 \subsubsection{Model Performance}
 \begin{lstlisting}
@@ -689,7 +689,7 @@ plot(model.lasso)
 	\captionof{figure}{Coefficients against L1 Norm}
 \end{center}
 
-We notice that for some values of $\lambda$ the coefficients are null. We now perform the 10 fold cross validation on the training set to deduct the best tuning parameter. \textbf{cv.glmnet} does k-fold cross-validation for glmnet (by default k=10) it then  produces a plot and returns a value for lambda.
+We notice that the coefficients are null for particular values of $\lambda$. We now perform the 10 fold cross validation on the training set to deduct the best tuning parameter. \textbf{cv.glmnet} does k-fold cross-validation for \texttt{glmnet} (by default $k=10$) it then  produces a plot and returns a value for $\lambda$.
 
 \begin{lstlisting}
 model.lasso.cv.out = cv.glmnet(train_set.x, train_set.y, lambda=grid, alpha=1)
@@ -697,7 +697,7 @@ plot(model.lasso.cv.out)
 model.lasso.best.lambda = model.lasso.cv.out$lambda.min
 \end{lstlisting}
 
-After running the cross validation we get the best lambda that minimized the term \ref{eq2}. We now can run a prediction on the test set with the best lambda and compute the residuals and the test MSE.
+After running the cross validation, we get the best $\lambda$ that minimized the term \ref{eq2}. We now can run a prediction on the test set with the best $\lambda$ and compute the residuals and the test MSE.
 
 \begin{lstlisting}
 model.lasso.best = glmnet(train_set.x, train_set.y, lambda=model.lasso.best.lambda, alpha=1)
@@ -756,7 +756,7 @@ predict(model.lasso, type="coefficients", s=model.lasso.best.lambda)[1:33,]
 We can clearly see that Lasso performed a variable selection by setting the unselected predictors' coefficients to 0
 
 \subsubsection{Model Analysis}
- Lasso selected only 8 predictors out of 32 with a slightly improved test MSE compared to Ridge that uses all the predictors.Therefore we selected 25\% of variables. The features selected for recurrence Time prediction are:
+ Lasso selected only 8 predictors out of 32 with a slightly improved test MSE compared to Ridge that uses all the predictors. Therefore we selected 25\% of variables. The features selected for recurrence Time prediction are:
  \begin{itemize} 
  \item texture\_mean
  \item perimeter\_mean
@@ -768,7 +768,7 @@ We can clearly see that Lasso performed a variable selection by setting the unse
  \item symmetry\_worst
  \item fractal\_dimension\_worst
 \end{itemize}
-Those are the features that with $\lambda = 3.25 $ their coefficients $\beta$ was not null.
+Those are the features that, with $\lambda = 3.25$, their coefficients $\beta$ was not null.
 
 \section{Linear Regression with Dimension Reduction}
 \subsection{Idea}
@@ -778,7 +778,7 @@ Principal Component Analysis (PCA) is one such method. It consists in transformi
 
 Once a set of principal components is found, it can be used as an input to a simple linear regression to build what is called a Principal Component Regression (PCR) model. The number of components $M$ should be taken so that the model built with PCR has a minimum error value; once again, a 10 fold cross validation method can be used to determine the best $M$.
 
-PCR is available in R with the package \texttt{pls}. pcr works same way as the lm with some additional parameters, scale helps standardizing the data and setting the validation="CV" will perform a 10 fold cross validation on the model.
+PCR is available in R with the package \texttt{pls}. \texttt{pcr} works same way as the \texttt{lm} with some additional parameters, \texttt{scale} helps standardizing the data and setting the \texttt{validation="CV"} will perform a 10 fold cross validation on the model.
 \begin{lstlisting}
 library(pls)
 model.pcr = pcr(Time ~ ., data=train_set, scale=TRUE, validation="CV")
@@ -794,11 +794,11 @@ According to figure \ref{fig:pcr_cv}, the model with only 4 components yields to
 \begin{figure}[!h]
 	\centering
 	\inputtikz{0.5}{Figures/pcr_cv.tex}
-	\caption{PCR}
+	\caption{PCR Cross Validation results}
 	\label{fig:pcr_cv}
 \end{figure}
 
-The function \texttt{summary} tells us that 4 components are enough to explain 75\% of the features' variance, which seems to be enough for this dataset. Indeed, this model performs better that the other linear regression methods : the MSE is approximatively equal to 967. 
+The function \texttt{summary} tells us that 4 components are enough to explain 75\% of the features' variance, which seems to be enough for this dataset. Indeed, this model performs better that the other linear regression methods : the MSE is approximatively equal to \textbf{967}. 
 
 \begin{figure}[!h]
 	\centering
@@ -812,13 +812,13 @@ The function \texttt{summary} tells us that 4 components are enough to explain 7
 	\captionof{figure}{PCR Predicted values against Real values}
 	\label{fig:pcr_predicted}
 \end{center}
-The test MSE obtained is very competitive, however even though we know that the number of components is 4 PCR does not explicitly show the predictors. Therefore PCR's results are harder to interpret as it does not perform a variable selection.
+The test MSE obtained is very competitive, however even though we know that the number of components is 4, PCR does not explicitly show the predictors. Therefore PCR's results are harder to interpret as it does not perform a variable selection.
 
 \section{Models Comparison}
 Comparing the MSE and the raw residuals distribution is the first approach to take for judging and comparing the performance of each model.\\
 \subsection{MSE and Residuals}
 \begin{center}
-\begin{tabular}{c c}
+\begin{tabular}{r l}
 	Model & Mean Squared Error (MSE) \\
 	KNN neighbours (with LOOCV) & 1146\\ 
 	Linear Regression & 1285\\
@@ -836,7 +836,7 @@ It is also important to compare the residuals distribution of our models. If the
 
 \begin{center}
 	\includegraphics[width=0.8\linewidth]{Figures/all_resid.pdf}
-	\captionof{figure}{BoxPlots of residuals off all models}
+	\captionof{figure}{BoxPlots of residuals of all models}
 \end{center}
 Two main information can be retained from this raw residuals box-plots: 
 \begin{itemize}
@@ -845,11 +845,14 @@ Two main information can be retained from this raw residuals box-plots:
 \end{itemize}
 
 \subsection{KNN neighbors and Linear Regression}
- The linear regression is a \textbf{parametric method}, it comes with the hypothesis that there is a relationship between the response Y and the p predictors $X_{i}$ that can be expressed like $Y =\beta_{1}X_{1}+\beta_{2}X+{2}+...+\beta{p}X_{p}$. Its main advantage is that it is easy to use and to interpret however when the relationship between the predictors and the response is not linear the results might not be satisfying. The KNN neighbors however is a non parametric method. In other words it makes no assumptions on the response Y. If we compare between the \textbf{test MSE} obtained by the KNN (1146) and the one obtained by the Linear Regression (1285), we see that the KNN does a better job. These arguments the fact that the model might not be linear. A remark that was made when observing the QQ plots in the first section. 
+ The linear regression is a \textbf{parametric method}, it comes with the hypothesis that there is a relationship between the response $Y$ and the $p$ predictors $X_{i}$ that can be expressed like $Y =\beta_{1}X_{1}+\beta_{2}X+{2}+...+\beta{p}X_{p}$. Its main advantage is that it is easy to use and to interpret, however ,when the relationship between the predictors and the response is not linear, the results might not be satisfying. The KNN neighbors however is a non parametric method. In other words it makes no assumptions on the response Y. If we compare between the \textbf{test MSE} obtained by the KNN (1146) and the one obtained by the Linear Regression (1285), we see that the KNN does a better job. These arguments the fact that the model might not be linear. A remark that was made when observing the QQ plots in the first section. 
 \subsection{Best subset Selection and Linear Regression Regularizations}
 \subsubsection{Ridge \& Lasso }
-The lasso's advantage over Ridge Regression is the variable selection; the model is thus easier to interpret. The MSE in Lasso is also slightly improved. In fact Lasso works better when there isn't an important number of predictors which corresponds to our case since we only have 33. In order to compare between their variance bias trade off. We run the ridge regression with all the different values of $\lambda$ but for Lasso we run the regression with the new data set that contains only 8 variables.\\ 
-In order to create the new data\_set of 8 predictors we used the function \textbf{cbind} that binds columns and \textbf{data.frame} for storing data tables. cbind did not keep the columns'names so we renamed them using the function \textbf{colnames}.
+The Lasso's advantage over Ridge Regression is the variable selection; the model is thus easier to interpret. The MSE in Lasso is also slightly improved. In fact Lasso works better when there isn't an important number of predictors. This corresponds to our case since we only have 33. 
+
+In order to compare their variance bias trade off, we run the ridge regression with all the different values of $\lambda$ and the lasso regression with the new data set that contains only 8 variables.
+
+To create the new data\_set of 8 predictors we used the function \texttt{cbind} that binds columns and \texttt{data.frame} for storing data tables. \texttt{cbind} did not keep the columns'names so we renamed them using the function \texttt{colnames}.
 
 Now that we have our new data\_set, let's compare between the test MSE and variance-bias trade-off against the tuning parameter $\lambda$
 \begin{lstlisting}
@@ -901,12 +904,13 @@ lines(grid,biais2_l,col="blue",lty=2)
 	\includegraphics[width=0.8\linewidth]{Figures/var_biais_ridge_lasso.pdf}
 	\captionof{figure}{Bias(dashed line)-Variance(line) Trade off of Ridge(Red) and Lasso(Blue)}
 \end{center}
-As it was stated in the subsection above \ref{Ridge Model Analysis} both Ridge and Lasso influence on the bias and the variance same way.
-It is clear from the curves above that Lasso decreases the variance more on the expense of the bias which explains why the Ridge's vaiance is higher than the Lasso's one but its bias is smaller. \\
-These leads us to conclude that neither of the models performs better than the other. Lasso will be more pertinent to use if we have few predictors as it will set some coefficients to null and so the model will be easier to interpret. Nevertheless if we have lot of predictors Ridge might be a better idea because all the coefficients will be small. In our case with 32 predictors, Lasso will be a fear choice.
+As it was stated in the subsection above \ref{Ridge Model Analysis} both Ridge and Lasso influence the bias and the variance in the same way.
+It is clear from the curves above that Lasso decreases the variance more on the expense of the bias, which explains why the Ridge's vairance is higher than the Lasso's one but its bias is smaller. \\
+This leads us to conclude that neither of the models performs better than the other. Lasso will be more pertinent to use if we have few predictors as it will set some coefficients to null and so the model will be easier to interpret. Nevertheless if we have lot of predictors Ridge might be a better idea because all the coefficients will be small. In our case with 32 predictors, Lasso is a fear choice.
+
 \subsubsection{Regularization \& Best subset}
 Both Lasso and Best Subset perform a variable selection, their MSE are close but with the Best Subset we only kept 3 variable which is 38\% less predictors. How can we compare between those two approaches?\\
-First Lasso adds up a new tuning parameter to penalize the coefficients which is why it is named shrinkage method. In contrast to the Best subset selection that doesn't add up anything. Therefore the regression coefficients obtained by Lasso are biased.
+First Lasso adds up a new tuning parameter to penalize the coefficients which is why it is named shrinkage method. In contrast to the Best subset selection that doesn't add up anything. Therefore, the regression coefficients obtained by Lasso are biased.
 
 \subsection{Dimension Reduction}
 Last but not least, dimension reduction is competitive as it has the lowest MSE and its raw residuals are distributed normally. PCR can be an interesting approach if we aim to \textbf{predict} data, however it won't be of much utility if the goal is the \textbf{inference}. Since the PCR doesn't explicitly select variables, the relationship between the response and a given predictor is not clear and Lasso would be a better choice. 
@@ -914,7 +918,7 @@ Last but not least, dimension reduction is competitive as it has the lowest MSE 
 
 \chapter{Phoneme Recognition}
 \section{Context}
-In the context of speech recognition the aim is to predict which of the phonemes is pronounced by the subject. In this case, we have five phonemes to recognize :\\ 
+In the context of speech recognition ,the aim is to predict which phoneme is pronounced by the subject. In this case, we have five phonemes to recognize :\\ 
 \begin{center}
 	$g = \left\{
 	\begin{array}{l}
@@ -1001,7 +1005,7 @@ aa         ao         dcl        iy         sh
 
 The prior probabilities tell us that in the train observation 15\% of phonemes are \texttt{aa} , 23\% \texttt{ao}, 17\% \texttt{dcl}, 25\% \texttt{iy} and 19\% \texttt{sh}.
 
-Now that we trained the model we can call the \texttt{predict} function to predict the responses of the test set of data. This function returns an element \texttt{class}, a list of the predicted phonemes. An element \texttt{posterior} with the posterior probability of the response of the $k$-th class.  Last the linear discriminants are found in \texttt{x}.
+Now that we trained the model we can call the \texttt{predict} function to predict the responses of the test set of data. This function returns an element \texttt{class}, a list of the predicted phonemes. An element \texttt{posterior} with the posterior probability of the response of the $k$-th class.  Last, the linear discriminants are found in \texttt{x}.
 
 \begin{lstlisting}
 model.lda.predicted = predict(model.lda,newdata=test_set)
@@ -1024,12 +1028,12 @@ sh    0   0   0   0 224
 \end{verbatim}
 \end{center}
 
-Here is an example of how this table is read, for the second line
+Here is an example of how this table should be read : for the second line
 when the phoneme pronounced is \texttt{aa} , the speech recognition detects that 129 is detected as \texttt{aa} and 47 as \texttt{ao}, in other words only 27\% is misclassified.
-In order to compute the total error rate we divide the sum of the diagonal terms (which are the true phonemes detected) and divide it by the number total of observations We find that in 92\% of the cases the speech recognition detected right the phoneme. This classifier performs quite well, but it does not work well with the phonemes \texttt{aa} and \texttt{ao} which sound very similar.
+In order to compute the total error rate we divide the sum of the diagonal terms (which are the true phonemes detected) and divide it by the number total of observations/ We find that in 92\% of the cases the speech recognition detected right the phoneme. This classifier performs quite well, but it does not work well with the phonemes \texttt{aa} and \texttt{ao} which sound very similar.
 
 \subsubsection{Improvements with PCA}
-The dataset has a high number of features (256) that may prevent the model from fitting well. We can cope with this performance issue by applying a dimension reduction method, such as Principal Component Analysis (PCA). The function\texttt{prcomp} is available in R to compute the principal components of the 256 features. Since PCA depends on the scaling of the inputs, it is important to scale and center each feature.
+The dataset has a high number of features (256) that may prevent the model from fitting properly. We can cope with this performance issue by applying a dimension reduction method, such as Principal Component Analysis (PCA). The function\texttt{prcomp} is available in R to compute the principal components of the 256 features. Since PCA depends on the scaling of the inputs, it is important to scale and center each feature.
 \begin{lstlisting}
 pca = prcomp(train_set.x, center = TRUE, scale. = TRUE)
 \end{lstlisting}
