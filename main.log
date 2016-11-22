@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.8.19)  22 NOV 2016 10:57
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.8.19)  22 NOV 2016 12:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -849,28 +849,28 @@ Package pdftex.def Info: Figures/lasso_model.pdf used on input line 700.
 File: Figures/lasso_mse.pdf Graphic file (type pdf)
 
 <use Figures/lasso_mse.pdf>
-Package pdftex.def Info: Figures/lasso_mse.pdf used on input line 718.
+Package pdftex.def Info: Figures/lasso_mse.pdf used on input line 725.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [34 <./Figures/lasso_mse.pdf>]
 <Figures/lasso_predicted.pdf, id=234, 361.35pt x 361.35pt>
 File: Figures/lasso_predicted.pdf Graphic file (type pdf)
 
 <use Figures/lasso_predicted.pdf>
-Package pdftex.def Info: Figures/lasso_predicted.pdf used on input line 742.
+Package pdftex.def Info: Figures/lasso_predicted.pdf used on input line 749.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
 
 <Figures/lasso_residuals.pdf, id=235, 361.35pt x 361.35pt>
 File: Figures/lasso_residuals.pdf Graphic file (type pdf)
 
 <use Figures/lasso_residuals.pdf>
-Package pdftex.def Info: Figures/lasso_residuals.pdf used on input line 747.
+Package pdftex.def Info: Figures/lasso_residuals.pdf used on input line 754.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [35 <./Figures/lasso_predicted.pdf>]
 <Figures/lasso_coeff.png, id=246, 290.08376pt x 529.98pt>
 File: Figures/lasso_coeff.png Graphic file (type png)
 
 <use Figures/lasso_coeff.png>
-Package pdftex.def Info: Figures/lasso_coeff.png used on input line 756.
+Package pdftex.def Info: Figures/lasso_coeff.png used on input line 763.
 (pdftex.def)             Requested size: 276.00105pt x 504.27872pt.
  [36 <./Figures/lasso_residuals.pdf>] [37 <./Figures/lasso_coeff.png>] [38] (./
 Figures/pcr_cv.tex) (./Figures/pcr_hist.tex)
@@ -882,31 +882,39 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [39] [40] [41] [42]
+<Figures/var_biais_ridge_lasso.pdf, id=276, 505.89pt x 505.89pt>
+File: Figures/var_biais_ridge_lasso.pdf Graphic file (type pdf)
+
+<use Figures/var_biais_ridge_lasso.pdf>
+Package pdftex.def Info: Figures/var_biais_ridge_lasso.pdf used on input line 9
+19.
+(pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
+ [43] [44 <./Figures/var_biais_ridge_lasso.pdf>] [45]
 Chapter 2.
 
-Underfull \hbox (badness 10000) in paragraph at lines 856--857
+Underfull \hbox (badness 10000) in paragraph at lines 935--936
 
  []
 
-[43
+[46
 
-] [44] [45] (./Figures/lda_pca.tex) [46] [47]
-Overfull \hbox (77.56879pt too wide) in paragraph at lines 1029--1030
+] [47] [48] (./Figures/lda_pca.tex) [49] [50]
+Overfull \hbox (77.56879pt too wide) in paragraph at lines 1108--1109
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][]  
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1055--1056
+Underfull \hbox (badness 10000) in paragraph at lines 1134--1135
 
  []
 
-[48] [49] (./main.aux) ) 
+[51] [52] (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 18659 strings out of 493014
- 338226 string characters out of 6133351
- 566203 words of memory out of 5000000
- 21810 multiletter control sequences out of 15000+600000
+ 18673 strings out of 493014
+ 338497 string characters out of 6133351
+ 580216 words of memory out of 5000000
+ 21823 multiletter control sequences out of 15000+600000
  10872 words of font info for 41 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,10n,92p,874b,1782s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -927,10 +935,10 @@ pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.p
 fb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb
 ></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10
 .pfb>
-Output written on main.pdf (51 pages, 759636 bytes).
+Output written on main.pdf (54 pages, 769953 bytes).
 PDF statistics:
- 353 PDF objects out of 1000 (max. 8388607)
- 242 compressed objects within 3 object streams
+ 369 PDF objects out of 1000 (max. 8388607)
+ 253 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
- 113 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 118 words of extra memory for PDF output out of 10000 (max. 10000000)
 

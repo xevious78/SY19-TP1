@@ -639,7 +639,7 @@ predict(model.ridge, type="coefficients", s=model.ridge.best.lambda)[1:33,]
 	\captionof{figure}{Ridge coefficients $\beta_{j}$ for ($\lambda$ = 45.07)}
 \end{center}
 
-\subsubsection{Model Analysis}
+\subsubsection{Model Analysis} \label{Ridge Model Analysis}
 So we notice that some coefficients are very close to 0 such as \texttt{area\_se }(-0.012), but none of them is null. In fact Ridge Regression only shrinks the coefficients and does not perform any variable selection;  that is why we are going to use Lasso in the following part.
 
 After comparing both MSE of the least squares (1285) and the Ridge Regression's one (1063) we notice that Ridge improves over Linear Regression. 
@@ -701,15 +701,22 @@ plot(model.lasso)
 	\captionof{figure}{Coefficients against L1 Norm}
 \end{center}
 
-We notice that for some values of $\lambda$ the coefficients are null. We now perform the 10 fold cross validation on the training set to deduct the best tuning parameter.
+We notice that for some values of $\lambda$ the coefficients are null. We now perform the 10 fold cross validation on the training set to deduct the best tuning parameter. \textbf{cv.glmnet} does k-fold cross-validation for glmnet (by default k=10) it then  produces a plot and returns a value for lambda.
 
 \begin{lstlisting}
-model.lasso.cv.out = cv.glmnet(train_set.x, train_set.y, alpha=1)
+model.lasso.cv.out = cv.glmnet(train_set.x, train_set.y, lambda=grid, alpha=1)
 plot(model.lasso.cv.out)
 model.lasso.best.lambda = model.lasso.cv.out$lambda.min
-model.lasso.pred = predict(model.lasso, s=model.lasso.best.lambda , newx=test_set.x)
-residuals = model.lasso.pred-test_set.y
-errors = residuals^2
+\end{lstlisting}
+
+After running the cross validation we get the best lambda that minimized the term \ref{eq2}. We now can run a prediction on the test set with the best lambda and compute the residuals and the Test MSE.
+
+\begin{lstlisting}
+model.lasso.best = glmnet(train_set.x, train_set.y, lambda=model.lasso.best.lambda, alpha=1)
+model.lasso.best.pred = predict(model.lasso.best, s=model.lasso.best.lambda, newx=test_set.x)
+
+residuals = test_set.y - model.lasso.best.pred
+errors    = residuals^2
 model.lasso.MSE = mean(errors)
 
 \end{lstlisting}
@@ -720,8 +727,8 @@ model.lasso.MSE = mean(errors)
 \end{center}
 
 \begin{center} 
-	model.lasso.best.lambda = 3.25 \\
-	model.lasso.best.MSE    = 1048.33
+	model.lasso.best.lambda = 3.51 \\
+	model.lasso.best.MSE    = 1045.92
 \end{center} 
 
 \begin{lstlisting}
@@ -832,19 +839,91 @@ The function \texttt{summary} tells us that 4 components are enough to explain 7
 \subsection{KNN neighbors and Linear Regression}
  The linear regression is a \textbf{parametric method}, it comes with the hypothesis that there is a relationship between the response Y and the p predictors $X_{i}$ that can be expressed like $Y =\beta_{1}X_{1}+\beta_{2}X+{2}+...+\beta{p}X_{p}$. Their main advantages is that it is easy to use and to interpret however when the relationship between the predictors and the response is not linear the the results might not be satisfying. The KNN neighbors however is a non parametric method. In other words it makes no assumptions on the response Y. If we compare between the \textbf{test MSE} obtained by the KNN (1146) and the one obtained by the Linear Regression (1285), we see that the KNN does a better job. These arguments the fact that the model is not really linear. A remark that was made when observing the QQ plots in the first section. 
 \subsection{Best subset Selection and Linear Regression Regularizations}
-The lasso advantage over Ridge Regression is the variable selection; the model is thus easier to interpret. The MSE in Lasso is also slightly improved. In fact Lasso works better when there isn't an important number of predictors which corresponds to our case since we only have 33.
-\textbf{TRY TO TEST WITH ONLY 8!!}
+\subsubsection{Ridge \& Lasso }
+The lasso's advantage over Ridge Regression is the variable selection; the model is thus easier to interpret. The MSE in Lasso is also slightly improved. In fact Lasso works better when there isn't an important number of predictors which corresponds to our case since we only have 33. In order to compare between their variance bias trade off. We run the ridge regression with all the different values of $\lambda$ but for Lasso we run the regression with the new data set that contains only 8 variables.\\ 
+In order to create the new data\_set of 8 predictors we used the function \textbf{cbind} that binds columns and \textbf{data.frame} for storing data tables. cbind did not keep the columns'names so we renamed them using the function \textbf{colnames}.
 
 \begin{lstlisting}
-newtrain_set = cbind(train_set$texture_mean, train_set$perimeter_mean, train_set$area_mean, train_set$fractal_dimension_mean,
-train_set$texture_se, train_set$concavity_se, train_set$symmetry_worst, train_set$fractal_dimension_worst,train_set$Time)
+newdata_set =  data.frame(cbind(data_set$texture_mean, data_set$perimeter_mean, data_set$area_mean, 
+data_set$fractal_dimension_mean,
+data_set$texture_se, data_set$concavity_se, data_set$symmetry_worst, 
+data_set$fractal_dimension_worst, data_set$Time))
 
-colnames(newtrain_set) <- c("texture_mean", "perimeter_mean", "area_mean", "fractal_dimension_mean", "texture_se",
+colnames(newdata_set) <- c("texture_mean", "perimeter_mean", "area_mean", "fractal_dimension_mean", "texture_se",
 "concavity_se","symmetry_worst", "fractal_dimension_worst", "Time" )
 
-m = data.frame(newtrain_set)
+n 		= nrow(newdata_set)
+p 		= ncol(newdata_set)
+napp 	=  round(2*n/3)
+ntst 	= n-napp
+train 	= sample(1:n, napp)
+newtrain_set 	= newdata_set[train,]
+newtest_set 	= newdata_set[-train,]
+
+newtrain_set.x = model.matrix(Time~.,newtrain_set)[,-1] 
+newtrain_set.y = newtrain_set$Time
+scale(newtrain_set.x, center = TRUE, scale = TRUE)
+
+newtest_set.x =model.matrix(Time~., newtest_set)[,-1]
+newtest_set.y = newtest_set$Time
+scale(newtest_set.x, center = TRUE, scale = TRUE)
 \end{lstlisting}
 
+Now that we have our new data\_set, let's compare between the test MSE and variance bias trade off variance in function of the tuning parameter $\lambda$
+\begin{lstlisting}
+#Number of itterations
+max         = 100
+#Ridge: squared Biais, root square variance and MSE
+biais2_r    = rep(0,max)
+variance3_r = rep(0,max) 
+MSE_r       = rep(0,max)
+
+#Lasso: squared Biais, root square variance and MSE
+biais2_l    = rep(0,max)
+variance3_l = rep(0,max) 
+MSE_l       = rep(0,max)
+
+#Grid of lamba between 10^-1 and 10^4
+grid        = 10^seq(4,-1, length=max)
+for( i in 1:max)
+{    
+	# Ridge Regression
+	model.ridge = glmnet(train_set.x, train_set.y, lambda=grid[i], alpha=0)
+	model.ridge.pred = predict(model.ridge, s=grid[i] ,newx=test_set.x)    
+	MSE_r[i] = mean((model.ridge.pred - test_set.y)^2) #MSE
+	biais2_r[i] = (mean(model.ridge.pred - test_set.y))^2 #squared bias
+	variance3_r[i] = (var(model.ridge.pred))^(1/3) #sqrt cubic of variance
+
+	#Lasso Regression with 8 predictors
+	model.lasso = glmnet(newtrain_set.x , newtrain_set.y, lambda=grid[i], alpha=1)
+	model.lasso.pred = predict(model.lasso, s=grid[i], newx=newtest_set.x) 
+	MSE_l[i] = mean((model.lasso.pred - test_set.y)^2) #MSE
+	biais2_l[i] = (mean(model.lasso.pred - test_set.y))^2 #squared bias
+	variance3_l[i] = (var(model.lasso.pred))^(1/3) #sqrt cubic of variance   
+}
+#Red for Ridge
+#Variance
+plot(grid,variance3_r,type="l", xlab="lambda", ylab="root squared Var and squared Biais",col="red",ylim=range(biais2_r, variance3_r, biais2_l, variance3_l), 		main="Bias(dashed)-Variance(line) trade-off of Ridge(Red) and Lasso(Blue)") 
+#Biais
+lines(grid,biais2_r,col="red", lty=2)
+ 
+#Blue for Lasso
+#Variance
+lines(grid,variance3_l,col="blue")
+#Biais 
+lines(grid,biais2_l,col="blue",lty=2) 
+\end{lstlisting}
+
+
+\begin{center}
+	\includegraphics[width=0.8\linewidth]{Figures/var_biais_ridge_lasso.pdf}
+	\captionof{figure}{Bias(dashed line)-Variance(line) Trade off of Ridge(Red) and Lasso(Blue)}
+\end{center}
+As it was stated in the subsection above \ref{Ridge Model Analysis} both Ridge and Lasso influence on the bias and the variance same way.
+It is clear from the curves above that Lasso decreases the variance more on the expense of the bias which explains why the Ridge's vaiance is higher than the Lasso's one but its bias is smaller. \\
+These leads us to conclude that neither of the models performs better than the other. Lasso will be more pertinent to use if we have few predictors as it will set some coefficients to null and so the model will be easier to interpret. Nevertheless if we have lot of predictors Ridge might be a better idea because all the coefficients will be small. 
+
+\subsubsection{Regularization \& Best subset}
 Both Lasso and Best Subset perform a variable selection, their MSE are close but with the Best Subset we only kept 3 variable which is 38\% less predictors. How can we compare between those two approaches?\\
 First Lasso adds up a new tuning parameter to penalize the coefficients which is why it is named shrinkage method. In contrast to the Best subset selection that doesn't add up anything. Therefore the regression coefficients obtained by Lasso are biased.
 \subsection{Dimension Reduction}

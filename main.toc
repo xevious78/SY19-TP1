@@ -38,20 +38,22 @@
 \contentsline {section}{\numberline {1.9}Models Comparaison}{40}
 \contentsline {subsection}{\numberline {1.9.1}KNN neighbors and Linear Regression}{40}
 \contentsline {subsection}{\numberline {1.9.2}Best subset Selection and Linear Regression Regularizations}{41}
-\contentsline {subsection}{\numberline {1.9.3}Dimension Reduction}{42}
-\contentsline {chapter}{\numberline {2}Phoneme Recognition}{43}
-\contentsline {section}{\numberline {2.1}Context}{43}
-\contentsline {section}{\numberline {2.2}Dataset Description}{43}
-\contentsline {section}{\numberline {2.3}Measure to Compare Models}{44}
-\contentsline {section}{\numberline {2.4}Classification}{44}
-\contentsline {subsection}{\numberline {2.4.1}LDA - Linear Discriminant Analysis}{44}
-\contentsline {subsubsection}{Model Implementation}{45}
-\contentsline {subsubsection}{Improvements with PCA}{46}
-\contentsline {subsection}{\numberline {2.4.2}QDA- Quadratic Discriminant Analysis}{48}
+\contentsline {subsubsection}{Ridge \& Lasso }{41}
+\contentsline {subsubsection}{Regularization \& Best subset}{44}
+\contentsline {subsection}{\numberline {1.9.3}Dimension Reduction}{45}
+\contentsline {chapter}{\numberline {2}Phoneme Recognition}{46}
+\contentsline {section}{\numberline {2.1}Context}{46}
+\contentsline {section}{\numberline {2.2}Dataset Description}{46}
+\contentsline {section}{\numberline {2.3}Measure to Compare Models}{47}
+\contentsline {section}{\numberline {2.4}Classification}{47}
+\contentsline {subsection}{\numberline {2.4.1}LDA - Linear Discriminant Analysis}{47}
 \contentsline {subsubsection}{Model Implementation}{48}
-\contentsline {subsubsection}{Model Analysis}{48}
-\contentsline {subsection}{\numberline {2.4.3}Logistic Regression ROC??}{48}
-\contentsline {subsubsection}{Model Implementation}{49}
-\contentsline {subsubsection}{Model Analysis}{49}
-\contentsline {section}{\numberline {2.5}Models Comparison}{49}
-\contentsline {subsubsection}{LDA and QDA}{49}
+\contentsline {subsubsection}{Improvements with PCA}{49}
+\contentsline {subsection}{\numberline {2.4.2}QDA- Quadratic Discriminant Analysis}{51}
+\contentsline {subsubsection}{Model Implementation}{51}
+\contentsline {subsubsection}{Model Analysis}{51}
+\contentsline {subsection}{\numberline {2.4.3}Logistic Regression ROC??}{51}
+\contentsline {subsubsection}{Model Implementation}{52}
+\contentsline {subsubsection}{Model Analysis}{52}
+\contentsline {section}{\numberline {2.5}Models Comparison}{52}
+\contentsline {subsubsection}{LDA and QDA}{52}
