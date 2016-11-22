@@ -88,22 +88,6 @@ The content presented in this report is the result of the theoretical and practi
 
 \tableofcontents
 
-\newpage
-\section{Abbreviations}
-\begin{center}
-\begin{tabular}{l r}
-	MSE & Mean Squared Error \\
-	RSE & Resiual Standard Error\\ 
-	RSS & Residual Sum of Squares \\
-	AIC & Akaike information criterion \\
-	BIC & Bayesian information criterion \\
-	$R^{2}$ & Adjusted $R^{2}$ \\
-	LR & Linear Regression \\
-	CV & Cross Validation \\
-	LOOCV & Leave One Out Cross Validation \\
-\end{tabular}
-\end{center}
-
 
 
 \chapter{Breast Cancer Recurring Time}
@@ -112,28 +96,27 @@ The content presented in this report is the result of the theoretical and practi
 This part aims to build the best model to predict the recurring time of breast cancer based on about 30 features computed from a breast mass.  This regression problem will take advantage of a given dataset describing about 200 patient cases.
 
 \section{Dataset Description}
-The very first step of our method consists in taking a look at the raw dataset to get precious hints on how each feature contributes to the recurring time. The dataset comprises 194 patient cases, each of which is described through 32 features and the cancer recurring time \texttt{Time} that we have to predict.
+The very first step of our method consists in taking a look at the raw dataset to get precious hints on how each feature contributes to the recurring time. The dataset has 194 patient cases, each of which is described through 32 features and the cancer recurring time \texttt{Time} that we have to predict.
 
 \subsection{Time}
-Let's first describe the distribution of the variable \texttt{Time}. To do so, we can use the R functions \texttt{boxplot} (figure \ref{fig:time_boxplot}) and \texttt{hist} (figure \ref{fig:time_hist}). According to these figures, our dataset mostly represents short reappearing times (lower than 40), and there are very few patients whose variable \texttt{Time} is higher than 80. However, we do not know if this distribution is also representative of the whole population. If this is is the case, our model should be able to work on other datasets, if not, our model will be biaised.
+Let's first describe the distribution of the variable \texttt{Time}. To do so, we can use the R functions \texttt{boxplot} (figure \ref{fig:time_boxplot}) and \texttt{hist} (figure \ref{fig:time_hist}). According to these figures, our dataset mostly represents short reappearing times (lower than 40), and there are very few patients whose variable \texttt{Time} is higher than 80. However, we do not know if this distribution is also representative of the whole population. If this is the case, our model should be able to work on other datasets, if not, our model will be biased.
 
-\begin{figure}[!hb]
-	\centering
-	\inputtikz{0.5}{Figures/time_boxplot.tex}
-	\caption{Box Plot}
+\begin{center}
+	\includegraphics[width=0.8\linewidth]{Figures/time_boxplot}
+	\captionof{figure}{Time Box Plot}
 	\label{fig:time_boxplot}
-\end{figure}
+\end{center}
 
-\begin{figure}[!h]
-	\centering
-	\inputtikz{0.5}{Figures/time_hist.tex}
-	\caption{Histogram}
+\begin{center}
+	\includegraphics[width=0.8\linewidth]{Figures/time_hist}
+	\captionof{figure}{Time Histogram}
 	\label{fig:time_hist}
-\end{figure}
+\end{center}
+
 
 
 \subsection{Features Description}
-Each patient is represented with a set of 32 features extracted and computed from a digitized image of a breast mass. The data description we were given does not specify the units, but we do not need them for the following analysis. Here are the 32 features we are provided with:  
+Each patient is represented with a set of 32 features extracted and computed from a digitized image of a breast mass. The data description we were given does not specify the units, but we do not need them for the following analysis. Here are the 32 features provided:  
 \begin{itemize}
 	\item Lymph Node Status
 	
@@ -165,7 +148,7 @@ Based on the definition of the parameters described above, we already know that 
 These dependent features might be a cause of model low performance.
 
 \subsection{Data Relevance}
-We should first check that every patient is relevant to our study, in other words, that there is no abnormal observation in the dataset. Cook's Distance is an interesting measure to verify this important criteria, it can be computed after a simple Linear Regression.
+After checking that no value is empty with the R function \textbf{na.ommit}, we should first check that every patient is relevant to our study, in other words, that there is no abnormal observation in the dataset.  Cook's Distance is an interesting measure to verify this important criteria, it can be computed after a simple Linear Regression.
 
 Cook's distance aims to study the influence of each observation on the regression coefficient estimates. To do so, this method uses a straight-forward approach that consists in computing the difference between the original coefficient estimates $\hat{\beta}$ and the coefficient estimates without taking into account the $i$-th observation $\hat{\beta}_{(-i)}$. The difference is then normalized using the number of parameters and the standard deviation estimate. A value higher than 1 often indicates an outlier that should be removed from the dataset.
 
@@ -188,7 +171,7 @@ According to this plot (figure \ref{fig:cook_distance}), no observation is locat
 \subsection{Relation between "feature" and "time"}
 In this section, we will take a first look at the relationship between the variable \texttt{Time} and the features used to describe a patient case. 
 
-A first way to do it is to separately plot \texttt{Time} against each feature. An example of such plot is shown in figure \ref{fig:time_feature_ex1}. Unfortunately, most plots picture very scattered points that do not seem to follow any specific model. The variance is so significant that we cannot even estimate the type of function that links a feature and the variable \texttt{Time} together. It could be a simple linear model with a high variance that we may be able to estimate, or more complex models with non-linearities and feature correlations.
+A first way to do it is to separately plot \texttt{Time} against each feature. An example of such plot is shown in figure \ref{fig:time_feature_ex1}. Unfortunately, most plots picture show very scattered points that do not seem to follow any specific model. The variance is so significant that we cannot even estimate the type of function that links a feature and the variable \texttt{Time} together. It could be a simple linear model with a high variance that we may be able to estimate, or more complex models with non-linearities and feature correlations.
 
 \begin{figure}[!h]
 	\centering
@@ -197,7 +180,7 @@ A first way to do it is to separately plot \texttt{Time} against each feature. A
 	\label{fig:time_feature_ex1}
 \end{figure}
 
-To have better clues on the type of model we should be dealing with, we can draw a QQ-Plot that plots the Studentized Residuals against the quantiles. 
+To clarify the type of model we should be dealing with, we can draw a QQ-Plot that plots the Studentized Residuals against the quantiles. 
 
 In R, we can use the library \texttt{car} to easily draw the QQ-Plot (figure \ref{fig:qq_plot}) :
 \begin{lstlisting}
@@ -205,23 +188,22 @@ library(car)
 qqPlot(linreg, main="QQ Plot")
 \end{lstlisting}
 
-\begin{figure}[!hb]
-	\centering
-	\inputtikz{0.5}{Figures/qq_plot.tex}
-	\caption{QQ-Plot}
+\begin{center}
+	\includegraphics[width=0.8\linewidth]{Figures/qq_plot}
+	\captionof{figure}{QQ-Plot}
 	\label{fig:qq_plot}
-\end{figure}
+\end{center}
 
-The bottom tail of the QQ-Plot seems to deviate from the linear line, which is a sign of the error's non-normality. This may mean that the error does not follow a normal model, or that the model is actually non-linear.
+The bottom tail of the QQ-Plot seems to deviate from the linear line, which is a sign of the error's non-normality. This may mean that the error does not follow a normal model, or that the model is actually non-linear.\\
+We can also analyze the Residuals-Fitted plot and the Scale-Location plot to get a better understanding on the model. To do, we can simply apply the function \texttt{plot} on the linear model (figure \ref{fig:fitted_value_plots}).
 
-\begin{figure}[!hb]
-	\centering
+\begin{center}
 	\includegraphics[width=0.5\linewidth]{Figures/fitted_value_plots}
-	\caption{}
+	\captionof{figure}{Residuals against fitted Values}
 	\label{fig:fitted_value_plots}
-\end{figure}
+\end{center}
 
-We can also analyze the Residuals-Fitted plot and the Scale-Location plot to get a better understanding on the model. To do, we can simply apply the function \texttt{plot} on the linear model (figure \ref{fig:fitted_value_plots}). It turns out that both plots show non-normal scatters of the residuals. In particular, the points displayed in the Residuals-Fitted plot seem to follow a fan shape. This is a sign of a non-constant variance, also called heteroscedasticity.
+It turns out that both plots show non-normal scatters of the residuals. In particular, the points displayed in the Residuals-Fitted plot seem to follow a fan shape. This is a sign of a non-constant variance, also called \textbf{heteroscedasticity}.
 
 \section{Measures to Compare Models}
 Before building any model, we have to properly define the measures we will use later to compare their performance. 
@@ -233,7 +215,7 @@ $$MSE(F) =  mean_i(Time_i - \hat{Time}_i)^2$$
 We can also use adjusted $R^2$ score.
 
 \subsection{Data Split}
-These measures should not be applied on a set whose data was also used to train the model. Indeed, this would include a biais that might distort our conclusions. To cope with this problem, we have to split the dataset into two disjointed sets : 
+These measures should not be applied on a set whose data was also used to train the model. Indeed, this would include a bias that might distort our conclusions. To cope with this problem, we have to split the dataset into two disjointed sets : 
 \begin{itemize}
 	\item Training Set : About 66\% of the dataset dedicated to the model fitting;
 	\item Test Set : The remaining 34\% only used at the end to provide some kind of objective measure of the model performance.
@@ -256,13 +238,13 @@ Once this data split is done, we can finally dive into the model building.
 
 \section{K-nearest neighbors (KNN)}
 We start our analysis with a very simple model called the KNN.
-Given a positive integer $k$ and a test observation. The KNN model first identifies the k closest points to each point of the test observation then it estimates the response using the average of the k closest training responses.\\ 
+Given a positive integer $k$ and a test observation. The KNN model first identifies the k closest points to each point of the test observation then it estimates the response using the average of the k closest train responses.\\ 
 
 \subsection{Knn Model}
 The KNN model in R is done by calling the function \texttt{reg} of the package \texttt{knn}. As we will see in the following sections, For most prediction algorithms, we first have to build the prediction model on the training data, and then use the model to test our predictions. However, the KNN function does both in a single step.\\ 
 In order to find the best $k$ we set a maximum number of neighbors to be considered (in our model it is 120), then we calculate the MSE for each $k$ which is the mean of the squared difference between the real value of \texttt{Time} and the predicted one. All the steps are detailed in the code below.
 
-\subsubsection{Model Implementation}
+\subsubsection{Model Performance}
 \begin{lstlisting}
 library(FNN)
 k_max = 120;
@@ -286,7 +268,7 @@ The graph below (figure \ref{fig:knn_train}) shows the \textbf{ MSE} plotted aga
 	\label{fig:knn_train}
 \end{center}
 
-We are looking for the k neighbors that has the smallest MSE so we use the function \texttt{which.min} that returns the index of the minimum value of MSE.\\
+We are looking for the number k of neighbors that has the smallest MSE so we use the function \texttt{which.min} that returns the index of the minimum value of MSE.\\
 
 \begin{center} 
 	model.knn.best.k   = 11 \\
@@ -325,9 +307,9 @@ The red line is the function $y=x$; so further are the points from this line the
 
 \subsubsection{Model Analysis}
 
-We notice that the predicted {$\hat{y}$} diverge a lot from the real values $y$. We expected those results since the MSE is around 967 which is quite high. 
+We notice that the predicted responses {$\hat{y}$} diverge a lot from the real values $y$. We expected those results since the MSE is quite high. 
 
-This approach of finding the best $k$ was quite optimistic. Actually we tried finding the best $k$ while minimizing the MSE in \textbf{the test data}. Therefore the model is very specific to our test data which yields to a high bias. The solution is to find the best $k$ among the \textbf{training data} and then use the best $k$ in the test data. \\ To find the best \textbf{unbiased} $k$ number of neighbors k we use the method of cross validation on the train data then we predict the response on the test. 
+This approach of finding the best $k$ was quite \textbf{optimistic}. Actually we tried finding the best $k$ while minimizing the MSE in \textbf{the test data}. Therefore the model is very specific to our test data which yields to a high bias. The solution is to find the best $k$ among the \textbf{training data} and then use the best $k$ in the test data. \\ To find the best \textbf{unbiased} $k$ number of neighbors k we use the method of cross validation on the train data then we predict the response on the test. 
 
 \subsection{The Validation Set Approach}
 There are two main methods in cross validation: \textbf{the validation set approc}h and the \textbf{cross validation leave one out (LOOCV)} which is a particular case of the  \textbf{K-fold cross validation}. As we do not have that much observations (n=198) we can afford the computation of cross validation leave one out, but before we will argument our choice.\\
@@ -336,13 +318,13 @@ There are two main methods in cross validation: \textbf{the validation set appro
 The cross validation approach is based on dividing the provided data in 2 sets: a training set and a validation set. The model is fit on the training set, then the fitted model is used to predict responses of observations in the validation set. We validate our model using the best MSE.
 
 \subsubsection{Leave-One-Out Cross-Validation}
-Like the cross validation the LOOCV involves splitting the set of observations in two parts. The main difference is that we have a single observation $(x_1, y_1)$ in the test data and the $n-1$ remaining is used for the train data. The MSE in this case is $MSE_1 =(y_1 - \hat{y})^{2}$. This provides an unbiased estimate for the test error since the size of the train model is approximately the one of all the data of the observation. However it is highly variable as it is based in one observation. The LOOCV repeats the procedure n times fitting each time a different set of observations. The LOOCV test MSE is computed with calculating the average of the n test error estimates.
+Like the cross validation the LOOCV involves splitting the set of observations in two parts. The main difference is that we have a single observation $(x_1, y_1)$ in the test data and the $n-1$ remaining is used for the train data. The MSE in this case is $MSE_1 =(y_1 - \hat{y}_{1})^{2}$. This provides an unbiased estimate for the test error since the size of the train model is approximately the one of all the data of the observation. However it is highly variable as it is based in one observation. The LOOCV repeats the procedure n times fitting each time a different set of observations. The LOOCV test MSE is computed by calculating the average of the n test error estimates.
 
 \begin{center}
 	$$CV_{(n)} = \frac{1}{n} \sum_{i=1}^{n} MSE_{i} $$
 \end{center}
 
-The LOOCV will always give the same results in contrast to the CV that depends on the randomness of how the data are split. Furthermore as it was stated before the CV runs the train approach on around the half of the size of the original data while the LOOCV repeats the validation set approach n times using n-1 observations. Hence the LOOCV yields to a not overestimated test error rate compared to the validation set approach. The only disadvantage of the LOOCV is it is computation time which can be very time consuming n is large.\\
+The LOOCV will always give the same results in contrast to the CV that depends on the randomness of how the data are split. Furthermore as it was stated before the CV runs the train approach on around half of the size of the original data while the LOOCV repeats the validation set approach n times using n-1 observations. Hence the LOOCV yields to a not overestimated test error rate compared to the validation set approach. The only disadvantage of the LOOCV is it is computation time which can be very time consuming when n the number of observations is large.\\
 
 An alternative to LOOCV that has a smaller computation time is k-Fold Cross Validation. This approach is based on dividing the training observations on $k$ groups, each time one group will be considered as the test set and the $k-1$ left as the training set. Therefore the CV becomes:
 
@@ -352,11 +334,11 @@ An alternative to LOOCV that has a smaller computation time is k-Fold Cross Vali
 
 We can see that the k-Fold Cross-Validation fits the model $k$ times instead of $n$, which reduces considerably the computation time. Our original data has only 198 observations, we can then afford the computation of the LOOCV. \\
 
-\subsubsection{Model implementation}
-
+\subsubsection{Model Performance}
+To perform an LOOCV in R we call the function \textbf{train.kknn} (\textbf{cv.kknn} for a crossvalidation).
 \begin{lstlisting}
 library("kknn")
-model.kknn = train.kknn(Time ~., data= train_set, kmax = 30, ks = NULL, distance = 2, kernel = "optimal")
+model.kknn = train.kknn(Time ~., data= train_set, kmax = 30)
 model.kknn.best.k = model.kknn$best.parameters$k
 \end{lstlisting}
 
@@ -404,12 +386,12 @@ We run a the same plot again with the predicted reponses against the real ones \
 
 
 \subsubsection{Model Analysis}
-One might argue that the prediction was not improved with the LOOCV since the test MSE obtained is higher that the MSE we obtained when we computed using the test set directly. However this result was expected since in the first approach we run our knn directly on the test so we underestimated the MSE, in other words the first MSE is specific to that test set of data (biased), in contrast to our the LOOCV model. In other words, in general the $k=30$ will guarantee a smaller MSE than the $k=11$ on any test observation.
+One might argue that the prediction was not improved with the LOOCV since the test MSE obtained is higher that the MSE we obtained when we computed using the test set directly. However this result was expected since in the first approach we run our knn directly on the test so we underestimated the MSE, in other words the first MSE is very specific to that test set of data (biased), in contrast to our the LOOCV model. Which means that, in general, $k=30$ will guarantee a smaller MSE than the $k=11$ on any test observation.
 The LOOCV has also an advantage over the first approach because it will always give the same result of best k.
 
 \section{Simple Linear Regression}
 \subsection{Idea}
-Our next attempt consists in using the same linear model we used in the feature analysis section. This model takes advantage of the simple assumption that \texttt{Time} depends on the other features in a linear way. A linear regression model has the following form :
+Our next attempt consists on using the same linear model we used in the feature analysis section. This model takes advantage of the simple assumption that \texttt{Time} depends on the other features in a linear way. A linear regression model has the following form :
 $$
 Y = \beta_0 + \sum_{i = 1}^{p} \beta_i X_i
 $$
@@ -421,7 +403,7 @@ model.linreg = lm(Time ~ ., data=train_set)
 \end{lstlisting}
 
 \subsection{Model Performance}
-This model has a MSE approximatively equal to 1285. The raw residuals distribution is pictured on figure \ref{fig:linreg_hist}, it shows a very spread out distribution that should be improved.
+This model has a MSE approximatively equal to \textbf{1285}. The raw residuals distribution is pictured on figure \ref{fig:linreg_hist}, it shows a very spread out distribution that should be improved.
 
 \begin{figure}[!h]
 	\centering
@@ -438,7 +420,7 @@ This model has a MSE approximatively equal to 1285. The raw residuals distributi
 \end{figure}
 
 \section{Linear Regression with Features Selection}
-\subsection{Idea}
+\subsection{Model Performance}
 A simple method to improve the performance of the previous Linear Regression is to select a subset of features that better describes the distribution of \texttt{Time}.
 
 Once the simple linear model is fitted, we can use the function \texttt{summary} to display the value of each coefficient.
@@ -482,7 +464,7 @@ Tumor_size              -1.188e+00  1.915e+00  -0.620   0.5364
 
 The last column contains the P-value of each coefficient, which is a measure to test the hypothesis that this particular coefficient is null. A P-value lower than 5\% allows us to conclude that the coefficient is not equal to zero. In our case, the feature \texttt{concavity\_points\_mean} is not null, but we cannot make such assumptions for the other parameters. Therefore, we are not able to select a subset of interesting features based on the P-values. \\
 
-Feature subset selection algorithms exist to extract the best subset of features from the dataset. Such method builds a linear model based on multiple subsets of features and compute a performance score to compare them. Our dataset contains a quite small set of features to deal with, therefore we can use an exhaustive feature subset selection algorithm which will apply a linear regression on each and every subset available.
+Feature subset selection algorithms exist to extract the best subset of features from the dataset. Such method builds a linear model based on multiple subsets of features and computes a performance score to compare them. Our dataset contains a quite small set of features to deal with, therefore we can use an \textbf{exhaustive feature subset} selection algorithm which will apply a linear regression on each and every subset available.
 
 In R, the following function is available to fit the linear models :
 \begin{lstlisting}
@@ -510,22 +492,22 @@ According to this plot, the best BIC is reached with a model that only uses the 
 	\item \texttt{concavity\_mean}
 \end{itemize}
 
-\subsection{Model Performance}
-The MSE of this model is approximatively equal to 1067, which is better than the full-featured model. The raw residual distribution, shown on figure \ref{fig:subset_hist}, is not as spread out as the previous linear regression model.
+\subsection{Model Analysis}
+The MSE of this model is approximatively equal to \textbf{1067}, which is better than the full-featured model. The raw residual distribution, shown in figure \ref{fig:subset_hist}, is not as spread out as the previous linear regression model.
 
 \begin{figure}[!h]
 	\centering
 	\inputtikz{0.5}{Figures/subset_hist.tex}
-	\caption{}
+	\caption{Histogram of raw residuals}
 	\label{fig:subset_hist}
 \end{figure}
 
-\begin{figure}[!h]
-	\centering
-	\inputtikz{0.5}{Figures/subset_predicted.tex}
-	\caption{}
+\begin{center}
+	\includegraphics[width=0.8\linewidth]{Figures/subset_predicted}
+	\captionof{figure}{Predicted values against real values}
 	\label{fig:subset_predicted}
-\end{figure}
+\end{center}
+
 
 
 \section{Linear Regression with Regularization}
@@ -533,7 +515,7 @@ In this section we will discuss some methods that will help us shrink the model 
 We will use the \textbf{glmnet} package in order to build the ridge regression and the lasso in R.
 
 \subsection{Ridge Regression}
-The Linear Regression with least squares estimates the parameters $\beta_{0},\beta_{1}...\beta_{p}$ that to minimize the term of the RSS.
+The Linear Regression with least squares estimates the parameters $\beta_{0},\beta_{1}...\beta_{p}$ that minimize the term of the RSS.
 \begin{center}
 	$$ RSS = \sum_{i=1}^{n}(y_{i} - \beta_{0} - \sum_{j=1}^{p}\beta_{j}x_{ij})^{2} $$
 \end{center}
@@ -640,29 +622,33 @@ predict(model.ridge, type="coefficients", s=model.ridge.best.lambda)[1:33,]
 \end{center}
 
 \subsubsection{Model Analysis} \label{Ridge Model Analysis}
-We notice that some coefficients are very close to 0 such as \texttt{area\_se }(-0.004), but none of them is null. In fact Ridge Regression only shrinks the coefficients and does not perform any variable selection;  that is why we are going to use Lasso in the following part.\\
+We notice that some coefficients are very close to 0 such as \texttt{area\_mean}(-0.004), but none of them is null. In fact Ridge Regression only shrinks the coefficients and does not perform any variable selection;  that is why we are going to use Lasso in the following part.\\
 
 We stated in the previous part that the test MSE of Ridge regression improved compared to the Linear Regression one.
 However this didn't  come with no expenses, in fact Ridge regression will have a larger bias. It all can be summarized in\textbf{ biais-variance trade-off}.\\ 
 
 Let's take the following example where we we fit the model for each $\lambda$ and predict the responses for $\lambda\in[10^{-1},10^{4}]$. For each value of $\lambda$ we compute the test MSE, the squared bias and the cube root of the variance. \textit{We computed the cube root in order to plot it with the bias in the same graph}.
 \begin{lstlisting}
-max = 100
-biais2<-rep(0,max)
-variance<-rep(0,max) 
-mse<-rep(0,max)
-grid=10^seq(4,-1, length=max)
+max       = 100
+biais2    = rep(0,max)
+variance3 = rep(0,max) 
+MSE       = rep(0,max)
+grid      = 10^seq(4,-1, length=max)
 for( i in 1:max)
 {     
-fit.ridge = glmnet(x.train, y.train, lambda=grid[i], alpha=0)
-ridge.pred = predict(fit.ridge, s=grid[i] ,newx=x.test)
-mse[i] = mean((ridge.pred - y.test)^2) #MSE
-biais2[i] = (mean(ridge.pred - y.test))^2 #squared bias
-variance[i] = (var(ridge.pred))^(1/3) #variance
+	model.ridge = glmnet(train_set.x, train_set.y, lambda=grid[i], alpha=0)
+	model.ridge.pred = predict(model.ridge, s=grid[i] ,newx=test_set.x)
+	#MSE
+	MSE[i] = mean((model.ridge.pred - test_set.y)^2) 
+	#squared bias
+	biais2[i] = (mean(model.ridge.pred - test_set.y))^2
+	# cubic root of variance 
+	variance3[i] = (var(model.ridge.pred))^(1/3) 
 }
-plot(grid, variance,type='l', xlab="lambda", main="Biais-Variance trade-off")
+
+plot(grid, variance3,type='l', xlab="lambda", main="Bias-Variance trade-off", ylim=range(biais2,variance3))
 lines(grid, biais2,col='red')
-plot(MSE)
+plot(grid,MSE)
 \end{lstlisting}
 
 \begin{center}
@@ -676,7 +662,7 @@ plot(MSE)
 \end{center}
 
 At $\lambda=0$ the variance is high but there is no bias,which corresponds to the least squared approach.
-As $\lambda$ increases the variance and bias decrease but at some point the variance continues to decrease while the bias starts increasing. Which means that the shrinkage of the coefficients by $\lambda$ reduces the variances on the expense of the bias. In fact $\lambda$ in underestimating the coefficients by shrinking them. Let us compare now those results to the MSE curve. 
+As $\lambda$ increases the variance and bias decrease but at some point the variance continues to decrease while the bias starts increasing. Which means that the shrinkage of the coefficients by $\lambda$ reduces the variances on the expense of the bias. In fact $\lambda$ is underestimating the coefficients by shrinking them. Let us compare now those results to the MSE curve. 
 $$MSE = (E[\varTheta]-\varTheta)^{2} + Var(\varTheta) = (Bias[\varTheta])^{2} + Var(\varTheta)$$
 Hence if the variance and the bias decrease significantly in the beginning the MSE will decrease too, and when the variance will decrease less and the bias will start increasing the MSE will increase too. We should also note that at at  $\lambda=0$ (least squares) the MSE is high.\\
 To sum up, in linear regression we can have a low bias but a high variance, this is where the ridge regression improves over the least squares because it shrinks the variance on the expense of the bias.
@@ -770,7 +756,7 @@ predict(model.lasso, type="coefficients", s=model.lasso.best.lambda)[1:33,]
 We can clearly see that Lasso performed a variable selection by setting the unselected predictors' coefficients to 0
 
 \subsubsection{Model Analysis}
- Lasso selected only 8 predictors out of 33 with a slightly improved test MSE compared to Ridge that uses all the predictors.Therefore we selected 25\% of variables. The features selected for recurrence Time prediction are:
+ Lasso selected only 8 predictors out of 32 with a slightly improved test MSE compared to Ridge that uses all the predictors.Therefore we selected 25\% of variables. The features selected for recurrence Time prediction are:
  \begin{itemize} 
  \item texture\_mean
  \item perimeter\_mean
@@ -821,12 +807,11 @@ The function \texttt{summary} tells us that 4 components are enough to explain 7
 	\label{fig:pcr_hist}
 \end{figure}
 
-\begin{figure}[!h]
-	\centering
-	\inputtikz{0.5}{Figures/pcr_predicted.tex}
-	\caption{PCR Predicted values against Real values}
+\begin{center}
+	\includegraphics[width=0.8\linewidth]{Figures/pcr_predicted}
+	\captionof{figure}{PCR Predicted values against Real values}
 	\label{fig:pcr_predicted}
-\end{figure}
+\end{center}
 The test MSE obtained is very competitive, however even though we know that the number of components is 4 PCR does not explicitly show the predictors. Therefore PCR's results are harder to interpret as it does not perform a variable selection.
 
 \section{Models Comparison}
@@ -837,17 +822,17 @@ Comparing the MSE and the raw residuals distribution is the first approach to ta
 	Model & Mean Squared Error (MSE) \\
 	KNN neighbours (with LOOCV) & 1146\\ 
 	Linear Regression & 1285\\
-	Best Subset	& 1067\\
+	Best Subset (BIC)	& 1067 (3 features selected)\\
 	Ridge Regression & 1063 \\	
-	Lasso & 1048\\
-	PCR & 967 \\
+	Lasso & 1048 (8 features selected)\\
+	PCR & 967 (4 variables selected) \\
 \end{tabular}
 	\captionof{table}{Models' MSE}
 \end{center}
 
 We notice that the best MSE is found with the PCR model.
 \\\\
-It is also important to compare the residuals distribution of our models.If the residuals are normal, it means that our assumption is valid and model inference (confidence intervals, model predictions) should also be valid then.
+It is also important to compare the residuals distribution of our models. If the residuals are normal, it means that our assumption is valid and model inference (confidence intervals, model predictions) should also be valid then.
 
 \begin{center}
 	\includegraphics[width=0.8\linewidth]{Figures/all_resid.pdf}
@@ -855,44 +840,18 @@ It is also important to compare the residuals distribution of our models.If the 
 \end{center}
 Two main information can be retained from this raw residuals box-plots: 
 \begin{itemize}
-\item Range: It seems like the Linear Regression and the KNN with CV have the largest range of residuals, while Lasso shows a striking decrease in the range of residuals.
-\item Median: Lasso's raw residuals are normally distributed. This was noticeable in the previous histogram in \ref{fig:ridge_resid}. Other residuals are close to normal distribution except the BIC, KNN and Lasso.
+\item Range: It seems like the Linear Regression and the KNN with LOOCV have the largest range of residuals, while Lasso shows a striking decrease in the range of residuals.
+\item Median: Ridge's raw residuals are normally distributed. This was noticeable in the previous histogram in \ref{fig:ridge_resid}. Other residuals are close to normal distribution except the BIC, KNN and Lasso.
 \end{itemize}
 
 \subsection{KNN neighbors and Linear Regression}
- The linear regression is a \textbf{parametric method}, it comes with the hypothesis that there is a relationship between the response Y and the p predictors $X_{i}$ that can be expressed like $Y =\beta_{1}X_{1}+\beta_{2}X+{2}+...+\beta{p}X_{p}$. Their main advantages is that it is easy to use and to interpret however when the relationship between the predictors and the response is not linear the the results might not be satisfying. The KNN neighbors however is a non parametric method. In other words it makes no assumptions on the response Y. If we compare between the \textbf{test MSE} obtained by the KNN (1146) and the one obtained by the Linear Regression (1285), we see that the KNN does a better job. These arguments the fact that the model is not really linear. A remark that was made when observing the QQ plots in the first section. 
+ The linear regression is a \textbf{parametric method}, it comes with the hypothesis that there is a relationship between the response Y and the p predictors $X_{i}$ that can be expressed like $Y =\beta_{1}X_{1}+\beta_{2}X+{2}+...+\beta{p}X_{p}$. Its main advantage is that it is easy to use and to interpret however when the relationship between the predictors and the response is not linear the results might not be satisfying. The KNN neighbors however is a non parametric method. In other words it makes no assumptions on the response Y. If we compare between the \textbf{test MSE} obtained by the KNN (1146) and the one obtained by the Linear Regression (1285), we see that the KNN does a better job. These arguments the fact that the model might not be linear. A remark that was made when observing the QQ plots in the first section. 
 \subsection{Best subset Selection and Linear Regression Regularizations}
 \subsubsection{Ridge \& Lasso }
 The lasso's advantage over Ridge Regression is the variable selection; the model is thus easier to interpret. The MSE in Lasso is also slightly improved. In fact Lasso works better when there isn't an important number of predictors which corresponds to our case since we only have 33. In order to compare between their variance bias trade off. We run the ridge regression with all the different values of $\lambda$ but for Lasso we run the regression with the new data set that contains only 8 variables.\\ 
 In order to create the new data\_set of 8 predictors we used the function \textbf{cbind} that binds columns and \textbf{data.frame} for storing data tables. cbind did not keep the columns'names so we renamed them using the function \textbf{colnames}.
 
-\begin{lstlisting}
-newdata_set =  data.frame(cbind(data_set$texture_mean, data_set$perimeter_mean, data_set$area_mean, 
-data_set$fractal_dimension_mean,
-data_set$texture_se, data_set$concavity_se, data_set$symmetry_worst, 
-data_set$fractal_dimension_worst, data_set$Time))
-
-colnames(newdata_set) <- c("texture_mean", "perimeter_mean", "area_mean", "fractal_dimension_mean", "texture_se",
-"concavity_se","symmetry_worst", "fractal_dimension_worst", "Time" )
-
-n 		= nrow(newdata_set)
-p 		= ncol(newdata_set)
-napp 	=  round(2*n/3)
-ntst 	= n-napp
-train 	= sample(1:n, napp)
-newtrain_set 	= newdata_set[train,]
-newtest_set 	= newdata_set[-train,]
-
-newtrain_set.x = model.matrix(Time~.,newtrain_set)[,-1] 
-newtrain_set.y = newtrain_set$Time
-scale(newtrain_set.x, center = TRUE, scale = TRUE)
-
-newtest_set.x =model.matrix(Time~., newtest_set)[,-1]
-newtest_set.y = newtest_set$Time
-scale(newtest_set.x, center = TRUE, scale = TRUE)
-\end{lstlisting}
-
-Now that we have our new data\_set, let's compare between the test MSE and variance bias trade off variance in function of the tuning parameter $\lambda$
+Now that we have our new data\_set, let's compare between the test MSE and variance-bias trade-off against the tuning parameter $\lambda$
 \begin{lstlisting}
 #Number of itterations
 max         = 100
@@ -944,8 +903,7 @@ lines(grid,biais2_l,col="blue",lty=2)
 \end{center}
 As it was stated in the subsection above \ref{Ridge Model Analysis} both Ridge and Lasso influence on the bias and the variance same way.
 It is clear from the curves above that Lasso decreases the variance more on the expense of the bias which explains why the Ridge's vaiance is higher than the Lasso's one but its bias is smaller. \\
-These leads us to conclude that neither of the models performs better than the other. Lasso will be more pertinent to use if we have few predictors as it will set some coefficients to null and so the model will be easier to interpret. Nevertheless if we have lot of predictors Ridge might be a better idea because all the coefficients will be small. 
-
+These leads us to conclude that neither of the models performs better than the other. Lasso will be more pertinent to use if we have few predictors as it will set some coefficients to null and so the model will be easier to interpret. Nevertheless if we have lot of predictors Ridge might be a better idea because all the coefficients will be small. In our case with 32 predictors, Lasso will be a fear choice.
 \subsubsection{Regularization \& Best subset}
 Both Lasso and Best Subset perform a variable selection, their MSE are close but with the Best Subset we only kept 3 variable which is 38\% less predictors. How can we compare between those two approaches?\\
 First Lasso adds up a new tuning parameter to penalize the coefficients which is why it is named shrinkage method. In contrast to the Best subset selection that doesn't add up anything. Therefore the regression coefficients obtained by Lasso are biased.
@@ -1001,7 +959,7 @@ $$
 
 This is a very simple measure that may cause some issues when applied on classification problems that deal with skewed classes. For instance, let $A$ and $B$, two classes. $A$ contains 95\% of the dataset, while $B$ contains the remaining 5\%. Let $M$ a pretty bad classifier which classifies the whole dataset in class $A$. According to the definition stated above, this classifier has an accuracy of 95\%, which is excellent. In this case, more specific performance measures have to be applied.
 
-However, our current classification problem do not deal with skewed class since all classes are almost equally-represented in the dataset. Therefore, we will be able to run this performance measure without any important issue. This measure will be aplied on the test set in order not to include any biais.
+However, our current classification problem does not deal with skewed class since all classes are almost equally-represented in the dataset. Therefore, we will be able to run this performance measure without any important issue. This measure will be applied on the test set in order not to include any bias.
 
 \begin{lstlisting}
 train_set= data_set[1:3340, 2:258]
@@ -1117,7 +1075,7 @@ iy    0   0   1 309   1
 sh    0   0   0   0 224
 \end{verbatim}
 
- However, this method raises a biais since we computed $M$ based on the test set. A proper way to find $M$ is using a k fold cross validation technique on the training set. The following code aims to find the best $M$ in the range $[2:50]$.
+ However, this method raises a bias since we computed $M$ based on the test set. A proper way to find $M$ is using a k fold cross validation technique on the training set. The following code aims to find the best $M$ in the range $[2:50]$.
 
 \begin{lstlisting}
 library(caret)
@@ -1245,12 +1203,12 @@ sh    0   1   6   1 216
 \subsubsection{Improvements with PCA}
 Once again, we can use PCA to reduce the input dimension in order to make the neural network fit better and faster. However, since \texttt{multinom} runs significantly slower than the other methods, we will only find the best $M$ in the range $[2, 20]$ using a 5 fold cross validation method.
 
-\begin{figure}[!hb]
-	\centering
-	\inputtikz{0.5}{Figures/lr_pca_cv.tex}
-	\caption{Best $M$ for LR + PCA on Training Set with Cross Validation}
+\begin{center}
+	\includegraphics[width=0.8\linewidth]{Figures/lr_pca_cv}
+	\captionof{figure}{Best $M$ for LR + PCA on Training Set with Cross Validation}
 	\label{fig:lr_pca_cv}
-\end{figure}
+\end{center}
+
 
 The best accuracy is reached at $M = 17$, accuracy on the test set being approximatively 91\% : 
 \begin{verbatim}
@@ -1266,4 +1224,7 @@ sh    1   0   1   1 221
 
 According to our comparison measure (accuracy), the best model we found is LDA with PCA. LDA is the most interesting model so far because of its simplicity and its performance with and without PCA transformation. QDA and LR does not perform well with the full set of features, but they are as good as LDA when a PCA feature subset selection is applied.  
 
+\newpage
+\chapter*{Conclusion}
+We performed several types of models and approaches in those two case studies, each one of them has its advantages and drawbacks. Sometimes we could point out the best approach and other times we couldn't really take the decision because it depends on other information and answers of several questions about the aim of the study and the context.
 \end{document}
