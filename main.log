@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.8.19)  22 NOV 2016 13:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.8.19)  22 NOV 2016 13:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -881,40 +881,50 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[39] [40] [41] [42]
-<Figures/var_biais_ridge_lasso.pdf, id=276, 505.89pt x 505.89pt>
+[39] <Figures/all_resid.pdf, id=266, 505.89pt x 505.89pt>
+File: Figures/all_resid.pdf Graphic file (type pdf)
+
+<use Figures/all_resid.pdf>
+Package pdftex.def Info: Figures/all_resid.pdf used on input line 841.
+(pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
+ [40]
+Overfull \vbox (16.94676pt too high) has occurred while \output is active []
+
+
+[41 <./Figures/all_resid.pdf>] [42] [43]
+<Figures/var_biais_ridge_lasso.pdf, id=286, 505.89pt x 505.89pt>
 File: Figures/var_biais_ridge_lasso.pdf Graphic file (type pdf)
 
 <use Figures/var_biais_ridge_lasso.pdf>
 Package pdftex.def Info: Figures/var_biais_ridge_lasso.pdf used on input line 9
-19.
+25.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
- [43] [44 <./Figures/var_biais_ridge_lasso.pdf>] [45]
+ [44 <./Figures/var_biais_ridge_lasso.pdf>] [45]
 Chapter 2.
 
-Underfull \hbox (badness 10000) in paragraph at lines 935--936
+Underfull \hbox (badness 10000) in paragraph at lines 941--942
 
  []
 
 [46
 
 ] [47] [48] (./Figures/lda_pca.tex) [49] [50]
-Overfull \hbox (77.56879pt too wide) in paragraph at lines 1120--1121
+Overfull \hbox (77.56879pt too wide) in paragraph at lines 1126--1127
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][]  
  []
 
 (./Figures/lda_pca_cv.tex) [51] (./Figures/qda_pca_cv.tex) [52]
-Underfull \hbox (badness 10000) in paragraph at lines 1195--1196
+Underfull \hbox (badness 10000) in paragraph at lines 1201--1202
 
  []
 
 [53] (./Figures/lr_pca_cv.tex) [54] [55] (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 18685 strings out of 493014
- 338705 string characters out of 6133351
- 580249 words of memory out of 5000000
- 21826 multiletter control sequences out of 15000+600000
+ 18690 strings out of 493014
+ 338821 string characters out of 6133351
+ 586249 words of memory out of 5000000
+ 21830 multiletter control sequences out of 15000+600000
  10872 words of font info for 41 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,10n,92p,874b,1782s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -935,10 +945,10 @@ ype1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2016/texmf-dist/fonts/ty
 pe1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2016/texmf-dist/fonts/typ
 e1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
 /public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (57 pages, 786414 bytes).
+Output written on main.pdf (57 pages, 790373 bytes).
 PDF statistics:
- 379 PDF objects out of 1000 (max. 8388607)
- 260 compressed objects within 3 object streams
+ 386 PDF objects out of 1000 (max. 8388607)
+ 265 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
- 118 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 123 words of extra memory for PDF output out of 10000 (max. 10000000)
 
