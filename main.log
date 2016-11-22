@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.8.19)  22 NOV 2016 10:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.8.19)  22 NOV 2016 10:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -545,18 +545,18 @@ Package caption Info: listings package is loaded.
 (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
  ABD: EveryShipout initializing macros
 (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -628,12 +628,12 @@ Package caption Info: End \AtBeginDocument code.
 (/usr/local/texlive/2016/texmf-dist/tex/latex/ucs/data/uni-0.def
 File: uni-0.def 2013/05/13 UCS: Unicode data U+0000..U+00FF
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 58.
+LaTeX Font Info:    Try loading font information for U+msa on input line 43.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 58.
+LaTeX Font Info:    Try loading font information for U+msb on input line 43.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -641,7 +641,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 <Figures/utc.jpg, id=4, 1133.23375pt x 549.05125pt>
 File: Figures/utc.jpg Graphic file (type jpg)
  <use Figures/utc.jpg>
-Package pdftex.def Info: Figures/utc.jpg used on input line 68.
+Package pdftex.def Info: Figures/utc.jpg used on input line 53.
 (pdftex.def)             Requested size: 113.81102pt x 55.13454pt.
 
 [1
@@ -665,144 +665,108 @@ File: lstlang3.sty 2015/06/04 1.6 listings language file
 
  [2] [3]
 Chapter 1.
-
-Underfull \hbox (badness 10000) in paragraph at lines 116--117
-
- []
-
-[4
-
-] [5] <Figures/model_lda_plot.pdf, id=40, 361.35pt x 361.35pt>
-File: Figures/model_lda_plot.pdf Graphic file (type pdf)
-
-<use Figures/model_lda_plot.pdf>
-Package pdftex.def Info: Figures/model_lda_plot.pdf used on input line 198.
-(pdftex.def)             Requested size: 361.34912pt x 361.34912pt.
-
-Overfull \hbox (16.34912pt too wide) in paragraph at lines 198--199
- [] 
- []
-
-[6 <./Figures/model_lda_plot.pdf>]
-<Figures/lda_roc.pdf, id=49, 361.35pt x 361.35pt>
-File: Figures/lda_roc.pdf Graphic file (type pdf)
- <use Figures/lda_roc.pdf>
-Package pdftex.def Info: Figures/lda_roc.pdf used on input line 245.
-(pdftex.def)             Requested size: 361.34912pt x 361.34912pt.
-
-Overfull \hbox (16.34912pt too wide) in paragraph at lines 245--246
- [] 
- []
-
-[7] [8 <./Figures/lda_roc.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 269--270
-
- []
-
-[9]
-Chapter 2.
 (./Figures/time_boxplot.tex) (./Figures/time_hist.tex)
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[10
+[4
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 325.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 138.
 
  (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 325.
- [11]
-[12] (./Figures/cooks_distance.tex) [13] (./Figures/time_feature_ex1.tex)
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 138.
+ [5] [6]
+(./Figures/cooks_distance.tex) [7] (./Figures/time_feature_ex1.tex)
 (./Figures/qq_plot.tex)
-<Figures/fitted_value_plots.png, id=81, 407.5225pt x 843.15pt>
+<Figures/fitted_value_plots.png, id=48, 407.5225pt x 843.15pt>
 File: Figures/fitted_value_plots.png Graphic file (type png)
 
 <use Figures/fitted_value_plots.png>
-Package pdftex.def Info: Figures/fitted_value_plots.png used on input line 406.
+Package pdftex.def Info: Figures/fitted_value_plots.png used on input line 219.
 
 (pdftex.def)             Requested size: 172.5pt x 356.8995pt.
- [14] [15] [16 <./Figures/fitted_value_plots.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 445--447
+ [8] [9] [10 <./Figures/fitted_value_plots.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 258--260
 
  []
 
-<Figures/knn_test.pdf, id=93, 361.35pt x 361.35pt>
+<Figures/knn_test.pdf, id=60, 361.35pt x 361.35pt>
 File: Figures/knn_test.pdf Graphic file (type pdf)
  <use Figures/knn_test.pdf>
-Package pdftex.def Info: Figures/knn_test.pdf used on input line 471.
+Package pdftex.def Info: Figures/knn_test.pdf used on input line 284.
 (pdftex.def)             Requested size: 310.4979pt x 310.50131pt.
 
-[17]
-Underfull \hbox (badness 10000) in paragraph at lines 476--477
+[11]
+Underfull \hbox (badness 10000) in paragraph at lines 289--290
 
  []
 
-[18 <./Figures/knn_test.pdf>]
-<Figures/knn_predicted_test.pdf, id=109, 361.35pt x 361.35pt>
+[12 <./Figures/knn_test.pdf>]
+<Figures/knn_predicted_test.pdf, id=76, 361.35pt x 361.35pt>
 File: Figures/knn_predicted_test.pdf Graphic file (type pdf)
 
 <use Figures/knn_predicted_test.pdf>
-Package pdftex.def Info: Figures/knn_predicted_test.pdf used on input line 501.
+Package pdftex.def Info: Figures/knn_predicted_test.pdf used on input line 314.
 
 (pdftex.def)             Requested size: 310.4979pt x 310.50131pt.
 
-<Figures/knn_predicted_test_residuals.pdf, id=110, 361.35pt x 361.35pt>
+<Figures/knn_predicted_test_residuals.pdf, id=77, 361.35pt x 361.35pt>
 File: Figures/knn_predicted_test_residuals.pdf Graphic file (type pdf)
 
 <use Figures/knn_predicted_test_residuals.pdf>
 Package pdftex.def Info: Figures/knn_predicted_test_residuals.pdf used on input
- line 507.
+ line 320.
 (pdftex.def)             Requested size: 310.4979pt x 310.50131pt.
- [19 <./Figures/knn_predicted_test.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 520--521
+ [13 <./Figures/knn_predicted_test.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 333--334
 
  []
 
-[20 <./Figures/knn_predicted_test_residuals.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 532--533
+[14 <./Figures/knn_predicted_test_residuals.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 345--346
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 540--541
+Underfull \hbox (badness 10000) in paragraph at lines 353--354
 
  []
 
-[21] <Figures/knn_predicted_LOOCV.pdf, id=133, 361.35pt x 361.35pt>
+[15] <Figures/knn_predicted_LOOCV.pdf, id=101, 361.35pt x 361.35pt>
 File: Figures/knn_predicted_LOOCV.pdf Graphic file (type pdf)
 
 <use Figures/knn_predicted_LOOCV.pdf>
-Package pdftex.def Info: Figures/knn_predicted_LOOCV.pdf used on input line 580
+Package pdftex.def Info: Figures/knn_predicted_LOOCV.pdf used on input line 393
 .
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
- [22]
-<Figures/knn_predicted_LOOCV_residuals.pdf, id=137, 361.35pt x 361.35pt>
+ [16]
+<Figures/knn_predicted_LOOCV_residuals.pdf, id=105, 361.35pt x 361.35pt>
 File: Figures/knn_predicted_LOOCV_residuals.pdf Graphic file (type pdf)
 
 <use Figures/knn_predicted_LOOCV_residuals.pdf>
 Package pdftex.def Info: Figures/knn_predicted_LOOCV_residuals.pdf used on inpu
-t line 586.
+t line 399.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
- [23 <./Figures/knn_predicted_LOOCV.pdf>] [24 <./Figures/knn_predicted_LOOCV_re
+ [17 <./Figures/knn_predicted_LOOCV.pdf>] [18 <./Figures/knn_predicted_LOOCV_re
 siduals.pdf>]
 (./Figures/linreg_hist.tex) (./Figures/linreg_predicted.tex)
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[25] [26]
-Underfull \hbox (badness 10000) in paragraph at lines 670--671
+[19] [20]
+Underfull \hbox (badness 10000) in paragraph at lines 483--484
 
  []
 
-[27] <Figures/subset_bic.png, id=166, 843.15pt x 843.15pt>
+[21] <Figures/subset_bic.png, id=134, 843.15pt x 843.15pt>
 File: Figures/subset_bic.png Graphic file (type png)
 
 <use Figures/subset_bic.png>
-Package pdftex.def Info: Figures/subset_bic.png used on input line 688.
+Package pdftex.def Info: Figures/subset_bic.png used on input line 501.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  (./Figures/subset_hist.tex)
 
@@ -812,103 +776,103 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[28 <./Figures/subset_bic.png>] [29] [30]
+[22 <./Figures/subset_bic.png>] [23] [24]
 (/usr/local/texlive/2016/texmf-dist/tex/latex/ucs/data/uni-34.def
 File: uni-34.def 2013/05/13 UCS: Unicode data U+2200..U+22FF
 )
-<Figures/ridge_model.pdf, id=178, 361.35pt x 361.35pt>
+<Figures/ridge_model.pdf, id=146, 361.35pt x 361.35pt>
 File: Figures/ridge_model.pdf Graphic file (type pdf)
 
 <use Figures/ridge_model.pdf>
-Package pdftex.def Info: Figures/ridge_model.pdf used on input line 757.
+Package pdftex.def Info: Figures/ridge_model.pdf used on input line 570.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 762--763
+Underfull \hbox (badness 10000) in paragraph at lines 575--576
 
  []
 
-[31 <./Figures/ridge_model.pdf>]
-<Figures/cv_glmnet.pdf, id=188, 361.35pt x 361.35pt>
+[25 <./Figures/ridge_model.pdf>]
+<Figures/cv_glmnet.pdf, id=155, 361.35pt x 361.35pt>
 File: Figures/cv_glmnet.pdf Graphic file (type pdf)
 
 <use Figures/cv_glmnet.pdf>
-Package pdftex.def Info: Figures/cv_glmnet.pdf used on input line 774.
+Package pdftex.def Info: Figures/cv_glmnet.pdf used on input line 587.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
- [32 <./Figures/cv_glmnet.pdf>]
-<Figures/ridge_yhat.pdf, id=198, 361.35pt x 361.35pt>
+ [26 <./Figures/cv_glmnet.pdf>]
+<Figures/ridge_yhat.pdf, id=165, 361.35pt x 361.35pt>
 File: Figures/ridge_yhat.pdf Graphic file (type pdf)
 
 <use Figures/ridge_yhat.pdf>
-Package pdftex.def Info: Figures/ridge_yhat.pdf used on input line 805.
+Package pdftex.def Info: Figures/ridge_yhat.pdf used on input line 618.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
 
-<Figures/ridge_resid.pdf, id=199, 361.35pt x 361.35pt>
+<Figures/ridge_resid.pdf, id=166, 361.35pt x 361.35pt>
 File: Figures/ridge_resid.pdf Graphic file (type pdf)
 
 <use Figures/ridge_resid.pdf>
-Package pdftex.def Info: Figures/ridge_resid.pdf used on input line 811.
+Package pdftex.def Info: Figures/ridge_resid.pdf used on input line 624.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
- [33 <./Figures/ridge_yhat.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 816--817
+ [27 <./Figures/ridge_yhat.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 629--630
 
  []
 
-<Figures/ridge_coeff.png, id=209, 323.2075pt x 520.94624pt>
+<Figures/ridge_coeff.png, id=176, 323.2075pt x 520.94624pt>
 File: Figures/ridge_coeff.png Graphic file (type png)
 
 <use Figures/ridge_coeff.png>
-Package pdftex.def Info: Figures/ridge_coeff.png used on input line 825.
+Package pdftex.def Info: Figures/ridge_coeff.png used on input line 638.
 (pdftex.def)             Requested size: 276.00105pt x 444.88109pt.
- [34 <./Figures/ridge_resid.pdf>] [35 <./Figures/ridge_coeff.png>] <Figures/rid
-ge_bias_var.pdf, id=224, 361.35pt x 361.35pt>
+ [28 <./Figures/ridge_resid.pdf>] [29 <./Figures/ridge_coeff.png>] <Figures/rid
+ge_bias_var.pdf, id=192, 361.35pt x 361.35pt>
 File: Figures/ridge_bias_var.pdf Graphic file (type pdf)
 
 <use Figures/ridge_bias_var.pdf>
-Package pdftex.def Info: Figures/ridge_bias_var.pdf used on input line 854.
+Package pdftex.def Info: Figures/ridge_bias_var.pdf used on input line 667.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
- [36]
-<Figures/ridge_mse.pdf, id=228, 361.35pt x 361.35pt>
+ [30]
+<Figures/ridge_mse.pdf, id=196, 361.35pt x 361.35pt>
 File: Figures/ridge_mse.pdf Graphic file (type pdf)
 
 <use Figures/ridge_mse.pdf>
-Package pdftex.def Info: Figures/ridge_mse.pdf used on input line 859.
+Package pdftex.def Info: Figures/ridge_mse.pdf used on input line 672.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
- [37 <./Figures/ridge_bias_var.pdf>] [38 <./Figures/ridge_mse.pdf>] <Figures/la
-sso_model.pdf, id=247, 361.35pt x 361.35pt>
+ [31 <./Figures/ridge_bias_var.pdf>] [32 <./Figures/ridge_mse.pdf>] <Figures/la
+sso_model.pdf, id=215, 361.35pt x 361.35pt>
 File: Figures/lasso_model.pdf Graphic file (type pdf)
 
 <use Figures/lasso_model.pdf>
-Package pdftex.def Info: Figures/lasso_model.pdf used on input line 887.
+Package pdftex.def Info: Figures/lasso_model.pdf used on input line 700.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
- [39 <./Figures/lasso_model.pdf>]
-<Figures/lasso_mse.pdf, id=256, 361.35pt x 361.35pt>
+ [33 <./Figures/lasso_model.pdf>]
+<Figures/lasso_mse.pdf, id=224, 361.35pt x 361.35pt>
 File: Figures/lasso_mse.pdf Graphic file (type pdf)
 
 <use Figures/lasso_mse.pdf>
-Package pdftex.def Info: Figures/lasso_mse.pdf used on input line 905.
+Package pdftex.def Info: Figures/lasso_mse.pdf used on input line 718.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
- [40 <./Figures/lasso_mse.pdf>]
-<Figures/lasso_predicted.pdf, id=266, 361.35pt x 361.35pt>
+ [34 <./Figures/lasso_mse.pdf>]
+<Figures/lasso_predicted.pdf, id=234, 361.35pt x 361.35pt>
 File: Figures/lasso_predicted.pdf Graphic file (type pdf)
 
 <use Figures/lasso_predicted.pdf>
-Package pdftex.def Info: Figures/lasso_predicted.pdf used on input line 929.
+Package pdftex.def Info: Figures/lasso_predicted.pdf used on input line 742.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
 
-<Figures/lasso_residuals.pdf, id=267, 361.35pt x 361.35pt>
+<Figures/lasso_residuals.pdf, id=235, 361.35pt x 361.35pt>
 File: Figures/lasso_residuals.pdf Graphic file (type pdf)
 
 <use Figures/lasso_residuals.pdf>
-Package pdftex.def Info: Figures/lasso_residuals.pdf used on input line 934.
+Package pdftex.def Info: Figures/lasso_residuals.pdf used on input line 747.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
- [41 <./Figures/lasso_predicted.pdf>]
-<Figures/lasso_coeff.png, id=278, 290.08376pt x 529.98pt>
+ [35 <./Figures/lasso_predicted.pdf>]
+<Figures/lasso_coeff.png, id=246, 290.08376pt x 529.98pt>
 File: Figures/lasso_coeff.png Graphic file (type png)
 
 <use Figures/lasso_coeff.png>
-Package pdftex.def Info: Figures/lasso_coeff.png used on input line 943.
+Package pdftex.def Info: Figures/lasso_coeff.png used on input line 756.
 (pdftex.def)             Requested size: 276.00105pt x 504.27872pt.
- [42 <./Figures/lasso_residuals.pdf>] [43 <./Figures/lasso_coeff.png>] [44] (./
+ [36 <./Figures/lasso_residuals.pdf>] [37 <./Figures/lasso_coeff.png>] [38] (./
 Figures/pcr_cv.tex) (./Figures/pcr_hist.tex)
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -917,36 +881,56 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[45] [46] [47] [48] (./main.aux) ) 
+[39] [40] [41] [42]
+Chapter 2.
+
+Underfull \hbox (badness 10000) in paragraph at lines 856--857
+
+ []
+
+[43
+
+] [44] [45] (./Figures/lda_pca.tex) [46] [47]
+Overfull \hbox (77.56879pt too wide) in paragraph at lines 1029--1030
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][]  
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1055--1056
+
+ []
+
+[48] [49] (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 18663 strings out of 493014
- 338382 string characters out of 6133351
- 561392 words of memory out of 5000000
- 21815 multiletter control sequences out of 15000+600000
+ 18659 strings out of 493014
+ 338226 string characters out of 6133351
+ 566203 words of memory out of 5000000
+ 21810 multiletter control sequences out of 15000+600000
  10872 words of font info for 41 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,10n,92p,874b,1787s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2016/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr5.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmr7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmsy7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmti10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmtt10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmtt9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symb
-ols/msbm10.pfb>
-Output written on main.pdf (50 pages, 1021523 bytes).
+ 55i,10n,92p,874b,1782s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmbx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmcsc10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmex10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmmi10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmmi7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmr10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr5.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
+10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7
+.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
+pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.p
+fb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb
+></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10
+.pfb>
+Output written on main.pdf (51 pages, 759636 bytes).
 PDF statistics:
- 362 PDF objects out of 1000 (max. 8388607)
- 248 compressed objects within 3 object streams
+ 353 PDF objects out of 1000 (max. 8388607)
+ 242 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
- 123 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 113 words of extra memory for PDF output out of 10000 (max. 10000000)
 
