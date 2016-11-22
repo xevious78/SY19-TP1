@@ -35,23 +35,24 @@
 \contentsline {subsubsection}{Model Analysis}{38}
 \contentsline {section}{\numberline {1.8}Linear Regression with Dimension Reduction}{38}
 \contentsline {subsection}{\numberline {1.8.1}Idea}{38}
-\contentsline {section}{\numberline {1.9}Models Comparaison}{40}
-\contentsline {subsection}{\numberline {1.9.1}KNN neighbors and Linear Regression}{42}
-\contentsline {subsection}{\numberline {1.9.2}Best subset Selection and Linear Regression Regularizations}{42}
-\contentsline {subsubsection}{Ridge \& Lasso }{42}
-\contentsline {subsubsection}{Regularization \& Best subset}{45}
-\contentsline {subsection}{\numberline {1.9.3}Dimension Reduction}{45}
-\contentsline {chapter}{\numberline {2}Phoneme Recognition}{46}
-\contentsline {section}{\numberline {2.1}Context}{46}
-\contentsline {section}{\numberline {2.2}Dataset Description}{46}
-\contentsline {section}{\numberline {2.3}Measure to Compare Models}{47}
-\contentsline {section}{\numberline {2.4}Classification}{47}
-\contentsline {subsection}{\numberline {2.4.1}LDA - Linear Discriminant Analysis}{47}
-\contentsline {subsubsection}{Model Implementation}{48}
-\contentsline {subsubsection}{Improvements with PCA}{49}
-\contentsline {subsection}{\numberline {2.4.2}QDA - Quadratic Discriminant Analysis}{51}
-\contentsline {subsubsection}{Model Implementation}{51}
-\contentsline {subsubsection}{Improvements with PCA}{52}
-\contentsline {subsection}{\numberline {2.4.3}Logistic Regression}{53}
-\contentsline {subsubsection}{Improvements with PCA}{54}
-\contentsline {section}{\numberline {2.5}Models Comparison}{54}
+\contentsline {section}{\numberline {1.9}Models Comparison}{40}
+\contentsline {subsection}{\numberline {1.9.1}MSE and Residuals}{40}
+\contentsline {subsection}{\numberline {1.9.2}KNN neighbors and Linear Regression}{42}
+\contentsline {subsection}{\numberline {1.9.3}Best subset Selection and Linear Regression Regularizations}{43}
+\contentsline {subsubsection}{Ridge \& Lasso }{43}
+\contentsline {subsubsection}{Regularization \& Best subset}{46}
+\contentsline {subsection}{\numberline {1.9.4}Dimension Reduction}{46}
+\contentsline {chapter}{\numberline {2}Phoneme Recognition}{47}
+\contentsline {section}{\numberline {2.1}Context}{47}
+\contentsline {section}{\numberline {2.2}Dataset Description}{47}
+\contentsline {section}{\numberline {2.3}Measure to Compare Models}{48}
+\contentsline {section}{\numberline {2.4}Classification}{48}
+\contentsline {subsection}{\numberline {2.4.1}LDA - Linear Discriminant Analysis}{48}
+\contentsline {subsubsection}{Model Implementation}{49}
+\contentsline {subsubsection}{Improvements with PCA}{50}
+\contentsline {subsection}{\numberline {2.4.2}QDA - Quadratic Discriminant Analysis}{52}
+\contentsline {subsubsection}{Model Implementation}{52}
+\contentsline {subsubsection}{Improvements with PCA}{53}
+\contentsline {subsection}{\numberline {2.4.3}Logistic Regression}{54}
+\contentsline {subsubsection}{Improvements with PCA}{55}
+\contentsline {section}{\numberline {2.5}Models Comparison}{55}
