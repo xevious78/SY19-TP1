@@ -33,6 +33,8 @@ set.seed(123)
 #############################
 data_set = read.csv("r_breast_cancer.data.txt")
 data_set.nb_features = dim(data_set)[1]
+#Make sure there is no empty value (NA)
+data_set=na.omit(data_set)
 
 #############################
 # DATA SPLIT
@@ -129,8 +131,8 @@ residuals.stdev = sqrt(var(model.knn.best.residuals))
 curve(dnorm(x, mean=residuals.mean, sd=residuals.stdev), col="darkblue", lwd=2, add=TRUE, yaxt="n")
 
 #############################
-# Find best k with Cross Validation
-model.kknn = train.kknn(Time ~., data= train_set, kmax = 30, ks = NULL, distance = 2, kernel = "optimal")
+# Find best k with LOOCV
+model.kknn = train.kknn(Time ~., data= train_set, kmax = 30)
 model.kknn.best.k = model.kknn$best.parameters$k
 
 # kNN with best k
@@ -181,7 +183,7 @@ summary(model.linreg.best_bic)
 plot(model.linreg.best_bic)
 
 # On Test Set
-model.linreg.best_bic.predicted = predict(model.linreg.best_bic, newdata = test_set.x)
+model.linreg.best_bic.predicted 	= predict(model.linreg.best_bic, newdata = test_set.x)
 model.linreg.best_bic.predicted.mse = mean((test_set.y - model.linreg.best_bic.predicted)^2)
 
 #############################
@@ -190,7 +192,7 @@ model.linreg.best_bic.predicted.mse = mean((test_set.y - model.linreg.best_bic.p
 # Setup Data
 train_set.x.matrix = as.matrix(train_set.x)
 train_set.y.matrix = as.matrix(train_set.y)
-test_set.x.matrix = as.matrix(test_set.x)
+test_set.x.matrix  = as.matrix(test_set.x)
 
 grid=10^seq(10,-2, length=100)
 
@@ -209,15 +211,15 @@ model.ridge.best = glmnet(train_set.x.matrix, train_set.y.matrix, lambda=model.r
 model.ridge.best.pred = predict(model.ridge.best, s=model.ridge.best.lambda, newx=test_set.x.matrix)
 
 # Analysis
-residuals = test_set.y - model.ridge.best.pred
-errors = residuals^2
+residuals 			 = test_set.y - model.ridge.best.pred
+errors 				 = residuals^2
 model.ridge.best.MSE = mean(errors)
 
 plot(x=test_set.y, y=model.ridge.best.pred)
 abline(0,1, col='red')
 
 hist(residuals, freq=FALSE, main="Distribution of Residuals in Ridge")
-residuals.mean = mean(residuals)
+residuals.mean 	= mean(residuals)
 residuals.stdev = sqrt(var(residuals))
 curve(dnorm(x, mean=residuals.mean, sd=residuals.stdev), col="darkblue", lwd=2, add=TRUE, yaxt="n")
 
@@ -243,8 +245,8 @@ model.lasso.best = glmnet(train_set.x.matrix, train_set.y.matrix, lambda=model.l
 model.lasso.best.pred = predict(model.lasso.best, s=model.lasso.best.lambda, newx=test_set.x.matrix)
 
 # Analysis
-residuals = test_set.y - model.lasso.best.pred
-errors = residuals^2
+residuals 		= test_set.y - model.lasso.best.pred
+errors 			= residuals^2
 model.lasso.MSE = mean(errors)
 
 model.lasso.MSE
@@ -254,7 +256,7 @@ plot(x=test_set.y, y=model.lasso.best.pred)
 abline(0,1, col='red')
 
 hist(residuals, freq=FALSE, main="Distribution of Residuals in Lasso")
-residuals.mean = mean(residuals)
+residuals.mean 	= mean(residuals)
 residuals.stdev = sqrt(var(residuals))
 curve(dnorm(x, mean=residuals.mean, sd=residuals.stdev), col="darkblue", lwd=2, add=TRUE, yaxt="n")
 
@@ -273,18 +275,20 @@ validationplot(model.pcr, val.type = "MSEP")
 #############################
 # 4 components yield to the lowest MSE (that may be different for you)
 # Fit model with 4 principal components
-model.pcr.predicted = predict(model.pcr, test_set.x, ncomp = 4)
+model.pcr.predicted 	= predict(model.pcr, test_set.x, ncomp = 4)
 model.pcr.predicted.mse = mean((test_set.y - model.pcr.predicted)^2)
 
 #############################
 # MODELS COMPARISON
 #############################
-
+# A box-plot with all the residuals
 linreg.residuals = test_set.y - model.linreg.predicted
 bic.residuals    = test_set.y - model.linreg.best_bic.predicted
 kknn.residuals   = test_set.y - model.kknn.best$pred
 ridge.residuals  = test_set.y - model.ridge.best.pred 
 lasso.residuals  = test_set.y - model.lasso.best.pred
-pcr.residuals  = test_set.y - model.pcr.predicted
-
+pcr.residuals    = test_set.y - model.pcr.predicted
+all.residuals    = data.frame(cbind(linreg.residuals, bic.residuals, kknn.residuals, ridge.residuals, lasso.residuals,pcr.residuals))
+boxplot(all.residuals, names = c("LR","BIC","KNN CV","RIDGE","LASSO","PCR"), main="RAW Residuals of all models", ylim=range(kknn.residuals, ridge.residuals, lasso.residuals,pcr.residuals))
+dev.off()
 
