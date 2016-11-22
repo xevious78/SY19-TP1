@@ -98,28 +98,44 @@ head(data_set)
 data_set.nb_features = 256
 \end{lstlisting}
 
-Splitting data into train set and test set.
-\begin{lstlisting}
-train= data_set[1:3340,]
-train.x = train[,-258]
-train.y = train[,258]
+\section{Measure to Compare Models}
+Before building any model, we have to properly define the measures we will use later to compare their performance. In a classification problem, "accuracy" is often used. It is defined by :
+$$
+	A = \frac{\text{Number of Good Predictions}}{\text{Number of Cases}}
+$$
 
-test = data_set[3341:4509,]
-test.x = test[,-258]
-test.y = test[,258]
+This is a very simple measure that may cause some issues when applied on classification problems that deal with skewed classes. For instance, let $A$ and $B$, two classes. $A$ contains 95\% of the dataset, while $B$ contains the remaining 5\%. Let $M$ a pretty bad classifier which classifies the whole dataset in class $A$. According to the definition stated above, this classifier has an accuracy of 95\%, which is excellent. In this case, more specific performance measures have to be applied.
+
+However, our current classification problem do not deal with skewed class since all classes are almost equally-represented in the dataset. Therefore, we will be able to run this performance measure without any important issue. This measure will be aplied on the test set in order not to include any biais.
+
+\begin{lstlisting}
+train_set= data_set[1:3340, 2:258]
+train_set.x = train_set[,1:256]
+train_set.y = train_set[,257]
+
+test_set = data_set[3341:4509, 2:258]
+test_set.x = test_set[,1:256]
+test_set.y = test_set[,257]
 \end{lstlisting}
 
 \section{Classification}
 
+\subsection{LDA - Linear Discriminant Analysis}
+The first model we are going to use takes advantage of Bayes' Theorem. Let $f_k(x)$ the class-conditional density of $X$ when $Y=k$, and $\pi_k$ the prior probability of class $k$. Bayes' Theorem proposes the following statement : 
 
-\subsection{LDA- Linear Discriminant Analysis}
+$$
+\mathbb{P}(Y = k | X = x) = \frac{f_k(x)\pi_k}{\sum_{l = 1}^{K}f_l\pi_l} 
+$$
+
+If the class distribution of the dataset is representative of the real distribution, we can estimate $\pi_k$ by calculating the proportion of $k$ class elements in the dataset. How can we now estimate $f_k(x)$ ? Linear Discriminant Analysis assumes that $f_k(x)$ is a Gaussian distribution whose covariance matrix $\sum$  is diagonal with $\forall k, \Sigma_k = \Sigma$. 
+
 
 \subsubsection{Model Implementation}
 The function \texttt{lda} works the same was as \texttt{lm} for linear regression. It returns the group means that are the average of each predictor in each class. The coefficients of linear discriminants output are used to form the LDA decision rule. The prior probability is the percentage of the response for each class in the observation.
 
 \begin{lstlisting}
 library(MASS)
-model.lda = lda(g ~ . - g - speaker - row.names, data=train)
+model.lda = lda(g ~ ., data=train_set)
 summary(model.lda)
 \end{lstlisting}
 
@@ -127,25 +143,7 @@ summary(model.lda)
 Prior probabilities of groups:
 aa         ao         dcl        iy         sh 
 0.1553892  0.2272455  0.1682635  0.2550898  0.1940120 
-
-
-        Length Class  Mode     
-prior      5   -none- numeric  
-counts     5   -none- numeric  
-means   1280   -none- numeric  
-scaling 1024   -none- numeric  
-lev        5   -none- character
-svd        4   -none- numeric  
-N          1   -none- numeric  
-call       3   -none- call     
-terms      3   terms  call     
-xlevels    1   -none- list
 \end{verbatim}
-
-\begin{center}
-	\includegraphics{Figures/model_lda_plot.pdf}
-	\captionof{figure}{Phoneme LDA model}
-\end{center}
 
 The prior probabilities tell us that in the train observation 15\% of phonemes are \texttt{aa} , 23\% \texttt{ao}, 17\% \texttt{dcl}, 25\% \texttt{iy} and 19\% \texttt{sh}.
 
@@ -173,30 +171,78 @@ sh    0   0   0   0 224
 \end{center}
 
 Here is an example of how this table is read, for the second line
-when the phoneme pronounced is aa , the speech recognition detects that 129 is detected as aa and 47 as ao, in other words only 27\% is misclassified.
-In order to compute the total error rate we divide the sum of the diagonal terms (which are the true phonemes detected) and divide it by the number total of observations We find that in 92\% of the cases the speech recognition detected right the phoneme. This classifier performs quite well, but it does work well with the phonemes \texttt{aa} and \texttt{ao} which sound very similar.
+when the phoneme pronounced is \texttt{aa} , the speech recognition detects that 129 is detected as \texttt{aa} and 47 as \texttt{ao}, in other words only 27\% is misclassified.
+In order to compute the total error rate we divide the sum of the diagonal terms (which are the true phonemes detected) and divide it by the number total of observations We find that in 92\% of the cases the speech recognition detected right the phoneme. This classifier performs quite well, but it does not work well with the phonemes \texttt{aa} and \texttt{ao} which sound very similar.
 
-The \texttt{ROCR} package can be used to produce ROC curves. The area under the ROC curve(AUC) is a criteria to judge the performance of the LDA. The larger the AUC the better the classifier.
+\subsubsection{Improvements with PCA}
+The dataset has a high number of features (256) that may prevent the model from fitting well. We can cope with this performance issue by applying a dimension reduction method, such as Principal Component Analysis (PCA). The function\texttt{prcomp} is available in R to compute the principal components of the 256 features. Since PCA depends on the scaling of the inputs, it is important to scale and ceter each feature.
 \begin{lstlisting}
-library(pROC)
-l   = length(model.lda.predicted$class)
-ld1 = model.lda.predicted$x[1:l]
-ld2 = model.lda.predicted$x[1+l:1+2*l]
-ld3 = model.lda.predicted$x[2*l:3*l]
-ld4 = model.lda.predicted$x[3*l:4*l]
-roc_curve<-roc(test_set$g, as.vector(ld1))
-plot(roc_curve)
+pca = prcomp(train_set.x, center = TRUE, scale. = TRUE)
 \end{lstlisting}
 
+The main question is now : how many principal components should we use to replace our main features ? The best number of components $M$ yields to the highest accuracy. The following code finds the best $M$ for the test set.
 
-\begin{center}
-	\includegraphics{Figures/lda_roc.pdf}
-	\captionof{figure}{LDA ROC: Area under the curve: 0.588}
-\end{center}
+\begin{lstlisting}
+accs = matrix(0, 50, 1)
 
-For this data the AUC is 0.92, which is considered very good as it is close to the maximum.
+for (M in 2:50) {
+	train_set.pca.x = as.data.frame(pca$x[,1:M])
+	train_set.pca = as.data.frame(cbind(train_set.y, train_set.pca.x))
+	
+	test_set.pca.x = predict(pca, newdata = test_set.x)[,1:M]
+	test_set.pca = as.data.frame(cbind(test_set.y, test_set.pca.x))
+	
+	model.lda.pca = lda(train_set.y ~ ., data = train_set.pca)
+	model.lda.pca.predicted = predict(model.lda.pca,newdata=test_set.pca)
+	
+	perf = table(test_set$g,model.lda.pca.predicted$class)
+	accs[M] = sum(diag(perf))/dim(test_set)[1]
+}
 
-\subsubsection{Model Analysis}
+which.max(accs[-1])
+plot(accs[-1])
+\end{lstlisting}
+
+\begin{figure}[!hb]
+	\centering
+	\inputtikz{0.5}{Figures/lda_pca.tex}
+	\caption{Best $M$ for LDA + PCA on Test Set}
+	\label{fig:lda_pca}
+\end{figure}
+
+The best $M$ on the test set is 8 (figure \ref{fig:lda_pca}), which yields to an accuracy of 92.2\%. However, this method raises a biais since we computed $M$ based on the test set. A proper way to find $M$ is using a k fold cross validation technique.
+
+\begin{lstlisting}
+library(caret)
+
+accs = matrix(0, 50, 1)
+for (M in 2:50) {
+	a.train_set.pca.x = as.data.frame(pca$x[,1:M])
+	a.train_set.pca = as.data.frame(cbind(train_set.y, a.train_set.pca.x))
+	
+	folds = createFolds(train_set.pca$train_set.y)
+	
+	acc = 0;
+	for (k in 1:10) {
+		validation_indexes = folds[[k]]
+		a.train_set.x = a.train_set.pca.x[-validation_indexes,]
+		a.train_set = a.train_set.pca[-validation_indexes,]
+		
+		a.validation_set.x = a.train_set.pca.x[validation_indexes,]
+		a.validation_set = a.train_set.pca[validation_indexes,]
+		
+		model.lda.pca = lda(a.train_set$train_set.y ~ ., data = a.train_set)
+		model.lda.pca.predicted = predict(model.lda.pca,newdata=a.validation_set)
+		
+		perf = table(a.validation_set$train_set.y,model.lda.pca.predicted$class)
+		acc = acc + sum(diag(perf))/dim(a.validation_set)[1]
+	}
+
+	acc = acc / 10
+	accs[M] = acc
+}
+\end{lstlisting}
+
 
 
 \subsection{QDA- Quadratic Discriminant Analysis}
@@ -215,7 +261,7 @@ $$
 
 If $\beta_0 + \beta x$ is positive, $Y$ is most likely to be equal to 0; otherwise, $Y$ is most likely to be equal to 1.  \\
 
-In a multinomial scenario, like our case, more complex methods have to be applied. In particular, the library \texttt{nnet} provides us with a function called \texttt{multinom} that uses a feedforward Neural Network with a single hidden layer to fit a multinomial logistic regression model. This kind of Neural Networks often runs a backpropagation method along with an iterative optimization algorithm to estimate the weights of each neuron. That is why we have to specify the number of maximum iterations.
+In a multinomial scenario, like our case, more complex methods have to be applied. In particular, the library \texttt{nnet} provides us with a function called \texttt{multinom} that uses a feedforward Neural Network with a single hidden layer to fit a multinomial logistic regression model. This kind of Neural Networks often runs a backpropagation method along with an iterative optimization algorithm to estimate the weights of each neuron. That is why we have to specify the maximum number of iterations.
 
 \begin{lstlisting}
 library("nnet")
@@ -468,13 +514,13 @@ Like the cross validation the LOOCV involves splitting the set of observations i
 
 The LOOCV will always give the same results in contrast to the CV that depends on the randomness of how the data are split. Furthermore as it was stated before the CV runs the train approach on around the half of the size of the original data while the LOOCV repeats the validation set approach n times using n-1 observations. Hence the LOOCV yields to a not overestimated test error rate compared to the validation set approach. The only disadvantage of the LOOCV is it is computation time which can be very time consuming n is large.\\
 
-An alternative to LOOCV that has a smaller computation time is k-Fold Cross Validation. This approach is based on dividing the training observations on k groups, each time one group will be considered as the test set and the k-1 left as the training set. Therefore the CV becomes:
+An alternative to LOOCV that has a smaller computation time is k-Fold Cross Validation. This approach is based on dividing the training observations on $k$ groups, each time one group will be considered as the test set and the $k-1$ left as the training set. Therefore the CV becomes:
 
 \begin{center}
 	$$CV_{(k)} = \frac{1}{k} \sum_{i=1}^{k} MSE_{i} $$
 \end{center}
 
-We can see that the k-Fold Cross-Validation fits the model k times instead of n, which reduces considerably the computation time. Our original data has only 198 observations, we can then afford the computation of the LOOCV. \\
+We can see that the k-Fold Cross-Validation fits the model $k$ times instead of $n$, which reduces considerably the computation time. Our original data has only 198 observations, we can then afford the computation of the LOOCV. \\
 
 \subsubsection{Model implementation}
 
@@ -842,7 +888,7 @@ In the Introduction, we mentioned the fact that some features are actually corre
 
 Principal Component Analysis (PCA) is one such method. It consists in transforming the set of $p$ features into a set of $M$ orthogonal vectors ($M < p$) using linear transformations. The new set of vectors (called components) contains as much information as the initial set. "Information" is here defined in terms of variance, in other words, each new component should be able to explain as much variance as possible, while being orthogonal to the others.
 
-Once the set of principal components is found, it can be used as an input to a simple linear regression to build what is called a Principal Component Regression (PCR) model. The number of components $M$ should be taken so that the model built with PCR has a minimum error value; once again, a 10 fold cross validation method can be used to determine the best $M$.
+Once a set of principal components is found, it can be used as an input to a simple linear regression to build what is called a Principal Component Regression (PCR) model. The number of components $M$ should be taken so that the model built with PCR has a minimum error value; once again, a 10 fold cross validation method can be used to determine the best $M$.
 
 PCR is available in R with the package \texttt{pls} :
 \begin{lstlisting}
@@ -855,7 +901,7 @@ We can then plot the MSE for each set of components :
 validationplot(model.pcr, val.type = "MSEP")
 \end{lstlisting}
 
-According to figure \ref{fig:pcr_cv}, the model with only 4 components yields to the lowest MSE. The function \texttt{summary} tells us that 4 components are enough to explain 75\% of the features' variance. 
+According to figure \ref{fig:pcr_cv}, the model with only 4 components yields to the lowest MSE. However, since $M = 4$ is found after running a random cross validation method, this number may be different if we run this algorithm another time.
 
 \begin{figure}[!h]
 	\centering
@@ -864,21 +910,22 @@ According to figure \ref{fig:pcr_cv}, the model with only 4 components yields to
 	\label{fig:pcr_cv}
 \end{figure}
 
+The function \texttt{summary} tells us that 4 components are enough to explain 75\% of the features' variance, which seems to be enough for this dataset. Indeed, this model performs better that the other linear regression methods : the MSE is approximatively equal to 967. 
+
 \begin{figure}[!h]
 	\centering
 	\inputtikz{0.5}{Figures/pcr_hist.tex}
-	\caption{PCR}
+	\caption{PCR Raw Residuals Distribution}
 	\label{fig:pcr_hist}
 \end{figure}
 
 \begin{figure}[!h]
 	\centering
 	\inputtikz{0.5}{Figures/pcr_predicted.tex}
-	\caption{PCR}
+	\caption{PCR Predicted values against Real values}
 	\label{fig:pcr_predicted}
 \end{figure}
 
-MSE = 967
 
 \section{Models Comparaison}
 \subsection{KNN neighbors and Linear Regression}
