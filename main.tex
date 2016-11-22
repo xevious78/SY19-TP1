@@ -46,7 +46,7 @@
 \begin{abstract}
 This report is an assignment for the course SY19 : Machine Learning. It is focused on two exercises : a regression problem and classification problem. In each part, we will describe the methodology we used to build the best model for each dataset.
 
-Since none of us have previously taken SY09, and only one of us has already done SY02, this report may lack some important explanations and analysis.
+Since none of us have previously taken SY09, and only one of us has already done SY02, please note this report may lack some important explanations and analysis.
 \end{abstract}
 
 
@@ -768,7 +768,7 @@ The function \texttt{summary} tells us that 4 components are enough to explain 7
 
 \chapter{Phoneme Recognition}
 \section{Context}
-In the context of speech recognition the aim is to predict which of the phonemes is pronounced my the subject. We have five phonemes to recognize :\\ 
+In the context of speech recognition the aim is to predict which of the phonemes is pronounced by the subject. In this case, we have five phonemes to recognize :\\ 
 \begin{center}
 	$g = \left\{
 	\begin{array}{l}
@@ -834,8 +834,9 @@ $$
 \mathbb{P}(Y = k | X = x) = \frac{f_k(x)\pi_k}{\sum_{l = 1}^{K}f_l\pi_l} 
 $$
 
-If the class distribution of the dataset is representative of the real distribution, we can estimate $\pi_k$ by calculating the proportion of $k$ class elements in the dataset. How can we now estimate $f_k(x)$ ? Linear Discriminant Analysis assumes that $f_k(x)$ is a Gaussian distribution whose covariance matrix $\sum$  is diagonal with $\forall k, \Sigma_k = \Sigma$. 
+$X$ belongs to the class whose conditional probability is the highest.
 
+If the class distribution of the dataset is representative of the real distribution, we can estimate $\pi_k$ by calculating the proportion of $k$ class elements in the dataset. How can we now estimate $f_k(x)$ ? Linear Discriminant Analysis assumes that all $f_k(x)$ are Gaussian distributions whose covariance matrix $\Sigma$ are the same.
 
 \subsubsection{Model Implementation}
 The function \texttt{lda} works the same was as \texttt{lm} for linear regression. It returns the group means that are the average of each predictor in each class. The coefficients of linear discriminants output are used to form the LDA decision rule. The prior probability is the percentage of the response for each class in the observation.
@@ -882,7 +883,7 @@ when the phoneme pronounced is \texttt{aa} , the speech recognition detects that
 In order to compute the total error rate we divide the sum of the diagonal terms (which are the true phonemes detected) and divide it by the number total of observations We find that in 92\% of the cases the speech recognition detected right the phoneme. This classifier performs quite well, but it does not work well with the phonemes \texttt{aa} and \texttt{ao} which sound very similar.
 
 \subsubsection{Improvements with PCA}
-The dataset has a high number of features (256) that may prevent the model from fitting well. We can cope with this performance issue by applying a dimension reduction method, such as Principal Component Analysis (PCA). The function\texttt{prcomp} is available in R to compute the principal components of the 256 features. Since PCA depends on the scaling of the inputs, it is important to scale and ceter each feature.
+The dataset has a high number of features (256) that may prevent the model from fitting well. We can cope with this performance issue by applying a dimension reduction method, such as Principal Component Analysis (PCA). The function\texttt{prcomp} is available in R to compute the principal components of the 256 features. Since PCA depends on the scaling of the inputs, it is important to scale and center each feature.
 \begin{lstlisting}
 pca = prcomp(train_set.x, center = TRUE, scale. = TRUE)
 \end{lstlisting}
@@ -917,7 +918,18 @@ plot(accs[-1])
 	\label{fig:lda_pca}
 \end{figure}
 
-The best $M$ on the test set is 8 (figure \ref{fig:lda_pca}), which yields to an accuracy of 92.2\%. However, this method raises a biais since we computed $M$ based on the test set. A proper way to find $M$ is using a k fold cross validation technique.
+The best $M$ on the test set is 8 (figure \ref{fig:lda_pca}), which yields to an accuracy of 92.2\%.
+
+\begin{verbatim}
+g    aa  ao dcl  iy  sh
+aa  131  45   0   0   0
+ao   40 223   0   0   0
+dcl   0   0 191   4   0
+iy    0   0   1 309   1
+sh    0   0   0   0 224
+\end{verbatim}
+
+ However, this method raises a biais since we computed $M$ based on the test set. A proper way to find $M$ is using a k fold cross validation technique on the training set. The following code aims to find the best $M$ in the range $[2:50]$.
 
 \begin{lstlisting}
 library(caret)
@@ -950,16 +962,65 @@ for (M in 2:50) {
 }
 \end{lstlisting}
 
+\begin{figure}[!hb]
+	\centering
+	\inputtikz{0.5}{Figures/lda_pca_cv.tex}
+	\caption{Best $M$ for LDA + PCA on Training Set with Cross Validation}
+	\label{fig:lda_pca_cv}
+\end{figure}
 
+According to the graph shown in figure \ref{fig:lda_pca_cv}, the best $M$ is 42, which yields to an accuracy score of 92.04\% :
+\begin{verbatim}
+g    aa  ao dcl  iy  sh
+aa  129  47   0   0   0
+ao   39 224   0   0   0
+dcl   0   0 189   6   0
+iy    0   0   1 310   0
+sh    0   0   0   0 224
+\end{verbatim}
 
-\subsection{QDA- Quadratic Discriminant Analysis}
+\subsection{QDA - Quadratic Discriminant Analysis}
+This method is very similar to the LDA, the only difference being that the covariance matrices $\Sigma_k$ are not necessarily equal.
 
 \subsubsection{Model Implementation}
+In R, the function \texttt{qda} creates a classifier based on the QDA methods. It works the same way as \texttt{lda} :
+\begin{lstlisting}
+model.qda = qda(g ~ ., data=train_set)
+\end{lstlisting}
 
-\subsubsection{Model Analysis}
+\begin{verbatim}
+g    aa  ao dcl  iy  sh
+aa   27 143   0   3   3
+ao    2 259   0   1   1
+dcl   0   0 165  29   1
+iy    0   0   0 311   0
+sh    0   0   1   1 222
+\end{verbatim}
 
+This model performs worse than the LDA : the accuracy is about 84.2\%. It does not manage to make the difference between class \texttt{aa} and \texttt{ao}. This may mean that the covariance matrices $\Sigma_k$ are almost equal and that we will not be able to make this model more accurate than LDA.
 
-\subsection{Logistic Regression  ROC??}
+\subsubsection{Improvements with PCA}
+We know that the error rate of QDA highly depends on the size of the dataset and the number of features. Therefore, we may be able to improve its performance using PCA using the same 10 fold cross validation technique we used earlier.
+
+\begin{figure}[!hb]
+	\centering
+	\inputtikz{0.5}{Figures/qda_pca_cv.tex}
+	\caption{Best $M$ for QDA + PCA on Training Set with Cross Validation}
+	\label{fig:qda_pca_cv}
+\end{figure}
+
+In this case, the algorithm returns $M = 12$ (figure \ref{fig:qda_pca_cv}) which leads to 92\% accuracy. We successfully improved QDA's performance but the accuracy is still not better than LDA, as expected.
+
+\begin{verbatim}
+g    aa  ao dcl  iy  sh
+aa  124  52   0   0   0
+ao   35 228   0   0   0
+dcl   0   0 192   3   0
+iy    0   0   2 308   1
+sh    0   0   0   0 224
+\end{verbatim}
+
+\subsection{Logistic Regression}
 
 Logistic Regression is a type of Linear Classification method that models the posterior probabilities with linear functions. When there are only two features to deal with, the model is definined by : 
 
@@ -973,7 +1034,7 @@ In a multinomial scenario, like our case, more complex methods have to be applie
 
 \begin{lstlisting}
 library("nnet")
-model.lr = multinom(formula = g ~ . - g - speaker - row.names, data=train, MaxNWts=2000, maxit=1000)
+model.lr = multinom(formula = g ~ . , data=train, MaxNWts=2000, maxit=1000)
 \end{lstlisting}
 
 \begin{lstlisting}
@@ -982,17 +1043,39 @@ perf = table(test_set$g,model.lr.predicted)
 perf
 sum(diag(perf))/dim(test_set)[1]
 \end{lstlisting}
-\subsubsection{Model Implementation}
-\begin{lstlisting}
-\end{lstlisting}
-\subsubsection{Model Analysis}
 
+Neural Networks are known to be quite long to train, that is why it takes several seconds to fit the model. The error rate is similar to QDA (accuracy is about 86\%), however it performs better on \texttt{aa} and \texttt{ao}: 
+\begin{verbatim}
+g    aa  ao dcl  iy  sh
+aa  114  54   4   2   2
+ao   47 197   8  10   1
+dcl   0   1 192   2   0
+iy    0   2  12 292   5
+sh    0   1   6   1 216
+\end{verbatim}
+
+\subsubsection{Improvements with PCA}
+Once again, we can use PCA to reduce the input dimension in order to make the neural network fit better and faster. However, since \texttt{multinom} runs significantly slower than the other methods, we will only find the best $M$ in the range $[2, 20]$ using a 5 fold cross validation method.
+
+\begin{figure}[!hb]
+	\centering
+	\inputtikz{0.5}{Figures/lr_pca_cv.tex}
+	\caption{Best $M$ for LR + PCA on Training Set with Cross Validation}
+	\label{fig:lr_pca_cv}
+\end{figure}
+
+The best accuracy is reached at $M = 17$, accuracy on the test set being approximatively 91\% : 
+\begin{verbatim}
+g    aa  ao dcl  iy  sh
+aa  122  54   0   0   0
+ao   34 228   0   1   0
+dcl   0   0 190   5   0
+iy    0   4   3 303   1
+sh    1   0   1   1 221
+\end{verbatim}
 
 \section{Models Comparison}
 
-\subsubsection{LDA and QDA}
-
-
-
+According to our comparison measure (accuracy), the best model we found is LDA with PCA. LDA is the most interesting model so far because of its simplicity and its performance with and without PCA transformation. QDA and LR does not perform well with the full set of features, but they are as good as LDA when a PCA feature subset selection is applied.  
 
 \end{document}
