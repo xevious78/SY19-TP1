@@ -49,11 +49,9 @@
 \contentsline {subsection}{\numberline {2.4.1}LDA - Linear Discriminant Analysis}{47}
 \contentsline {subsubsection}{Model Implementation}{48}
 \contentsline {subsubsection}{Improvements with PCA}{49}
-\contentsline {subsection}{\numberline {2.4.2}QDA- Quadratic Discriminant Analysis}{51}
+\contentsline {subsection}{\numberline {2.4.2}QDA - Quadratic Discriminant Analysis}{51}
 \contentsline {subsubsection}{Model Implementation}{51}
-\contentsline {subsubsection}{Model Analysis}{51}
-\contentsline {subsection}{\numberline {2.4.3}Logistic Regression ROC??}{51}
-\contentsline {subsubsection}{Model Implementation}{52}
-\contentsline {subsubsection}{Model Analysis}{52}
-\contentsline {section}{\numberline {2.5}Models Comparison}{52}
-\contentsline {subsubsection}{LDA and QDA}{52}
+\contentsline {subsubsection}{Improvements with PCA}{52}
+\contentsline {subsection}{\numberline {2.4.3}Logistic Regression}{53}
+\contentsline {subsubsection}{Improvements with PCA}{54}
+\contentsline {section}{\numberline {2.5}Models Comparison}{54}
