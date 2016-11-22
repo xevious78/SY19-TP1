@@ -40,15 +40,17 @@
 \contentsline {subsection}{\numberline {3.5.2}Model Performance}{25}
 \contentsline {section}{\numberline {3.6}Linear Regression with Features Selection}{26}
 \contentsline {subsection}{\numberline {3.6.1}Idea}{26}
-\contentsline {subsection}{\numberline {3.6.2}Model Performance}{27}
-\contentsline {section}{\numberline {3.7}Linear Regression with Regularization}{27}
-\contentsline {subsection}{\numberline {3.7.1}Ridge Regression}{27}
-\contentsline {subsubsection}{Model Implementation}{29}
-\contentsline {subsubsection}{Model Analysis}{34}
-\contentsline {subsection}{\numberline {3.7.2}Lasso Regression}{37}
-\contentsline {subsubsection}{Model Implementation}{38}
-\contentsline {subsubsection}{Model Analysis}{43}
-\contentsline {section}{\numberline {3.8}Linear Regression with Dimension Reduction}{43}
-\contentsline {subsection}{\numberline {3.8.1}Idea}{43}
-\contentsline {section}{\numberline {3.9}Models Comparaison}{44}
-\contentsline {subsection}{\numberline {3.9.1}KNN neighbors and Linear Regression}{44}
+\contentsline {subsection}{\numberline {3.6.2}Model Performance}{28}
+\contentsline {section}{\numberline {3.7}Linear Regression with Regularization}{29}
+\contentsline {subsection}{\numberline {3.7.1}Ridge Regression}{29}
+\contentsline {subsubsection}{Model Implementation}{30}
+\contentsline {subsubsection}{Model Analysis}{35}
+\contentsline {subsection}{\numberline {3.7.2}Lasso Regression}{38}
+\contentsline {subsubsection}{Model Implementation}{39}
+\contentsline {subsubsection}{Model Analysis}{44}
+\contentsline {section}{\numberline {3.8}Linear Regression with Dimension Reduction}{44}
+\contentsline {subsection}{\numberline {3.8.1}Idea}{44}
+\contentsline {section}{\numberline {3.9}Models Comparaison}{46}
+\contentsline {subsection}{\numberline {3.9.1}KNN neighbors and Linear Regression}{46}
+\contentsline {subsection}{\numberline {3.9.2}Best subset Selection and Linear Regression Regularizations}{47}
+\contentsline {subsection}{\numberline {3.9.3}Dimension Reduction}{48}

@@ -44,9 +44,10 @@
 \begin{tabular}{l r}
 	MSE & Mean Squared Error \\
 	RSE & Resiual Standard Error\\ 
-	RSS & Residual \\
-	R & \\
-	BIC &\\
+	RSS & Residual Sum of Squares \\
+	AIC & Akaike information criterion \\
+	BIC &\\ Bayesian information criterion \\
+	$R^{2}$ & \\ Adjusted $R^{2}$ \\
 	LR & Linear Regression \\
 	CV & Cross Validation \\
 	LOOCV & Leave One Out Cross Validation \\
@@ -626,7 +627,9 @@ In R, the following function is available to fit the linear models :
 model.linreg.regsubsets = regsubsets(Time ~ ., data=train_set, method = "exhaustive", nvmax = 32)
 \end{lstlisting}
 
-We can then use the function \texttt{plot} to compare the models according to a given scale (in this case, the BIC measure). The result is shown on figure \ref{fig:subset_bic}.
+We can then use the function \texttt{plot} to compare the models according to a given scale. In our case we use the BIC measurements. $$BIC = \frac{1}{n} (RSS + log(n)d\hat{\sigma}^{2}) $$
+The BIC will be smaller when the RSS is small, so we select the model with the smallest BIC. The result is shown on figure \ref{fig:subset_bic}.
+
 \begin{lstlisting}
 plot(model.linreg.regsubsets, scale="bic")	
 \end{lstlisting}
@@ -692,7 +695,7 @@ test_set.x =model.matrix(Time~., test_set)[,-1]
 test_set.y = test_set$Time
 scale(test_set.x, center = TRUE, scale = TRUE)
 \end{lstlisting}
-The glmnet function takes in parameter the train data, the pramater alpha that indicates whether it is a Ridge or Lasso regression that we want to perform (alpha=0 for Ridge). By default \texttt{glmnet} chooses an automatic range of $\kappa$, however here we chose a wide range $\lambda\in[10^{−2},10^{10}]$ to cover all possibilities.
+The glmnet function takes in parameter the train data, the parameter \textbf{alpha} indicates whether it is a Ridge or Lasso regression (alpha=0 for Ridge). By default \texttt{glmnet} chooses an automatic range of $\lambda$, however we chose a wide range with the function \textbf{grid} that takes the minimum value the maximum and the length and returns a grid. We chose $\lambda\in[10^{−2},10^{10}]$ to cover all possibilities.
 
 \begin{lstlisting}
 library(glmnet)
@@ -707,7 +710,8 @@ plot(model.ridge)
 	\label{fig:ridge_model}
 \end{center}
 
-The figure \ref{fig:ridge_model} shows that the higher the norm L1 is, the smaller are the coefficients $\beta_{j}$.\\
+Each curve of the \ref{fig:ridge_model} corresponds to the ridge regression coefficient estimate for one of the 33 predictors, plotted as a function of $L1 Norm =$ . It is to be noted that the higher the L1 Norm, the closer to zero are the coefficients $\beta_{j}$.\\
+
 
 In order to find the best tuning parameter $\lambda$ we perform a cross validation on the training data. \texttt{cv.glmnet} function runs a 10 fold cross validation on the data.
 
@@ -893,8 +897,19 @@ predict(model.lasso, type="coefficients", s=model.lasso.best.lambda)[1:33,]
 We can clearly see that Lasso performed a variable selection by setting the unselected predictors' coefficients to 0
 
 \subsubsection{Model Analysis}
- Lasso selected only 10 predictors out of 33 with an slightly improved MSE compared to Ridge that uses all the 33 predictors.
-
+ Lasso selected only 8 predictors out of 33 with a slightly improved test MSE compared to Ridge that uses all the predictors.Therefore we selected 25\% of variables The features selected to predict the Time are :
+ \begin{itemize} 
+ \item texture\_mean
+ \item perimeter\_mean
+ \item smoothness\_mean
+ \item fractal\_dimension\_mean
+ \item texture\_se
+ \item smoothness\_se
+ \item smoothness\_worst
+ \item symmetry\_worst
+ \item fractal\_dimension\_worst
+\end{itemize}
+Those are the features that with $\lambda = 3.25 $ their coefficients $\beta$ was not null .
 \section{Linear Regression with Dimension Reduction}
 \subsection{Idea}
 In the Introduction, we mentioned the fact that some features are actually correlated. This means that they carry redundant information that make the model more complex, thus harder to fit. In this section, we will apply a Dimension Reduction method that decreases the number of features while keeping the information needed to predict \texttt{Time}.
@@ -940,7 +955,34 @@ According to figure \ref{fig:pcr_cv}, the model with only 4 components yields to
 MSE = 967
 
 \section{Models Comparaison}
+\begin{tabular}{c c}
+	Model & Mean Squared Error (MSE) \\
+	KNN neighbours (with LOOCV) & 1146\\ 
+	Linear Regression & 1285\\
+	Best Subset	& 1067\\
+	Ridge Regression & 1063 \\	
+	Lasso & 1048\\
+	PCR & 967 \\
+\end{tabular}
 \subsection{KNN neighbors and Linear Regression}
-*USE TEST SET TO COMPARE MODEL*
+ The linear regression is a \textbf{parametric method}, it comes with the hypothesis that there is a relationship between the response Y and the p predictors $X_{i}$ that can be expressed like $Y =\beta_{1}X_{1}+\beta_{2}X+{2}+...+\beta{p}X_{p}$. Their main advantages is that it is easy to use and to interpret however when the relationship between the predictors and the response is not linear the the results might not be satisfying. The KNN neighbors however is a non parametric method. In other words it makes no assumptions on the response Y. If we compare between the \textbf{test MSE} obtained by the KNN (1146) and the one obtained by the Linear Regression (1285), we see that the KNN does a better job. These arguments the fact that the model is not really linear. A remark that was made when observing the QQ plots in the first section. 
+\subsection{Best subset Selection and Linear Regression Regularizations}
+The lasso advantage over Ridge Regression is the variable selection; the model is thus easier to interpret. The MSE in Lasso is also slightly improved. In fact Lasso works better when there isn't an important number of predictors which corresponds to our case since we only have 33.
+\textbf{TRY TO TEST WITH ONLY 8!!}
+
+\begin{lstlisting}
+newtrain_set = cbind(train_set$texture_mean, train_set$perimeter_mean, train_set$area_mean, train_set$fractal_dimension_mean,
+train_set$texture_se, train_set$concavity_se, train_set$symmetry_worst, train_set$fractal_dimension_worst,train_set$Time)
+
+colnames(newtrain_set) <- c("texture_mean", "perimeter_mean", "area_mean", "fractal_dimension_mean", "texture_se",
+"concavity_se","symmetry_worst", "fractal_dimension_worst", "Time" )
+
+m = data.frame(newtrain_set)
+\end{lstlisting}
+
+Both Lasso and Best Subset perform a variable selection, their MSE are close but with the Best Subset we only kept 3 variable which is 38\% less predictors. How can we compare between those two approaches?\\
+First Lasso adds up a new tuning parameter to penalize the coefficients which is why it is named shrinkage method. In contrast to the Best subset selection that doesn't add up anything. Therefore the regression coefficients obtained by Lasso are biased.
+\subsection{Dimension Reduction}
+
 
 \end{document}
