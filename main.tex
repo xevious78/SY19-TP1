@@ -3,7 +3,11 @@
 \newcommand{\inputtikz}[2]{%  
 	\scalebox{#1}{\input{#2}}  
 }
-
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
 \usepackage{listings}
 \usepackage{color}
 \usepackage{amsmath}
@@ -15,11 +19,58 @@
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 %opening
+
 \title{SY19}
-\author{}
+\author{Aladin Taleb \\ Zineb Slam}
+
+\makeatletter         
+\def\@maketitle{
+	\raggedright	
+	\begin{center}
+		\includegraphics[width=0.7\linewidth]{Figures/utc.jpg}\\[4ex]
+		{\Huge \bfseries \sffamily \@title }\\[4ex] 
+		{\Large  \@author}\\[4ex] 		
+		\@date\\[8ex]
+\end{center}}
+\makeatother
+
 
 \begin{document}
 	
+\begin{titlepage}
+	
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} 
+	
+	\center 
+	
+	\textsc{\LARGE Université de Technologie de Compiegne}\\[1.5cm]
+	\textsc{\Large SY19}\\[0.5cm] 
+	\textsc{\large Machine Learning}\\[0.5cm]
+		
+	\HRule \\[0.4cm]
+	{ \huge \bfseries First TP}\\[0.4cm] 
+	\HRule \\[1.5cm]
+		
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushleft} \large
+			Aladin \textsc{TALEB} 
+		\end{flushleft}
+	\end{minipage}
+	~
+	\begin{minipage}{0.4\textwidth}
+		\begin{flushright} \large
+			Zineb \textsc{SLAM} 
+		\end{flushright}
+	\end{minipage}\\[2cm]
+
+	{\large \today}\\[2cm] 
+
+	\includegraphics[width=40mm]{Figures/utc.jpg}\\ % 
+
+	\vfill
+	
+\end{titlepage}
+
 \lstset{frame=tb,
 	language=R,
 	aboveskip=3mm,
@@ -38,29 +89,27 @@
 	tabsize=3
 }
 
-\maketitle
 
-\part{Abreviations}
-\begin{tabular}{l r}
+\begin{abstract}
+\end{abstract}
+
+\tableofcontents
+\newpage
+\section{Abbreviations}
+\begin{center}
+\begin{tabular}{ c| l }
 	MSE & Mean Squared Error \\
 	RSE & Resiual Standard Error\\ 
 	RSS & Residual Sum of Squares \\
 	AIC & Akaike information criterion \\
-	BIC &\\ Bayesian information criterion \\
-	$R^{2}$ & \\ Adjusted $R^{2}$ \\
+	BIC & Bayesian information criterion \\
+	$R^{2}$ & Adjusted $R^{2}$ \\
 	LR & Linear Regression \\
 	CV & Cross Validation \\
 	LOOCV & Leave One Out Cross Validation \\
 	
 \end{tabular}
-\begin{abstract}
-
-\end{abstract}
-
-\chapter{Introduction}
-This report
-
-\tableofcontents
+\end{center}
 
 \chapter{Ex 1- Phoneme Recognition}
 \section{Context}

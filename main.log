@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.8.19)  22 NOV 2016 03:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.8.19)  22 NOV 2016 10:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -344,31 +344,40 @@ File: pgfmodulematrix.code.tex 2013/09/17  (rcs-revision 1.8)
 s/tikzlibrarytopaths.code.tex
 File: tikzlibrarytopaths.code.tex 2008/06/17 v3.0.1a (rcs-revision 1.2)
 )))
-(/usr/local/texlive/2016/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count108
-\lst@gtempboxa=\box37
-\lst@token=\toks27
-\lst@length=\count109
-\lst@currlwidth=\dimen151
-\lst@column=\count110
-\lst@pos=\count111
-\lst@lostspace=\dimen152
-\lst@width=\dimen153
-\lst@newlines=\count112
-\lst@lineno=\count113
-\lst@maxwidth=\dimen154
+(/usr/local/texlive/2016/texmf-dist/tex/generic/babel/babel.sty
+Package: babel 2016/04/23 3.9r The Babel package
 
-(/usr/local/texlive/2016/texmf-dist/tex/latex/listings/lstmisc.sty
-File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
-\c@lstnumber=\count114
-\lst@skipnumbers=\count115
-\lst@framebox=\box38
+(/usr/local/texlive/2016/texmf-dist/tex/generic/babel-english/english.ldf
+Language: english 2012/08/20 v3.3p English support from the babel system
+
+(/usr/local/texlive/2016/texmf-dist/tex/generic/babel/babel.def
+File: babel.def 2016/04/23 3.9r Babel common definitions
+\babel@savecnt=\count108
+\U@D=\dimen151
 )
-(/usr/local/texlive/2016/texmf-dist/tex/latex/listings/listings.cfg
-File: listings.cfg 2015/06/04 1.6 listings configuration
+\l@canadian = a dialect from \language\l@american 
+\l@australian = a dialect from \language\l@british 
+\l@newzealand = a dialect from \language\l@british 
 ))
-Package: listings 2015/06/04 1.6 (Carsten Heinz)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/inputenc.sty
+Package: inputenc 2015/03/17 v1.2c Input encoding file
+\inpenc@prehook=\toks27
+\inpenc@posthook=\toks28
 
+(/usr/local/texlive/2016/texmf-dist/tex/latex/ucs/utf8x.def
+File: utf8x.def 2004/10/17 UCS: Input encoding UTF-8
+))
+(/usr/local/texlive/2016/texmf-dist/tex/latex/ucs/ucs.sty
+Package: ucs 2013/05/11 v2.2 UCS: Unicode input support
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/ucs/data/uni-global.def
+File: uni-global.def 2013/05/13 UCS: Unicode global data
+)
+\uc@secondtry=\count109
+\uc@combtoks=\toks29
+\uc@combtoksb=\toks30
+\uc@temptokena=\toks31
+)
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2016/03/10 v2.15b AMS math features
 \@mathmargin=\skip43
@@ -379,54 +388,116 @@ Package: amstext 2000/06/29 v2.01 AMS text
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
-\@emptytoks=\toks28
-\ex@=\dimen155
+\@emptytoks=\toks32
+\ex@=\dimen152
 ))
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen156
+\pmbraise@=\dimen153
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count116
+\inf@bad=\count110
 LaTeX Info: Redefining \frac on input line 199.
-\uproot@=\count117
-\leftroot@=\count118
+\uproot@=\count111
+\leftroot@=\count112
 LaTeX Info: Redefining \overline on input line 297.
-\classnum@=\count119
-\DOTSCASE@=\count120
+\classnum@=\count113
+\DOTSCASE@=\count114
 LaTeX Info: Redefining \ldots on input line 394.
 LaTeX Info: Redefining \dots on input line 397.
 LaTeX Info: Redefining \cdots on input line 518.
-\Mathstrutbox@=\box39
-\strutbox@=\box40
-\big@size=\dimen157
+\Mathstrutbox@=\box37
+\strutbox@=\box38
+\big@size=\dimen154
 LaTeX Font Info:    Redeclaring font encoding OML on input line 634.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 635.
-\macc@depth=\count121
-\c@MaxMatrixCols=\count122
+\macc@depth=\count115
+\c@MaxMatrixCols=\count116
 \dotsspace@=\muskip10
-\c@parentequation=\count123
-\dspbrk@lvl=\count124
-\tag@help=\toks29
-\row@=\count125
-\column@=\count126
-\maxfields@=\count127
-\andhelp@=\toks30
-\eqnshift@=\dimen158
-\alignsep@=\dimen159
-\tagshift@=\dimen160
-\tagwidth@=\dimen161
-\totwidth@=\dimen162
-\lineht@=\dimen163
-\@envbody=\toks31
+\c@parentequation=\count117
+\dspbrk@lvl=\count118
+\tag@help=\toks33
+\row@=\count119
+\column@=\count120
+\maxfields@=\count121
+\andhelp@=\toks34
+\eqnshift@=\dimen155
+\alignsep@=\dimen156
+\tagshift@=\dimen157
+\tagwidth@=\dimen158
+\totwidth@=\dimen159
+\lineht@=\dimen160
+\@envbody=\toks35
 \multlinegap=\skip44
 \multlinetaggap=\skip45
-\mathdisplay@stack=\toks32
+\mathdisplay@stack=\toks36
 LaTeX Info: Redefining \[ on input line 2739.
 LaTeX Info: Redefining \] on input line 2740.
 )
+(/usr/local/texlive/2016/texmf-dist/tex/latex/todonotes/todonotes.sty
+Package: todonotes 2015/07/09 .dtx Todonotes source and documentation.
+Package: todonotes 2012/07/25
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
+
+(/usr/local/texlive/2016/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/local/texlive/2016/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks37
+\XKV@tempa@toks=\toks38
+)
+\XKV@depth=\count122
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+(/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibrarypositioning.code.tex
+File: tikzlibrarypositioning.code.tex 2008/10/06 v3.0.1a (rcs-revision 1.7)
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count123
+\calc@Bcount=\count124
+\calc@Adimen=\dimen161
+\calc@Bdimen=\dimen162
+\calc@Askip=\skip46
+\calc@Bskip=\skip47
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count125
+\calc@Cskip=\skip48
+)
+\c@@todonotes@numberoftodonotes=\count126
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count127
+\lst@gtempboxa=\box39
+\lst@token=\toks39
+\lst@length=\count128
+\lst@currlwidth=\dimen163
+\lst@column=\count129
+\lst@pos=\count130
+\lst@lostspace=\dimen164
+\lst@width=\dimen165
+\lst@newlines=\count131
+\lst@lineno=\count132
+\lst@maxwidth=\dimen166
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
+\c@lstnumber=\count133
+\lst@skipnumbers=\count134
+\lst@framebox=\box40
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2015/06/04 1.6 listings configuration
+))
+Package: listings 2015/06/04 1.6 (Carsten Heinz)
+
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup4
@@ -437,19 +508,6 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (/usr/local/texlive/2016/texmf-dist/tex/latex/mathtools/mathtools.sty
 Package: mathtools 2015/11/12 v1.18 mathematical typesetting tools
 
-(/usr/local/texlive/2016/texmf-dist/tex/latex/tools/calc.sty
-Package: calc 2014/10/28 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count128
-\calc@Bcount=\count129
-\calc@Adimen=\dimen164
-\calc@Bdimen=\dimen165
-\calc@Askip=\skip46
-\calc@Bskip=\skip47
-LaTeX Info: Redefining \setlength on input line 80.
-LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count130
-\calc@Cskip=\skip48
-)
 (/usr/local/texlive/2016/texmf-dist/tex/latex/mathtools/mhsetup.sty
 Package: mhsetup 2010/01/21 v1.2a programming setup (MH)
 )
@@ -457,15 +515,15 @@ LaTeX Info: Thecontrolsequence`\('isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\)'isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\['isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
-\g_MT_multlinerow_int=\count131
-\l_MT_multwidth_dim=\dimen166
+\g_MT_multlinerow_int=\count135
+\l_MT_multwidth_dim=\dimen167
 \origjot=\skip49
-\l_MT_shortvdotswithinadjustabove_dim=\dimen167
-\l_MT_shortvdotswithinadjustbelow_dim=\dimen168
-\l_MT_above_intertext_sep=\dimen169
-\l_MT_below_intertext_sep=\dimen170
-\l_MT_above_shortintertext_sep=\dimen171
-\l_MT_below_shortintertext_sep=\dimen172
+\l_MT_shortvdotswithinadjustabove_dim=\dimen168
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen169
+\l_MT_above_intertext_sep=\dimen170
+\l_MT_below_intertext_sep=\dimen171
+\l_MT_above_shortintertext_sep=\dimen172
+\l_MT_below_shortintertext_sep=\dimen173
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
@@ -473,46 +531,46 @@ Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
 (/usr/local/texlive/2016/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2016/02/04 v1.7-139 caption3 kernel (AR)
 Package caption3 Info: TeX engine: e-TeX on input line 67.
-\captionmargin=\dimen173
-\captionmargin@=\dimen174
-\captionwidth=\dimen175
-\caption@tempdima=\dimen176
-\caption@indent=\dimen177
-\caption@parindent=\dimen178
-\caption@hangindent=\dimen179
+\captionmargin=\dimen174
+\captionmargin@=\dimen175
+\captionwidth=\dimen176
+\caption@tempdima=\dimen177
+\caption@indent=\dimen178
+\caption@parindent=\dimen179
+\caption@hangindent=\dimen180
 )
-\c@ContinuedFloat=\count132
+\c@ContinuedFloat=\count136
 Package caption Info: listings package is loaded.
 )
 (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
  ABD: EveryShipout initializing macros
 (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count133
-\scratchdimen=\dimen180
+\scratchcounter=\count137
+\scratchdimen=\dimen181
 \scratchbox=\box41
-\nofMPsegments=\count134
-\nofMParguments=\count135
-\everyMPshowfont=\toks33
-\MPscratchCnt=\count136
-\MPscratchDim=\dimen181
-\MPnumerator=\count137
-\makeMPintoPDFobject=\count138
-\everyMPtoPDFconversion=\toks34
+\nofMPsegments=\count138
+\nofMParguments=\count139
+\everyMPshowfont=\toks40
+\MPscratchCnt=\count140
+\MPscratchDim=\dimen182
+\MPnumerator=\count141
+\makeMPintoPDFobject=\count142
+\everyMPtoPDFconversion=\toks41
 ) (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2016/05/10 v0.21 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -560,10 +618,36 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-\c@lstlisting=\count139
+(/usr/local/texlive/2016/texmf-dist/tex/latex/ucs/ucsencs.def
+File: ucsencs.def 2011/01/21 Fixes to fontencodings LGR, T3
+)
+\c@lstlisting=\count143
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 
+(/usr/local/texlive/2016/texmf-dist/tex/latex/ucs/data/uni-0.def
+File: uni-0.def 2013/05/13 UCS: Unicode data U+0000..U+00FF
+)
+LaTeX Font Info:    Try loading font information for U+msa on input line 58.
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 58.
+
+(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+<Figures/utc.jpg, id=4, 1133.23375pt x 549.05125pt>
+File: Figures/utc.jpg Graphic file (type jpg)
+ <use Figures/utc.jpg>
+Package pdftex.def Info: Figures/utc.jpg used on input line 68.
+(pdftex.def)             Requested size: 113.81102pt x 55.13454pt.
+
+[1
+
+{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./Figur
+es/utc.jpg>]
 (/usr/local/texlive/2016/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2015/06/04 1.6 listings language file
 )
@@ -572,68 +656,51 @@ File: lstlang2.sty 2015/06/04 1.6 listings language file
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/listings/lstlang3.sty
 File: lstlang3.sty 2015/06/04 1.6 listings language file
-)
-LaTeX Font Info:    Try loading font information for U+msa on input line 41.
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Try loading font information for U+msb on input line 41.
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1
-
-{/usr/local/texlive/2016/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [1
-
-] [2] [1]
-Chapter 1.
-[1
-
-] (./main.toc [2
+) [1]
+(./main.toc [1
 
 ])
 \tf@toc=\write4
 \openout4 = `main.toc'.
 
- [3]
-Chapter 2.
+ [2] [3]
+Chapter 1.
 
-Underfull \hbox (badness 10000) in paragraph at lines 67--68
+Underfull \hbox (badness 10000) in paragraph at lines 116--117
 
  []
 
 [4
 
-] [5] <Figures/model_lda_plot.pdf, id=45, 361.35pt x 361.35pt>
+] [5] <Figures/model_lda_plot.pdf, id=40, 361.35pt x 361.35pt>
 File: Figures/model_lda_plot.pdf Graphic file (type pdf)
 
 <use Figures/model_lda_plot.pdf>
-Package pdftex.def Info: Figures/model_lda_plot.pdf used on input line 149.
+Package pdftex.def Info: Figures/model_lda_plot.pdf used on input line 198.
 (pdftex.def)             Requested size: 361.34912pt x 361.34912pt.
 
-Overfull \hbox (16.34912pt too wide) in paragraph at lines 149--150
+Overfull \hbox (16.34912pt too wide) in paragraph at lines 198--199
  [] 
  []
 
 [6 <./Figures/model_lda_plot.pdf>]
-<Figures/lda_roc.pdf, id=54, 361.35pt x 361.35pt>
+<Figures/lda_roc.pdf, id=49, 361.35pt x 361.35pt>
 File: Figures/lda_roc.pdf Graphic file (type pdf)
  <use Figures/lda_roc.pdf>
-Package pdftex.def Info: Figures/lda_roc.pdf used on input line 196.
+Package pdftex.def Info: Figures/lda_roc.pdf used on input line 245.
 (pdftex.def)             Requested size: 361.34912pt x 361.34912pt.
 
-Overfull \hbox (16.34912pt too wide) in paragraph at lines 196--197
+Overfull \hbox (16.34912pt too wide) in paragraph at lines 245--246
  [] 
  []
 
 [7] [8 <./Figures/lda_roc.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 220--221
+Underfull \hbox (badness 10000) in paragraph at lines 269--270
 
  []
 
 [9]
-Chapter 3.
+Chapter 2.
 (./Figures/time_boxplot.tex) (./Figures/time_hist.tex)
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -641,84 +708,84 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 [10
 
 ]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 276.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 325.
 
  (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 276.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 325.
  [11]
 [12] (./Figures/cooks_distance.tex) [13] (./Figures/time_feature_ex1.tex)
 (./Figures/qq_plot.tex)
-<Figures/fitted_value_plots.png, id=86, 407.5225pt x 843.15pt>
+<Figures/fitted_value_plots.png, id=81, 407.5225pt x 843.15pt>
 File: Figures/fitted_value_plots.png Graphic file (type png)
 
 <use Figures/fitted_value_plots.png>
-Package pdftex.def Info: Figures/fitted_value_plots.png used on input line 357.
+Package pdftex.def Info: Figures/fitted_value_plots.png used on input line 406.
 
 (pdftex.def)             Requested size: 172.5pt x 356.8995pt.
  [14] [15] [16 <./Figures/fitted_value_plots.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 396--398
+Underfull \hbox (badness 10000) in paragraph at lines 445--447
 
  []
 
-<Figures/knn_test.pdf, id=99, 361.35pt x 361.35pt>
+<Figures/knn_test.pdf, id=93, 361.35pt x 361.35pt>
 File: Figures/knn_test.pdf Graphic file (type pdf)
  <use Figures/knn_test.pdf>
-Package pdftex.def Info: Figures/knn_test.pdf used on input line 422.
+Package pdftex.def Info: Figures/knn_test.pdf used on input line 471.
 (pdftex.def)             Requested size: 310.4979pt x 310.50131pt.
 
 [17]
-Underfull \hbox (badness 10000) in paragraph at lines 427--428
+Underfull \hbox (badness 10000) in paragraph at lines 476--477
 
  []
 
 [18 <./Figures/knn_test.pdf>]
-<Figures/knn_predicted_test.pdf, id=114, 361.35pt x 361.35pt>
+<Figures/knn_predicted_test.pdf, id=109, 361.35pt x 361.35pt>
 File: Figures/knn_predicted_test.pdf Graphic file (type pdf)
 
 <use Figures/knn_predicted_test.pdf>
-Package pdftex.def Info: Figures/knn_predicted_test.pdf used on input line 452.
+Package pdftex.def Info: Figures/knn_predicted_test.pdf used on input line 501.
 
 (pdftex.def)             Requested size: 310.4979pt x 310.50131pt.
 
-<Figures/knn_predicted_test_residuals.pdf, id=115, 361.35pt x 361.35pt>
+<Figures/knn_predicted_test_residuals.pdf, id=110, 361.35pt x 361.35pt>
 File: Figures/knn_predicted_test_residuals.pdf Graphic file (type pdf)
 
 <use Figures/knn_predicted_test_residuals.pdf>
 Package pdftex.def Info: Figures/knn_predicted_test_residuals.pdf used on input
- line 458.
+ line 507.
 (pdftex.def)             Requested size: 310.4979pt x 310.50131pt.
  [19 <./Figures/knn_predicted_test.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 471--472
+Underfull \hbox (badness 10000) in paragraph at lines 520--521
 
  []
 
 [20 <./Figures/knn_predicted_test_residuals.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 483--484
+Underfull \hbox (badness 10000) in paragraph at lines 532--533
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 491--492
+Underfull \hbox (badness 10000) in paragraph at lines 540--541
 
  []
 
-[21] <Figures/knn_predicted_LOOCV.pdf, id=139, 361.35pt x 361.35pt>
+[21] <Figures/knn_predicted_LOOCV.pdf, id=133, 361.35pt x 361.35pt>
 File: Figures/knn_predicted_LOOCV.pdf Graphic file (type pdf)
 
 <use Figures/knn_predicted_LOOCV.pdf>
-Package pdftex.def Info: Figures/knn_predicted_LOOCV.pdf used on input line 531
+Package pdftex.def Info: Figures/knn_predicted_LOOCV.pdf used on input line 580
 .
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [22]
-<Figures/knn_predicted_LOOCV_residuals.pdf, id=143, 361.35pt x 361.35pt>
+<Figures/knn_predicted_LOOCV_residuals.pdf, id=137, 361.35pt x 361.35pt>
 File: Figures/knn_predicted_LOOCV_residuals.pdf Graphic file (type pdf)
 
 <use Figures/knn_predicted_LOOCV_residuals.pdf>
 Package pdftex.def Info: Figures/knn_predicted_LOOCV_residuals.pdf used on inpu
-t line 537.
+t line 586.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [23 <./Figures/knn_predicted_LOOCV.pdf>] [24 <./Figures/knn_predicted_LOOCV_re
 siduals.pdf>]
@@ -727,15 +794,15 @@ siduals.pdf>]
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [25] [26]
-Underfull \hbox (badness 10000) in paragraph at lines 621--622
+Underfull \hbox (badness 10000) in paragraph at lines 670--671
 
  []
 
-[27] <Figures/subset_bic.png, id=172, 843.15pt x 843.15pt>
+[27] <Figures/subset_bic.png, id=166, 843.15pt x 843.15pt>
 File: Figures/subset_bic.png Graphic file (type png)
 
 <use Figures/subset_bic.png>
-Package pdftex.def Info: Figures/subset_bic.png used on input line 639.
+Package pdftex.def Info: Figures/subset_bic.png used on input line 688.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  (./Figures/subset_hist.tex)
 
@@ -746,101 +813,100 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [28 <./Figures/subset_bic.png>] [29] [30]
-Missing character: There is no â in font cmr7!
-Missing character: There is no ˆ in font cmr7!
-Missing character: There is no ’ in font cmr7!
-
-<Figures/ridge_model.pdf, id=184, 361.35pt x 361.35pt>
+(/usr/local/texlive/2016/texmf-dist/tex/latex/ucs/data/uni-34.def
+File: uni-34.def 2013/05/13 UCS: Unicode data U+2200..U+22FF
+)
+<Figures/ridge_model.pdf, id=178, 361.35pt x 361.35pt>
 File: Figures/ridge_model.pdf Graphic file (type pdf)
 
 <use Figures/ridge_model.pdf>
-Package pdftex.def Info: Figures/ridge_model.pdf used on input line 708.
+Package pdftex.def Info: Figures/ridge_model.pdf used on input line 757.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 713--714
+Underfull \hbox (badness 10000) in paragraph at lines 762--763
 
  []
 
 [31 <./Figures/ridge_model.pdf>]
-<Figures/cv_glmnet.pdf, id=193, 361.35pt x 361.35pt>
+<Figures/cv_glmnet.pdf, id=188, 361.35pt x 361.35pt>
 File: Figures/cv_glmnet.pdf Graphic file (type pdf)
 
 <use Figures/cv_glmnet.pdf>
-Package pdftex.def Info: Figures/cv_glmnet.pdf used on input line 725.
+Package pdftex.def Info: Figures/cv_glmnet.pdf used on input line 774.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [32 <./Figures/cv_glmnet.pdf>]
-<Figures/ridge_yhat.pdf, id=203, 361.35pt x 361.35pt>
+<Figures/ridge_yhat.pdf, id=198, 361.35pt x 361.35pt>
 File: Figures/ridge_yhat.pdf Graphic file (type pdf)
 
 <use Figures/ridge_yhat.pdf>
-Package pdftex.def Info: Figures/ridge_yhat.pdf used on input line 756.
+Package pdftex.def Info: Figures/ridge_yhat.pdf used on input line 805.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
 
-<Figures/ridge_resid.pdf, id=204, 361.35pt x 361.35pt>
+<Figures/ridge_resid.pdf, id=199, 361.35pt x 361.35pt>
 File: Figures/ridge_resid.pdf Graphic file (type pdf)
 
 <use Figures/ridge_resid.pdf>
-Package pdftex.def Info: Figures/ridge_resid.pdf used on input line 762.
+Package pdftex.def Info: Figures/ridge_resid.pdf used on input line 811.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [33 <./Figures/ridge_yhat.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 767--768
+Underfull \hbox (badness 10000) in paragraph at lines 816--817
 
  []
 
-<Figures/ridge_coeff.png, id=215, 323.2075pt x 520.94624pt>
+<Figures/ridge_coeff.png, id=209, 323.2075pt x 520.94624pt>
 File: Figures/ridge_coeff.png Graphic file (type png)
 
 <use Figures/ridge_coeff.png>
-Package pdftex.def Info: Figures/ridge_coeff.png used on input line 776.
+Package pdftex.def Info: Figures/ridge_coeff.png used on input line 825.
 (pdftex.def)             Requested size: 276.00105pt x 444.88109pt.
  [34 <./Figures/ridge_resid.pdf>] [35 <./Figures/ridge_coeff.png>] <Figures/rid
-ge_bias_var.pdf, id=229, 361.35pt x 361.35pt>
+ge_bias_var.pdf, id=224, 361.35pt x 361.35pt>
 File: Figures/ridge_bias_var.pdf Graphic file (type pdf)
 
 <use Figures/ridge_bias_var.pdf>
-Package pdftex.def Info: Figures/ridge_bias_var.pdf used on input line 805.
+Package pdftex.def Info: Figures/ridge_bias_var.pdf used on input line 854.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [36]
-<Figures/ridge_mse.pdf, id=233, 361.35pt x 361.35pt>
+<Figures/ridge_mse.pdf, id=228, 361.35pt x 361.35pt>
 File: Figures/ridge_mse.pdf Graphic file (type pdf)
 
 <use Figures/ridge_mse.pdf>
-Package pdftex.def Info: Figures/ridge_mse.pdf used on input line 810.
+Package pdftex.def Info: Figures/ridge_mse.pdf used on input line 859.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [37 <./Figures/ridge_bias_var.pdf>] [38 <./Figures/ridge_mse.pdf>] <Figures/la
-sso_model.pdf, id=252, 361.35pt x 361.35pt>
+sso_model.pdf, id=247, 361.35pt x 361.35pt>
 File: Figures/lasso_model.pdf Graphic file (type pdf)
 
 <use Figures/lasso_model.pdf>
-Package pdftex.def Info: Figures/lasso_model.pdf used on input line 838.
+Package pdftex.def Info: Figures/lasso_model.pdf used on input line 887.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [39 <./Figures/lasso_model.pdf>]
-<Figures/lasso_mse.pdf, id=262, 361.35pt x 361.35pt>
+<Figures/lasso_mse.pdf, id=256, 361.35pt x 361.35pt>
 File: Figures/lasso_mse.pdf Graphic file (type pdf)
 
 <use Figures/lasso_mse.pdf>
-Package pdftex.def Info: Figures/lasso_mse.pdf used on input line 856.
+Package pdftex.def Info: Figures/lasso_mse.pdf used on input line 905.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [40 <./Figures/lasso_mse.pdf>]
-<Figures/lasso_predicted.pdf, id=272, 361.35pt x 361.35pt>
+<Figures/lasso_predicted.pdf, id=266, 361.35pt x 361.35pt>
 File: Figures/lasso_predicted.pdf Graphic file (type pdf)
 
 <use Figures/lasso_predicted.pdf>
-Package pdftex.def Info: Figures/lasso_predicted.pdf used on input line 880.
+Package pdftex.def Info: Figures/lasso_predicted.pdf used on input line 929.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
 
-<Figures/lasso_residuals.pdf, id=273, 361.35pt x 361.35pt>
+<Figures/lasso_residuals.pdf, id=267, 361.35pt x 361.35pt>
 File: Figures/lasso_residuals.pdf Graphic file (type pdf)
 
 <use Figures/lasso_residuals.pdf>
-Package pdftex.def Info: Figures/lasso_residuals.pdf used on input line 885.
+Package pdftex.def Info: Figures/lasso_residuals.pdf used on input line 934.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
  [41 <./Figures/lasso_predicted.pdf>]
-<Figures/lasso_coeff.png, id=283, 290.08376pt x 529.98pt>
+<Figures/lasso_coeff.png, id=278, 290.08376pt x 529.98pt>
 File: Figures/lasso_coeff.png Graphic file (type png)
 
 <use Figures/lasso_coeff.png>
-Package pdftex.def Info: Figures/lasso_coeff.png used on input line 894.
+Package pdftex.def Info: Figures/lasso_coeff.png used on input line 943.
 (pdftex.def)             Requested size: 276.00105pt x 504.27872pt.
  [42 <./Figures/lasso_residuals.pdf>] [43 <./Figures/lasso_coeff.png>] [44] (./
 Figures/pcr_cv.tex) (./Figures/pcr_hist.tex)
@@ -853,34 +919,34 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [45] [46] [47] [48] (./main.aux) ) 
 Here is how much of TeX's memory you used:
- 15959 strings out of 493014
- 302598 string characters out of 6133351
- 519558 words of memory out of 5000000
- 19160 multiletter control sequences out of 15000+600000
- 14314 words of font info for 55 fonts, out of 8000000 for 9000
+ 18663 strings out of 493014
+ 338382 string characters out of 6133351
+ 561392 words of memory out of 5000000
+ 21815 multiletter control sequences out of 15000+600000
+ 10872 words of font info for 41 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,10n,57p,874b,1660s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,10n,92p,874b,1787s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/typ
 e1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type
 1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
 /public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/
 public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/pub
 lic/amsfonts/cm/cmr10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/publi
 c/amsfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr17.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmr5.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmr7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmsy7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmti10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmtt10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mtt9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbol
-s/msbm10.pfb>
-Output written on main.pdf (52 pages, 857728 bytes).
+amsfonts/cm/cmr5.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmr7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmsy7.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmti10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmtt10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmtt9.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symb
+ols/msbm10.pfb>
+Output written on main.pdf (50 pages, 1021523 bytes).
 PDF statistics:
- 367 PDF objects out of 1000 (max. 8388607)
- 252 compressed objects within 3 object streams
+ 362 PDF objects out of 1000 (max. 8388607)
+ 248 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
- 118 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 123 words of extra memory for PDF output out of 10000 (max. 10000000)
 

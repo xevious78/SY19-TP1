@@ -1,56 +1,56 @@
-\contentsline {part}{I\hspace {1em}Abreviations}{1}
-\contentsline {chapter}{\numberline {1}Introduction}{1}
-\contentsline {chapter}{\numberline {2}Ex 1- Phoneme Recognition}{4}
-\contentsline {section}{\numberline {2.1}Context}{4}
-\contentsline {section}{\numberline {2.2}Dataset Description}{4}
-\contentsline {section}{\numberline {2.3}Classification}{5}
-\contentsline {subsection}{\numberline {2.3.1}LDA- Linear Discriminant Analysis}{5}
+\select@language {english}
+\contentsline {section}{\numberline {0.1}Abbreviations}{3}
+\contentsline {chapter}{\numberline {1}Ex 1- Phoneme Recognition}{4}
+\contentsline {section}{\numberline {1.1}Context}{4}
+\contentsline {section}{\numberline {1.2}Dataset Description}{4}
+\contentsline {section}{\numberline {1.3}Classification}{5}
+\contentsline {subsection}{\numberline {1.3.1}LDA- Linear Discriminant Analysis}{5}
 \contentsline {subsubsection}{Model Implementation}{5}
 \contentsline {subsubsection}{Model Analysis}{8}
-\contentsline {subsection}{\numberline {2.3.2}QDA- Quadratic Discriminant Analysis}{8}
+\contentsline {subsection}{\numberline {1.3.2}QDA- Quadratic Discriminant Analysis}{8}
 \contentsline {subsubsection}{Model Implementation}{8}
 \contentsline {subsubsection}{Model Analysis}{8}
-\contentsline {subsection}{\numberline {2.3.3}Logistic Regression ROC??}{8}
+\contentsline {subsection}{\numberline {1.3.3}Logistic Regression ROC??}{8}
 \contentsline {subsubsection}{Model Implementation}{9}
 \contentsline {subsubsection}{Model Analysis}{9}
-\contentsline {section}{\numberline {2.4}Models Comparison}{9}
+\contentsline {section}{\numberline {1.4}Models Comparison}{9}
 \contentsline {subsubsection}{LDA and QDA}{9}
-\contentsline {chapter}{\numberline {3}Ex 2 - Breast Cancer Recurring Time}{10}
-\contentsline {section}{\numberline {3.1}Context}{10}
-\contentsline {section}{\numberline {3.2}Dataset Description}{10}
-\contentsline {subsection}{\numberline {3.2.1}Time}{10}
-\contentsline {subsection}{\numberline {3.2.2}Features Description}{10}
+\contentsline {chapter}{\numberline {2}Ex 2 - Breast Cancer Recurring Time}{10}
+\contentsline {section}{\numberline {2.1}Context}{10}
+\contentsline {section}{\numberline {2.2}Dataset Description}{10}
+\contentsline {subsection}{\numberline {2.2.1}Time}{10}
+\contentsline {subsection}{\numberline {2.2.2}Features Description}{10}
 \contentsline {subsubsection}{Feature Correlation}{12}
-\contentsline {subsection}{\numberline {3.2.3}Data Relevance}{12}
-\contentsline {subsection}{\numberline {3.2.4}Relation between "feature" and "time"}{13}
-\contentsline {section}{\numberline {3.3}Measures to Compare Models}{15}
-\contentsline {subsection}{\numberline {3.3.1}Some Measures}{15}
-\contentsline {subsection}{\numberline {3.3.2}Data Split}{15}
-\contentsline {section}{\numberline {3.4}K-nearest neighbors (KNN)}{17}
-\contentsline {subsection}{\numberline {3.4.1}Knn Model}{17}
+\contentsline {subsection}{\numberline {2.2.3}Data Relevance}{12}
+\contentsline {subsection}{\numberline {2.2.4}Relation between "feature" and "time"}{13}
+\contentsline {section}{\numberline {2.3}Measures to Compare Models}{15}
+\contentsline {subsection}{\numberline {2.3.1}Some Measures}{15}
+\contentsline {subsection}{\numberline {2.3.2}Data Split}{15}
+\contentsline {section}{\numberline {2.4}K-nearest neighbors (KNN)}{17}
+\contentsline {subsection}{\numberline {2.4.1}Knn Model}{17}
 \contentsline {subsubsection}{Model Implementation}{17}
 \contentsline {subsubsection}{Model Analysis}{20}
-\contentsline {subsection}{\numberline {3.4.2}The Validation Set Approach}{20}
+\contentsline {subsection}{\numberline {2.4.2}The Validation Set Approach}{20}
 \contentsline {subsubsection}{Cross Validation}{21}
 \contentsline {subsubsection}{Leave-One-Out Cross-Validation}{21}
 \contentsline {subsubsection}{Model implementation}{22}
 \contentsline {subsubsection}{Model Analysis}{24}
-\contentsline {section}{\numberline {3.5}Simple Linear Regression}{24}
-\contentsline {subsection}{\numberline {3.5.1}Idea}{24}
-\contentsline {subsection}{\numberline {3.5.2}Model Performance}{25}
-\contentsline {section}{\numberline {3.6}Linear Regression with Features Selection}{26}
-\contentsline {subsection}{\numberline {3.6.1}Idea}{26}
-\contentsline {subsection}{\numberline {3.6.2}Model Performance}{28}
-\contentsline {section}{\numberline {3.7}Linear Regression with Regularization}{29}
-\contentsline {subsection}{\numberline {3.7.1}Ridge Regression}{29}
+\contentsline {section}{\numberline {2.5}Simple Linear Regression}{24}
+\contentsline {subsection}{\numberline {2.5.1}Idea}{24}
+\contentsline {subsection}{\numberline {2.5.2}Model Performance}{25}
+\contentsline {section}{\numberline {2.6}Linear Regression with Features Selection}{26}
+\contentsline {subsection}{\numberline {2.6.1}Idea}{26}
+\contentsline {subsection}{\numberline {2.6.2}Model Performance}{28}
+\contentsline {section}{\numberline {2.7}Linear Regression with Regularization}{29}
+\contentsline {subsection}{\numberline {2.7.1}Ridge Regression}{29}
 \contentsline {subsubsection}{Model Implementation}{30}
 \contentsline {subsubsection}{Model Analysis}{35}
-\contentsline {subsection}{\numberline {3.7.2}Lasso Regression}{38}
+\contentsline {subsection}{\numberline {2.7.2}Lasso Regression}{38}
 \contentsline {subsubsection}{Model Implementation}{39}
 \contentsline {subsubsection}{Model Analysis}{44}
-\contentsline {section}{\numberline {3.8}Linear Regression with Dimension Reduction}{44}
-\contentsline {subsection}{\numberline {3.8.1}Idea}{44}
-\contentsline {section}{\numberline {3.9}Models Comparaison}{46}
-\contentsline {subsection}{\numberline {3.9.1}KNN neighbors and Linear Regression}{46}
-\contentsline {subsection}{\numberline {3.9.2}Best subset Selection and Linear Regression Regularizations}{47}
-\contentsline {subsection}{\numberline {3.9.3}Dimension Reduction}{48}
+\contentsline {section}{\numberline {2.8}Linear Regression with Dimension Reduction}{44}
+\contentsline {subsection}{\numberline {2.8.1}Idea}{44}
+\contentsline {section}{\numberline {2.9}Models Comparaison}{46}
+\contentsline {subsection}{\numberline {2.9.1}KNN neighbors and Linear Regression}{46}
+\contentsline {subsection}{\numberline {2.9.2}Best subset Selection and Linear Regression Regularizations}{47}
+\contentsline {subsection}{\numberline {2.9.3}Dimension Reduction}{48}
