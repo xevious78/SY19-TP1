@@ -855,6 +855,8 @@ Two main information can be retained from this raw residuals box-plots:
 \item Range: It seems like the Linear Regression and the KNN with CV have the largest range of residuals, while Lasso shows a striking decrease in the range of residuals.
 \item Median: Lasso's raw residuals are normally distributed. This was noticeable in the previous histogram in \ref{fig:ridge_resid}. Other residuals are close to normal distribution except the BIC, KNN and Lasso.
 \end{itemize}
+=======
+>>>>>>> origin/master
 \subsection{KNN neighbors and Linear Regression}
  The linear regression is a \textbf{parametric method}, it comes with the hypothesis that there is a relationship between the response Y and the p predictors $X_{i}$ that can be expressed like $Y =\beta_{1}X_{1}+\beta_{2}X+{2}+...+\beta{p}X_{p}$. Their main advantages is that it is easy to use and to interpret however when the relationship between the predictors and the response is not linear the the results might not be satisfying. The KNN neighbors however is a non parametric method. In other words it makes no assumptions on the response Y. If we compare between the \textbf{test MSE} obtained by the KNN (1146) and the one obtained by the Linear Regression (1285), we see that the KNN does a better job. These arguments the fact that the model is not really linear. A remark that was made when observing the QQ plots in the first section. 
 \subsection{Best subset Selection and Linear Regression Regularizations}
