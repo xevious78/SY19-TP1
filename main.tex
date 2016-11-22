@@ -546,7 +546,7 @@ RSS + \lambda \sum_{j}\beta_{j}^{2}
 If $\lambda$=0 we are in the same case of a least squares estimates. The higher $\lambda$ gets, the higher will be the penalty. Hence Ridge regression will try to minimize the parameters $\beta_{j}$ in order to minimize the term \ref{eq1}.\\
 When applying the penalty on the coefficients those with different scales (for instance a perimeter in m and the other one in Km) will be "treated" differently , because the penalized term is a sum of squares of all the coefficients. An alternative to get the penalty applied uniformly across the predictors is to standardize the independent predictors first with the function scale.
 
-\subsubsection{Model Implementation}
+\subsubsection{Model Performance}
 The \texttt{glmnet} function takes for parameters the matrix $x$ of predictors and vector $y$ of responses. The \texttt{model.matrix} will help us transform out data sets into matrix. This function not only gives out a matrix but it also converts the qualitative variables into dummy variables.
 \begin{lstlisting}
 train_set.x = model.matrix(Time~.,train_set)[,-1] 
@@ -572,15 +572,15 @@ plot(model.ridge)
 	\label{fig:ridge_model}
 \end{center}
 
-Each curve of the \ref{fig:ridge_model} corresponds to the ridge regression coefficient estimate for one of the 33 predictors, plotted as a function of $L1 Norm =$ . It is to be noted that the higher the L1 Norm, the closer to zero are the coefficients $\beta_{j}$.\\
+Each curve of the \ref{fig:ridge_model} corresponds to the ridge regression coefficient estimate for one of the 33 predictors, plotted against $L1 Norm$ . It is to be noted that the higher the L1 Norm, the closer to zero are the coefficients $\beta_{j}$.\\
 
 
 In order to find the best tuning parameter $\lambda$ we perform a cross validation on the training data. \texttt{cv.glmnet} function runs a 10 fold cross validation on the data.
 
 \begin{lstlisting}
 model.ridge.cv.out = cv.glmnet(train_set.x, train_set.y,alpha=0)
-plot(model.ridge.cv.out)
 model.ridge.best.lambda = model.ridge.cv.out$lambda.min
+plot(model.ridge.cv.out)
 \end{lstlisting}
 
 \begin{center}
@@ -626,9 +626,9 @@ curve(dnorm(x, mean=residuals.mean, sd=residuals.stdev), col="darkblue", lwd=2, 
 	\label{fig:ridge_resid}
 \end{center}
 
-Performing a Ridge regression didn't really improve out MSE, we notice that we still have the same shape when we plot the predicted response against the real values. In fact we still have the extreme values scattered away from the line y=x while the values in the middle are grouped around it. The residuals shows most residuals are among -20 and 40, however we can't neglect the important number of observation that have residuals below -20.\\
+We have a smaller MSE compared to Linear Regression. However the scattered $\hat{y}$ in the extremes let us think that maybe the model is not really linear. The residuals in \ref{fig:ridge_resid} are getting centered and it looks more like a normal distribution.
 
-After predicting the responses with the best\_$\lambda$,  we can also to get the coefficients $\beta_{j}$ for this model.
+After predicting the responses with the best\_$\lambda$,  we can also get the coefficients $\beta_{j}$ for this model.
 
 \begin{lstlisting}
 predict(model.ridge, type="coefficients", s=model.ridge.best.lambda)[1:33,]
@@ -640,10 +640,12 @@ predict(model.ridge, type="coefficients", s=model.ridge.best.lambda)[1:33,]
 \end{center}
 
 \subsubsection{Model Analysis} \label{Ridge Model Analysis}
-So we notice that some coefficients are very close to 0 such as \texttt{area\_se }(-0.012), but none of them is null. In fact Ridge Regression only shrinks the coefficients and does not perform any variable selection;  that is why we are going to use Lasso in the following part.
+We notice that some coefficients are very close to 0 such as \texttt{area\_se }(-0.004), but none of them is null. In fact Ridge Regression only shrinks the coefficients and does not perform any variable selection;  that is why we are going to use Lasso in the following part.\\
 
-After comparing both MSE of the least squares (1285) and the Ridge Regression's one (1063) we notice that Ridge improves over Linear Regression. 
-The question is how does Ridge improve over the least squares? It all can be summarized in\textbf{ biais-variance trade-off}. Let's take the following example where we we fit the model for each $\lambda$ and predict the responses for $\lambda\in[10^{-1},10^{4}]$. For each value of $\lambda$ we compute the MSE, the squared bias and the cube root of the variance. \textit{We computed the cube root in order to plot it with the bias in the same plot}.
+We stated in the previous part that the test MSE of Ridge regression improved compared to the Linear Regression one.
+However this didn't  come with no expenses, in fact Ridge regression will have a larger bias. It all can be summarized in\textbf{ biais-variance trade-off}.\\ 
+
+Let's take the following example where we we fit the model for each $\lambda$ and predict the responses for $\lambda\in[10^{-1},10^{4}]$. For each value of $\lambda$ we compute the test MSE, the squared bias and the cube root of the variance. \textit{We computed the cube root in order to plot it with the bias in the same graph}.
 \begin{lstlisting}
 max = 100
 biais2<-rep(0,max)
@@ -673,8 +675,8 @@ plot(MSE)
 	\captionof{figure}{MSE against $\lambda$}
 \end{center}
 
-At $\lambda=0$ (least squares), the variance is high but there is no bias.
-As $\lambda$ increases the variance and bias decrease but at some point the variance continues to decrease while the bias starts increasing. Which means that the shrinkage of the coefficients by $\lambda$ reduces the variances on the expense of the bias, which can be explained by the fact that $\lambda$ in underestimating the coefficients by shrinking them. Let us compare now those results to the MSE curve. 
+At $\lambda=0$ the variance is high but there is no bias,which corresponds to the least squared approach.
+As $\lambda$ increases the variance and bias decrease but at some point the variance continues to decrease while the bias starts increasing. Which means that the shrinkage of the coefficients by $\lambda$ reduces the variances on the expense of the bias. In fact $\lambda$ in underestimating the coefficients by shrinking them. Let us compare now those results to the MSE curve. 
 $$MSE = (E[\varTheta]-\varTheta)^{2} + Var(\varTheta) = (Bias[\varTheta])^{2} + Var(\varTheta)$$
 Hence if the variance and the bias decrease significantly in the beginning the MSE will decrease too, and when the variance will decrease less and the bias will start increasing the MSE will increase too. We should also note that at at  $\lambda=0$ (least squares) the MSE is high.\\
 To sum up, in linear regression we can have a low bias but a high variance, this is where the ridge regression improves over the least squares because it shrinks the variance on the expense of the bias.
@@ -686,9 +688,9 @@ As it was discussed on the previous section, Ridge regression's disadvantage is 
 RSS + \lambda \sum_{j}{|\beta_{j}^{2}|}
 \end{equation}	
 
-The only difference with the term of Ridge is that we now have $|\beta_{j}^{2}|$ instead of $\beta_{j}^{2}$. This alternative will reduce the $\beta_{j}$ that are close to zero to null, hoping we have a more interpretable model with reducing the number of variables. To call the lasso model we use the same function \textbf{glmnet} but with the parameter \textbf{alpha=1}.
+The only difference with the term of Ridge is that we now have $|\beta_{j}^{2}|$ instead of $\beta_{j}^{2}$. This alternative will reduce the $\beta_{j}$ that are close to zero to null, hoping we have a more interpretable model by reducing the number of variables. To call the lasso model we use the same function \textbf{glmnet} but with the parameter \textbf{alpha=1}.
 
-\subsubsection{Model Implementation}
+\subsubsection{Model Performance}
 \begin{lstlisting}
 #Grid of 100 values of Lamba from 10^-2 to 10^10
 grid = 10^seq(10,-2, length=100)
@@ -709,7 +711,7 @@ plot(model.lasso.cv.out)
 model.lasso.best.lambda = model.lasso.cv.out$lambda.min
 \end{lstlisting}
 
-After running the cross validation we get the best lambda that minimized the term \ref{eq2}. We now can run a prediction on the test set with the best lambda and compute the residuals and the Test MSE.
+After running the cross validation we get the best lambda that minimized the term \ref{eq2}. We now can run a prediction on the test set with the best lambda and compute the residuals and the test MSE.
 
 \begin{lstlisting}
 model.lasso.best = glmnet(train_set.x, train_set.y, lambda=model.lasso.best.lambda, alpha=1)
@@ -755,6 +757,8 @@ dev.off()
 	\captionof{figure}{Distribution of Residuals in Lasso}
 \end{center}
 
+The MSE is slightly inferior to Ridge Regression. Nevertheless the residuals are not well distributed which means high residuals are common, especially between (-50 and -25).
+
 \begin{lstlisting}
 predict(model.lasso, type="coefficients", s=model.lasso.best.lambda)[1:33,]
 \end{lstlisting}
@@ -766,7 +770,7 @@ predict(model.lasso, type="coefficients", s=model.lasso.best.lambda)[1:33,]
 We can clearly see that Lasso performed a variable selection by setting the unselected predictors' coefficients to 0
 
 \subsubsection{Model Analysis}
- Lasso selected only 8 predictors out of 33 with a slightly improved test MSE compared to Ridge that uses all the predictors.Therefore we selected 25\% of variables The features selected to predict the Time are :
+ Lasso selected only 8 predictors out of 33 with a slightly improved test MSE compared to Ridge that uses all the predictors.Therefore we selected 25\% of variables. The features selected for recurrence Time prediction are:
  \begin{itemize} 
  \item texture\_mean
  \item perimeter\_mean
@@ -778,8 +782,7 @@ We can clearly see that Lasso performed a variable selection by setting the unse
  \item symmetry\_worst
  \item fractal\_dimension\_worst
 \end{itemize}
-Those are the features that with $\lambda = 3.25 $ their coefficients $\beta$ was not null .
-Lasso selected only 10 predictors out of 33 with an slightly improved MSE compared to Ridge that uses all the 33 predictors.
+Those are the features that with $\lambda = 3.25 $ their coefficients $\beta$ was not null.
 
 \section{Linear Regression with Dimension Reduction}
 \subsection{Idea}
@@ -789,7 +792,7 @@ Principal Component Analysis (PCA) is one such method. It consists in transformi
 
 Once a set of principal components is found, it can be used as an input to a simple linear regression to build what is called a Principal Component Regression (PCR) model. The number of components $M$ should be taken so that the model built with PCR has a minimum error value; once again, a 10 fold cross validation method can be used to determine the best $M$.
 
-PCR is available in R with the package \texttt{pls} :
+PCR is available in R with the package \texttt{pls}. pcr works same way as the lm with some additional parameters, scale helps standardizing the data and setting the validation="CV" will perform a 10 fold cross validation on the model.
 \begin{lstlisting}
 library(pls)
 model.pcr = pcr(Time ~ ., data=train_set, scale=TRUE, validation="CV")
@@ -824,7 +827,7 @@ The function \texttt{summary} tells us that 4 components are enough to explain 7
 	\caption{PCR Predicted values against Real values}
 	\label{fig:pcr_predicted}
 \end{figure}
-
+The test MSE obtained is very competitive, however even though we know that the number of components is 4 PCR does not explicitly show the predictors. Therefore PCR's results are harder to interpret as it does not perform a variable selection.
 
 \section{Models Comparison}
 Comparing the MSE and the raw residuals distribution is the first approach to take for judging and comparing the performance of each model.\\
@@ -855,8 +858,7 @@ Two main information can be retained from this raw residuals box-plots:
 \item Range: It seems like the Linear Regression and the KNN with CV have the largest range of residuals, while Lasso shows a striking decrease in the range of residuals.
 \item Median: Lasso's raw residuals are normally distributed. This was noticeable in the previous histogram in \ref{fig:ridge_resid}. Other residuals are close to normal distribution except the BIC, KNN and Lasso.
 \end{itemize}
-=======
->>>>>>> origin/master
+
 \subsection{KNN neighbors and Linear Regression}
  The linear regression is a \textbf{parametric method}, it comes with the hypothesis that there is a relationship between the response Y and the p predictors $X_{i}$ that can be expressed like $Y =\beta_{1}X_{1}+\beta_{2}X+{2}+...+\beta{p}X_{p}$. Their main advantages is that it is easy to use and to interpret however when the relationship between the predictors and the response is not linear the the results might not be satisfying. The KNN neighbors however is a non parametric method. In other words it makes no assumptions on the response Y. If we compare between the \textbf{test MSE} obtained by the KNN (1146) and the one obtained by the Linear Regression (1285), we see that the KNN does a better job. These arguments the fact that the model is not really linear. A remark that was made when observing the QQ plots in the first section. 
 \subsection{Best subset Selection and Linear Regression Regularizations}
@@ -947,8 +949,9 @@ These leads us to conclude that neither of the models performs better than the o
 \subsubsection{Regularization \& Best subset}
 Both Lasso and Best Subset perform a variable selection, their MSE are close but with the Best Subset we only kept 3 variable which is 38\% less predictors. How can we compare between those two approaches?\\
 First Lasso adds up a new tuning parameter to penalize the coefficients which is why it is named shrinkage method. In contrast to the Best subset selection that doesn't add up anything. Therefore the regression coefficients obtained by Lasso are biased.
-\subsection{Dimension Reduction}
 
+\subsection{Dimension Reduction}
+Last but not least, dimension reduction is competitive as it has the lowest MSE and its raw residuals are distributed normally. PCR can be an interesting approach if we aim to \textbf{predict} data, however it won't be of much utility if the goal is the \textbf{inference}. Since the PCR doesn't explicitly select variables, the relationship between the response and a given predictor is not clear and Lasso would be a better choice. 
 
 
 \chapter{Phoneme Recognition}

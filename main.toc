@@ -28,10 +28,10 @@
 \contentsline {subsection}{\numberline {1.6.2}Model Performance}{22}
 \contentsline {section}{\numberline {1.7}Linear Regression with Regularization}{23}
 \contentsline {subsection}{\numberline {1.7.1}Ridge Regression}{23}
-\contentsline {subsubsection}{Model Implementation}{24}
+\contentsline {subsubsection}{Model Performance}{24}
 \contentsline {subsubsection}{Model Analysis}{29}
 \contentsline {subsection}{\numberline {1.7.2}Lasso Regression}{32}
-\contentsline {subsubsection}{Model Implementation}{33}
+\contentsline {subsubsection}{Model Performance}{33}
 \contentsline {subsubsection}{Model Analysis}{38}
 \contentsline {section}{\numberline {1.8}Linear Regression with Dimension Reduction}{38}
 \contentsline {subsection}{\numberline {1.8.1}Idea}{38}
